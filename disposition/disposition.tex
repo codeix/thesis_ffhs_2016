@@ -1,0 +1,65 @@
+%Vorlage fuer Thesen an der FFHS
+\documentclass{../template/ffhsthesis}
+
+\usepackage[utf8]{inputenc}
+
+
+\begin{document}
+
+\dokumentTyp{Bachelor-Thesis}
+\studiengang{INF}
+\title{Energie in der Informatik sparen ohne Verzicht}
+\subtitle{Disposition} % optional
+\titelbild[height=5cm,width=10cm]{earth.jpg}  % optional
+\author{Samuel Riolo}
+% \date{}
+\wohnort{Kerzers}
+%\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
+\referentin{Jürg Hofer\\ Titel\\Unterrichtetes Fach}
+\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
+
+
+\maketitle
+
+
+
+\tableofcontents
+
+
+\begin{abkuerzungen}[MUSTER] % Das Muster dient zur Bestimmung der Einrueckungstiefe
+\item[DInf] Departement Informatik
+\item[FFHS] Fernfachhochschule Schweiz
+\end{abkuerzungen}
+
+
+\startThesis % Befehl muss vor dem ersten chapter stehen (Seitennummerierung!)
+
+\chapter{Einleitung}
+\section{Abc}
+ 
+
+\chapter{Wissenschaftlicher bezug}
+
+super blaa
+
+
+\chapter{Methoden}
+
+\chapter{Resultate}
+\cite[p. 2] {small}
+\cite[p. 2] {test}
+\cite[p. 2] {sam}
+%\begin{thebibliography}{1}
+%\end{thebibliography}
+\bibliography{thsis_bibliography}
+\bibliographystyle{plain}
+
+
+% oder besser
+
+
+
+
+\end{document}
+
+
