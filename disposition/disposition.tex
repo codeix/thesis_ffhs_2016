@@ -3,19 +3,25 @@
 
 \usepackage[utf8]{inputenc}
 
+% addional configuration from sam
+\usepackage{import}
+\addtolength{\parskip}{\baselineskip}
+\parindent 0pt 
+
+
 
 \begin{document}
 
 \dokumentTyp{Bachelor-Thesis}
 \studiengang{INF}
-\title{Energie in der Informatik sparen ohne Verzicht}
+\title{Energie in der Informatik \textendash\ durch bessere Software sparen ohne Verzicht}
 \subtitle{Disposition} % optional
 \titelbild[height=5cm,width=10cm]{earth.jpg}  % optional
 \author{Samuel Riolo}
 % \date{}
 \wohnort{Kerzers}
 %\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
-\referentin{Jürg Hofer\\ Titel\\Unterrichtetes Fach}
+%\referentin{Jürg Hofer\\ Titel\\Unterrichtetes Fach}
 \eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
 
 
@@ -34,18 +40,13 @@
 
 \startThesis % Befehl muss vor dem ersten chapter stehen (Seitennummerierung!)
 
-\chapter{Einleitung}
-\section{Abc}
- 
-
-\chapter{Wissenschaftlicher bezug}
-
-super blaa
+\subimport*{sections/}{einleitung}
+\subimport*{sections/}{wissenschaftlicherbezug}
+\subimport*{sections/}{fragestellung}
+\subimport*{sections/}{vorgehen}
+\subimport*{sections/}{resultate}
 
 
-\chapter{Methoden}
-
-\chapter{Resultate}
 \cite[p. 2] {small}
 \cite[p. 2] {test}
 \cite[p. 2] {sam}
