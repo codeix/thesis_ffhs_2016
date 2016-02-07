@@ -5,10 +5,16 @@
 
 % addional configuration from sam
 \usepackage{import}
+\usepackage{bibgerm}
+\usepackage{hyperref}
+\usepackage{cite}
+
+
 
 
 
 \begin{document}
+\shorthandoff{"}
 
 \dokumentTyp{Bachelor-Thesis}
 \studiengang{INF}
@@ -53,13 +59,15 @@
 \subimport*{sections/}{resultate}
 
 
+
+
 \cite[p. 2] {small}
 \cite[p. 2] {test}
 \cite[p. 2] {sam}
 %\begin{thebibliography}{1}
 %\end{thebibliography}
 \bibliography{thsis_bibliography}
-\bibliographystyle{plain}
+\bibliographystyle{gerplain}
 
 
 % oder besser
