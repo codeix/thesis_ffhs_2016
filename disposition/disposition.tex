@@ -4,7 +4,6 @@
 \usepackage[utf8]{inputenc}
 
 % addional configuration from sam
-\usepackage{import}
 \usepackage{bibgerm}
 \usepackage{hyperref}
 \usepackage{cite}
@@ -53,18 +52,18 @@
 
 
 % content
-\subimport*{sections/}{einleitung}
-\subimport*{sections/}{wissenschaftlicherbezug}
-\subimport*{sections/}{fragestellung}
-\subimport*{sections/}{vorgehen}
-\subimport*{sections/}{resultate}
+\input{sections/einleitung}
+\input{sections/wissenschaftlicherbezug}
+\input{sections/fragestellung}
+\input{sections/vorgehen}
+\input{sections/resultate}
 
 
 
 
 %\begin{thebibliography}{1}
 %\end{thebibliography}
-\bibliography{thsis_bibliography}
+\bibliography{thesis_bibliography}
 \bibliographystyle{gerplain}
 
 
