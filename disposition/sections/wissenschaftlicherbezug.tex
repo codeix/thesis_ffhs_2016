@@ -1,14 +1,25 @@
 \chapter{Wissenschaftlicher Bezug}
 
 \section{Energiepolitik 2050}
-
-Nach einer Einleitung der Energiepolitik 2050, werde ich den Bezug zu der Entwicklung in der
+Beginnend mit einer Einleitung der Energiepolitik 2050, werde ich den Bezug zu der Entwicklung in der
 Informatik schaffen. Dazu werde ich mich auf die Publizierung
 "Energiezukunft Schweiz"\cite{eth_energiezukunft_schweiz} von der ETH sowie auf das\cite{swico_datenblatt}
 der Swico stützen.
 
-\section{Messungen}
-In diesem Kapitel möchte ich aufzeigen welche Einheiten verwendet werden um den Energieverbrauch
-in der Computerwelt zu messen. Es soll ausführlich Erklärt werden welche und was die Einheiten in dieser Arbeit
-bedeuten. Im zweiten Teil sollen die Methoden dargestellt werden.
+\section{Geschichte der CPUs}
+Zur Einleitung will ich in meiner Arbeit auch die Geschichte der Prozessoren präsentieren. Hier soll auch der Bezug
+hergestellt werden von RISC und CISC Prozessoren. Hinsichtlich dem Verbrauch spielt der Unterschied eine grosse
+Rolle.\cite{stanford_risc_cisc}
+
+
+\section{Messung}
+Für das Experiment müssen Methoden verwendet werden um den Energiebedarf pro Befehlssatz, eines CPU zu messen
+\cite{measuring_power_temperature, analysis_circuits, intel_epi}. Für eine optimale Messung müssen die bestehenden Methoden
+verfeinert werden oder eigene Entwickelt werden.
+\par
+Für die Messungen werden spezielle Programme geschrieben, die einen bestimmten Befehlssatz mehrmals, während dem messen
+ausführt. Die Auszuführende Befehlssätze für das Experiment werden, anhand dem Datasheet des Herstellers zusammengestellt.
+Voraussichtlich wird das Experiment auf einem ARM ARM1176JZF-S\cite{arm_datasheet} und einem Intel® Quark™ SoC
+X1000 \cite{intel_datasheet} Prozessor ausgeführt.
+
 

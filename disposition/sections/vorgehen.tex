@@ -1,1 +1,21 @@
 \chapter{Vorgehen}
+
+Der Hauptteil dieser Arbeit wird die Vorbereitung für die Messung sein. Um möglichst viele Störfaktoren
+von der Messung auszuschliessen, wird auf ein möglichst einfacher System gesetzt. Deshalb kommt der  SoC
+(System on Chip) zur Anwendung. Zusätzlich soll auch die Unregelmässigkeiten des Betriebssystems ausgeschaltet
+werden. Aus diesem Grund, soll soweit möglich, das OS ausgelassen werden und direkt auf Bare Metal gearbeitet werden.
+Somit lassen sich die Anweisung ganz genau kontrollieren. Für die Messung werden kleine Programme geschrieben, die der Prozessor
+exakt einen Befehl mehrmals ausführt. Während der Ausführung wird gemessen und ein Durchschnitts Wert berechnet.
+Der SoC ist auf einem Single Board aufgelötet, wobei
+die Messung bei dessen Eingangsleistung erfolgen wird. Für das Resultat des EPI muss die Grundleistung abgezählt
+werden.
+\par
+Für das Projekt soll zwei Typen von Prozessoren verwendet werden. Zum einen sollen Messungen von einem RISC-Prozessor
+statt finden und zum anderen mit einem CISC-Prozessor. Wo es möglich ist, sollen Vergleich zwischen beiden
+Architekturen statt finden.
+\par
+Bei den durchzuführende Messungen auf den CPU wird nicht nur die unterschiedlichen Operationen untersucht. Es werden 
+unterschiedliche auch Experimente erarbeitet. Es soll zum Beispiel eine Aussage gemacht werden, ob die Addieroperation
+mit grosse Zahlen mehr Energie verwendet als die selbe Operation mit kleine Zahlen.
+
+
