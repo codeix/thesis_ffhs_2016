@@ -1,1 +1,1 @@
-My Bachelor Thesis - Work in Progress
+My Bachelor Thesis – Work in Progress
