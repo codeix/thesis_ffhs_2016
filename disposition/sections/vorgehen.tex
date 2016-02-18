@@ -1,21 +1,20 @@
 \chapter{Vorgehen}
 
-Der Hauptteil dieser Arbeit wird die Vorbereitung für die Messung sein. Um möglichst viele Störfaktoren
-von der Messung auszuschliessen, wird auf ein möglichst einfaches System gesetzt. Deshalb kommt der  SoC
-(System on Chip) zur Anwendung. Zusätzlich soll auch die Unregelmässigkeiten des Betriebssystems ausgeschaltet
-werden. Aus diesem Grund, soll soweit möglich, das OS ausgelassen werden und direkt auf Bare Metal gearbeitet werden.
-Somit lassen sich die Anweisung ganz genau kontrollieren. Für die Messung werden kleine Programme geschrieben, die der Prozessor
-exakt einen Befehl mehrmals ausführen lässt. Während der Ausführung wird die Leistung gemessen und ein Durchschnitts Wert berechnet.
+Der Hauptteil dieser Arbeit behandelt die Vorbereitung für die einzelnen Messungen. Um möglichst viele Störfaktoren
+von der Messung auszuschliessen, wird auf ein möglichst einfaches System gesetzt. Deshalb kommt ein SoC
+(System on Chip) zur Anwendung. Zusätzlich sollen auch die Unregelmässigkeiten des Betriebssystems ausgeschaltet
+werden. Aus diesem Grund soll, soweit möglich, das OS ausgelassen werden und direkt auf Bare Metal gearbeitet werden.
+Somit lassen sich die Anweisung ganz genau kontrollieren. Für die einzelne Messung wird ein kleines Programm geschrieben, das den Prozessor einen bestimmten Befehl mehrmals ausführen lässt. Während der Ausführung wird die Leistung gemessen und ein Durchschnittswert berechnet.
 Der SoC ist auf einem Single Board aufgelötet, wobei
-die Messung bei dessen Eingangsleistung erfolgen wird. Für das Resultat des EPI muss die Grundleistung abgezählt
+die Messung bei dessen Eingangsleistung erfolgt. Für das Resultat der EPI muss die Grundleistung von der Eingangsleistung abgezogen
 werden.
 \par
-Für das Projekt soll zwei Typen von Prozessoren verwendet werden. Zum einen sollen Messungen von einem RISC-Prozessor
-statt finden und zum anderen mit einem CISC-Prozessor. Wo es möglich ist, sollen Vergleich zwischen beiden
-Architekturen statt finden.
+Für das Projekt werden zwei Typen von Prozessoren verwendet. Es werden sowohl Messungen mit einem RISC-Prozessor
+als auch mit einem CISC-Prozessor durchgeführt. Wo immer möglich, werden die Architekturen der beiden Prozessoren miteinander verglichen
+und die sich daraus ergebenden Schlüsse gezogen.
 \par
-Bei den durchzuführende Messungen auf den CPU wird nicht nur die unterschiedlichen Operationen untersucht. Es werden 
-unterschiedliche Experimente erarbeitet. Es soll zum Beispiel eine Aussage gemacht werden, ob die Addieroperation
-mit grosse Zahlen mehr Energie verwendet als die selbe Operation mit kleine Zahlen.
+Bei den durchzuführenden Messungen auf dem jeweiligen CPU werden nicht nur die unterschiedlichen Operationen untersucht, sondern ebenso 
+Experimente erarbeitet. Es soll zum Beispiel eine Aussage darüber getroffen werden, ob eine Addieroperation
+mit grossen Zahlen mehr Energie benötigt, als dieselbe Operation mit kleinen Zahlen.
 
 
