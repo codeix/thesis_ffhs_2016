@@ -21,6 +21,9 @@ Command to open terminal
 
 sudo screen /dev/ttyUSB0 115200,cs8,-ixon,-ixoff
 
+setting for galileo board:
+stty 115200 cs8 -parenb -crtscts echo -F /dev/ttyS1
+
 
 Prepare SD Card
 ---------------
