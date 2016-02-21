@@ -22,4 +22,13 @@ Command to open terminal
 sudo screen /dev/ttyUSB0 115200,cs8,-ixon,-ixoff
 
 
+Prepare SD Card
+---------------
+
+Download:
+https://software.intel.com/sites/landingpage/iotdk/board-boot-image.html
+
+Copy to SD Card:
+sudo dd if=iot-devkit-version-mmcblkp0.direct of=/dev/diskname bs=3M conv=fsync
+
 
