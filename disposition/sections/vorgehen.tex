@@ -4,8 +4,9 @@ Der Hauptteil dieser Arbeit behandelt die Vorbereitung für die einzelnen Messun
 von der Messung auszuschliessen, wird auf ein möglichst einfaches System gesetzt. Deshalb kommt ein SoC
 (System on Chip) zur Anwendung. Zusätzlich sollen auch die Unregelmässigkeiten des Betriebssystems ausgeschaltet
 werden. Aus diesem Grund soll, soweit möglich, das OS ausgelassen werden und direkt auf Bare Metal gearbeitet werden.
-Somit lassen sich die Anweisung ganz genau kontrollieren. Für die einzelne Messung wird ein kleines Programm geschrieben, das den Prozessor einen bestimmten Befehl mehrmals ausführen lässt. Während der Ausführung wird die Leistung gemessen und ein Durchschnittswert berechnet.
-Der SoC ist auf einem Single Board aufgelötet, wobei
+Somit lassen sich die Anweisung ganz genau kontrollieren. Für die einzelne Messung wird ein kleines Programm geschrieben,
+das den Prozessor einen bestimmten Befehl mehrmals ausführen lässt. Während der Ausführung wird die Leistung gemessen und
+ein Durchschnittswert berechnet. Der SoC ist auf einem Single Board aufgelötet, wobei
 die Messung bei dessen Eingangsleistung erfolgt. Für das Resultat der EPI muss die Grundleistung von der Eingangsleistung abgezogen
 werden.
 \par
@@ -16,5 +17,9 @@ und die sich daraus ergebenden Schlüsse gezogen.
 Bei den durchzuführenden Messungen auf dem jeweiligen CPU werden nicht nur die unterschiedlichen Operationen untersucht, sondern ebenso 
 Experimente erarbeitet. Es soll zum Beispiel eine Aussage darüber getroffen werden, ob eine Addieroperation
 mit grossen Zahlen mehr Energie benötigt, als dieselbe Operation mit kleinen Zahlen.
-
+\par
+Die Architektur eines CISC-Prozessor ist im Vergleich zu einem RISC-Prozessor viel komplexer. Bereits die Ausführung eines Befehl
+auf einer CISC-CPU kann über mehrere Takte erfolgen und somit die Kontrolle massiv erschweren. Zusätzlich ist das Arbeiten auf Bare
+Metal erheblich schwieriger als auf einem RISC-System. Aus diesen Gründen halte ich mir die Perspektive offen,
+nicht oder nur teilweise auf CISC-Architekturen zu arbeiten. 
 
