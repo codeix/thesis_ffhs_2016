@@ -11,7 +11,10 @@
 \makeatletter
 \patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
 \makeatother
-
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
 
 
 
@@ -28,8 +31,9 @@
 % \date{}
 \wohnort{Kerzers}
 %\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
-\referent{Jürg Hofer\\ Titel\\Unterrichtetes Fach}
-\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
+\referent{Jürg Hofer}
+%\referent{Jürg Hofer\\ Titel\\Unterrichtetes Fach}
+%\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
 
 
 \maketitle
