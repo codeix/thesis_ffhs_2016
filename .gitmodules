@@ -1,0 +1,3 @@
+[submodule "docs"]
+	path = docs
+	url = git@github.com:codeix/thesis_ffhs_2016.wiki.git
