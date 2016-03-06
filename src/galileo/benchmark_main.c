@@ -1,67 +1,93 @@
- #include <linux/module.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/kernel.h>
 
- #include <linux/fs.h>		// for basic filesystem
- #include <linux/proc_fs.h>	// for the proc filesystem
- #include <linux/seq_file.h>	// for sequence files
- #include <linux/jiffies.h>	// for jiffies
+#include <linux/fs.h>       // for basic filesystem
+#include <linux/proc_fs.h>  // for the proc filesystem
+#include <linux/seq_file.h> // for sequence files
+#include <linux/jiffies.h>  // for jiffies
 
- #include "benchmark_cases.h"
+#include "benchmark_cases.h"
 
- #define PROC_DIR "benchmark"
+#define PROC_DIR "benchmark"
+#define TEST 85
 
- static struct proc_dir_entry* benchmark_file;
- static struct proc_dir_entry *benchmark_parent;
+static struct proc_dir_entry* benchmark_file;
+static struct proc_dir_entry* benchmark_parent;
 
- static int 
- benchmark_show(struct seq_file *m, void *v)
- {
-   unsigned long long start_jif =  get_jiffies_64();
+struct point {
+   int x;
+   int y;
+};
 
-   benchmark_add_simple();
 
-   unsigned long long exec_jif =  get_jiffies_64() - start_jif;   
-   seq_printf(m, "%llu\n",
-       (unsigned long long) exec_jif);
-   return 0;
- }
+static int benchmark_show(struct seq_file* m, void* v)
+{
 
- static int
- benchmark_open(struct inode *inode, struct file *file)
- {
-     return single_open(file, benchmark_show, benchmark_parent);
- }
+    // benchmark_handler * fh;
+    // fh=PDE_DATA(file_inode(seq_file));
 
- static const struct file_operations benchmark_fops = {
-     .owner	= THIS_MODULE,
-     .open	= benchmark_open,
-     .read	= seq_read,
-     .llseek	= seq_lseek,
-     .release	= single_release,
- };
+    // benchmark_handler* bla = (benchmark_handler *)m->private;
+    unsigned long long start_jif = get_jiffies_64();
+    // (*(bla[0]))();
+    benchmark_add_simple();
 
- static int __init 
- benchmark_init(void)
- {
-     benchmark_parent = proc_mkdir(PROC_DIR, NULL);
-     benchmark_file = proc_create("benchmark", 0, benchmark_parent, &benchmark_fops);
-
-     if (!benchmark_file) {
-         return -ENOMEM;
-     }
-
-     return 0;
- }
-
- static void __exit
- benchmark_exit(void)
- {
-     remove_proc_entry("benchmark", benchmark_parent);
-     remove_proc_entry(PROC_DIR, NULL);
+    unsigned long long exec_jif = get_jiffies_64() - start_jif;
+    seq_printf(m, "%llu\n%i\n%i\n", (unsigned long long)exec_jif, m->private, 888);
+    return 0;
 }
 
- module_init(benchmark_init);
- module_exit(benchmark_exit);
 
- MODULE_LICENSE("GPL"); 
+
+static int benchmark_open(struct inode* inode, struct file* file)
+{
+    struct point my_point = { 3, 7 };
+    printk(KERN_ERR "something went wrong, return code mypoint: %d\n", &my_point);
+    printk(KERN_ERR "something went wrong, return code poi: %d\n", &(PDE(inode)->data));
+    // int res = single_open(file, benchmark_show, PDE(inode)->data);
+    // return res;
+
+    int ret = single_open(file, benchmark_show, &my_point);
+    return ret;
+}
+
+
+
+static int benchmark_release(struct inode* inode, struct file* file)
+{
+
+    return single_release(inode, file);
+}
+
+static const struct file_operations benchmark_fops = {
+    .owner = THIS_MODULE,
+    .open = benchmark_open,
+    .read = seq_read,
+    .llseek = seq_lseek,
+    .release = single_release,
+};
+
+static int __init benchmark_init(void)
+{
+    benchmark_parent = proc_mkdir(PROC_DIR, NULL);
+    benchmark_handler benchmark_func = BENCHMARK_FUNCTIONS;
+    // benchmark_file = proc_create_data("benchmark", 0, benchmark_parent, &benchmark_fops, benchmark_func);
+
+    benchmark_file = proc_create_data("benchmark", 0, benchmark_parent, &benchmark_fops, 1985);
+    if(!benchmark_file) {
+        return -ENOMEM;
+    }
+
+    return 0;
+}
+
+static void __exit benchmark_exit(void)
+{
+    remove_proc_entry("benchmark", benchmark_parent);
+    remove_proc_entry(PROC_DIR, NULL);
+}
+
+module_init(benchmark_init);
+module_exit(benchmark_exit);
+
+MODULE_LICENSE("GPL");
