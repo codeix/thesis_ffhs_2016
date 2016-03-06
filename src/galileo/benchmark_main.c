@@ -9,7 +9,10 @@
 
  #include "benchmark_cases.h"
 
+ #define PROC_DIR "benchmark"
+
  static struct proc_dir_entry* benchmark_file;
+ static struct proc_dir_entry *benchmark_parent;
 
  static int 
  benchmark_show(struct seq_file *m, void *v)
@@ -19,7 +22,7 @@
    benchmark_add_simple();
 
    unsigned long long exec_jif =  get_jiffies_64() - start_jif;   
-   seq_printf(m, "%llu",
+   seq_printf(m, "%llu\n",
        (unsigned long long) exec_jif);
    return 0;
  }
@@ -27,7 +30,7 @@
  static int
  benchmark_open(struct inode *inode, struct file *file)
  {
-     return single_open(file, benchmark_show, NULL);
+     return single_open(file, benchmark_show, benchmark_parent);
  }
 
  static const struct file_operations benchmark_fops = {
@@ -41,7 +44,8 @@
  static int __init 
  benchmark_init(void)
  {
-     benchmark_file = proc_create("benchmark", 0, NULL, &benchmark_fops);
+     benchmark_parent = proc_mkdir(PROC_DIR, NULL);
+     benchmark_file = proc_create("benchmark", 0, benchmark_parent, &benchmark_fops);
 
      if (!benchmark_file) {
          return -ENOMEM;
@@ -53,8 +57,9 @@
  static void __exit
  benchmark_exit(void)
  {
-     remove_proc_entry("benchmark", NULL);
- }
+     remove_proc_entry("benchmark", benchmark_parent);
+     remove_proc_entry(PROC_DIR, NULL);
+}
 
  module_init(benchmark_init);
  module_exit(benchmark_exit);

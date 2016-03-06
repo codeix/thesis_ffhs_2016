@@ -30,3 +30,20 @@
 
 # Debug files
 *.dSYM/
+
+
+# Ignore Kernel for Galileo Board
+galileo/.benchmark.ko.cmd
+galileo/.benchmark.mod.o.cmd
+galileo/.benchmark.o.cmd
+galileo/.benchmark_cases.o.cmd
+galileo/.benchmark_main.o.cmd
+galileo/.bm_mod.ko.cmd
+galileo/.bm_mod.mod.o.cmd
+galileo/.bm_mod.o.cmd
+galileo/.tmp_versions/
+galileo/Module.symvers
+galileo/benchmark.mod.c
+galileo/bm_mod.mod.c
+galileo/modules.order
+
