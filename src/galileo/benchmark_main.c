@@ -21,6 +21,23 @@ struct point {
 };
 
 
+static void *benchmark_start(struct seq_file *p, loff_t *pos)
+{
+        struct point *my = p->private;
+        return 777;
+}
+
+static void *benchmark_next(struct seq_file *p, void *v, loff_t *pos)
+{
+        ++*pos;
+        return 555;
+}
+
+static void benchmark_stop(struct seq_file *p, void *v)
+{
+}
+
+
 static int benchmark_show(struct seq_file* m, void* v)
 {
 
@@ -32,23 +49,41 @@ static int benchmark_show(struct seq_file* m, void* v)
     // (*(bla[0]))();
     benchmark_add_simple();
 
+    struct point *my = m->private;
+    struct point *myv = v;
+
     unsigned long long exec_jif = get_jiffies_64() - start_jif;
-    seq_printf(m, "%llu\n%i\n%i\n", (unsigned long long)exec_jif, m->private, 888);
+    seq_printf(m, "%llu\n%i\n%i\n", (unsigned long long)exec_jif, m->private, myv);
     return 0;
 }
 
-
+static const struct seq_operations benchmark_seq_ops = {
+        .start = benchmark_start,
+        .next = benchmark_next,
+        .stop = benchmark_stop,
+        .show = benchmark_show,
+};
 
 static int benchmark_open(struct inode* inode, struct file* file)
 {
     struct point my_point = { 3, 7 };
-    printk(KERN_ERR "something went wrong, return code mypoint: %d\n", &my_point);
-    printk(KERN_ERR "something went wrong, return code poi: %d\n", &(PDE(inode)->data));
+//    printk(KERN_ERR "something went wrong, return code mypoint: %d\n", file);
+//    printk(KERN_ERR "something went wrong, return code poi: %d\n", &(PDE(inode)->data));
     // int res = single_open(file, benchmark_show, PDE(inode)->data);
     // return res;
 
-    int ret = single_open(file, benchmark_show, &my_point);
-    return ret;
+        //int res = seq_open_private(file, &benchmark_seq_ops, sizeof(int));
+                
+
+	//((struct seq_file *)file->private_data)->private = 96666;
+        //return res;
+
+
+    return single_open(file, benchmark_show, &my_point);
+    //ret = ret + seq_open_private(file, file->private_data, sizeof(int));
+    //((struct seq_file *)file->private_data).private = 9666;
+    //return ret;
+    //return ret;
 }
 
 
