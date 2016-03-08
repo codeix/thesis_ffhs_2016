@@ -83,7 +83,10 @@ def gen_bind_header(config):
     for sec in config.sections():
         content += 'int benchmark_show_%s(struct seq_file*, void*);\n' % sec
     functions = ',\n'.join(['benchmark_show_%s' % i for i in config.sections()])
-    content += BIND_ARRAY % dict(functions=functions)
+    function_names = ',\n'.join([ '"%s"' % i for i in config.sections()])
+    content += BIND_ARRAY % dict(functions=functions,
+                                 function_names=function_names,
+                                 benchmark_length=len(config.sections()))
     data = default_content(filename, content)
     filedata = '%(license)s\n\n%(auto_gen)s\n\n\n%(content)s' % data
     with open(filename, 'w') as f:
@@ -151,6 +154,9 @@ BIND_ARRAY="""
 
 typedef int(*benchmark_show_bind)(struct seq_file*, void*);
 const benchmark_show_bind BENCHMARK_SHOW_BIND[] = { %(functions)s };
+const char* BENCHMARK_SHOW_NAME[] = {%(function_names)s};
+const int BENCHMARK_SHOW_LENGTH = %(benchmark_length)s;
+
 
 """
 

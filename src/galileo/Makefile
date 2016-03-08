@@ -1,7 +1,7 @@
 obj-m  := benchmark.o
 benchmark-y := benchmark_main.o benchmark_asm.o benchmark_bind.o
 
-KDIR= $(HOME)/3.8.7/lib/modules/3.8.7/build
+KDIR= $(HOME)/3.8.4/lib/modules/3.8.4/build
 
 all:
 	$(PWD)/generator.py

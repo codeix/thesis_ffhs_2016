@@ -52,5 +52,5 @@ galileo/modules.order
 .benchmark_asm.o.cmd
 .benchmark_asm2.o.cmd
 .benchmark_cases.S.swp
-
+.benchmark_bind.o.cmd
 

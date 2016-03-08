@@ -38,7 +38,7 @@ int benchmark_show(struct seq_file* m, void* v)
 
 static int benchmark_open(struct inode* inode, struct file* file)
 {
-    return single_open(file, BENCHMARK_SHOW_BIND, benchmark_parent);
+    return single_open(file, BENCHMARK_SHOW_BIND[(int)PDE(inode)->data], benchmark_parent);
 }
 
 static const struct file_operations benchmark_fops = {
@@ -51,9 +51,13 @@ static const struct file_operations benchmark_fops = {
 
 static int __init benchmark_init(void)
 {
+    int i;
     benchmark_parent = proc_mkdir(PROC_DIR, NULL);
-    benchmark_file = proc_create("benchmark", 0, benchmark_parent, &benchmark_fops);
-
+    for(i=0; i < BENCHMARK_SHOW_LENGTH; i++){
+        benchmark_file = proc_create_data(
+            BENCHMARK_SHOW_NAME[i], 0, benchmark_parent,
+            &benchmark_fops, (void *)i);
+    }
     if(!benchmark_file) {
         return -ENOMEM;
     }
@@ -63,7 +67,10 @@ static int __init benchmark_init(void)
 
 static void __exit benchmark_exit(void)
 {
-    remove_proc_entry("benchmark", benchmark_parent);
+    int i;
+    for(i=0; i < BENCHMARK_SHOW_LENGTH; i++){
+        remove_proc_entry(BENCHMARK_SHOW_NAME[i], benchmark_parent);
+    }
     remove_proc_entry(PROC_DIR, NULL);
 }
 
