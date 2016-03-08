@@ -47,3 +47,10 @@ galileo/benchmark.mod.c
 galileo/bm_mod.mod.c
 galileo/modules.order
 
+
+# galileo
+.benchmark_asm.o.cmd
+.benchmark_asm2.o.cmd
+.benchmark_cases.S.swp
+
+

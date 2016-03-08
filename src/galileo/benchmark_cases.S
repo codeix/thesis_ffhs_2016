@@ -1,5 +1,4 @@
 .section .text
-.globl benchmark_add_simple
 .type benchmark_add_simple, @function
 
 benchmark_add_simple:
