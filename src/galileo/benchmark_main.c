@@ -14,7 +14,6 @@
 #include <linux/fs.h>       // for basic filesystem
 #include <linux/proc_fs.h>  // for the proc filesystem
 #include <linux/seq_file.h> // for sequence files
-#include <linux/jiffies.h>  // for jiffies
 
 #include "benchmark_asm.h"
 #include "benchmark_bind.h"
@@ -24,17 +23,6 @@
 static struct proc_dir_entry* benchmark_file;
 static struct proc_dir_entry* benchmark_parent;
 
-int benchmark_show(struct seq_file* m, void* v)
-{
-    unsigned long long start_jif = get_jiffies_64();
-    unsigned long long exec_jif;
-
-    benchmark_add_zero();
-
-    exec_jif = get_jiffies_64() - start_jif;
-    seq_printf(m, "%llu\n", (unsigned long long)exec_jif);
-    return 0;
-}
 
 static int benchmark_open(struct inode* inode, struct file* file)
 {
