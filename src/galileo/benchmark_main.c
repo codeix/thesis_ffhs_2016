@@ -17,13 +17,14 @@
 #include <linux/jiffies.h>  // for jiffies
 
 #include "benchmark_asm.h"
+#include "benchmark_bind.h"
 
 #define PROC_DIR "benchmark"
 
 static struct proc_dir_entry* benchmark_file;
 static struct proc_dir_entry* benchmark_parent;
 
-static int benchmark_show(struct seq_file* m, void* v)
+int benchmark_show(struct seq_file* m, void* v)
 {
     unsigned long long start_jif = get_jiffies_64();
     unsigned long long exec_jif;
@@ -37,7 +38,7 @@ static int benchmark_show(struct seq_file* m, void* v)
 
 static int benchmark_open(struct inode* inode, struct file* file)
 {
-    return single_open(file, benchmark_show, benchmark_parent);
+    return single_open(file, BENCHMARK_SHOW_BIND, benchmark_parent);
 }
 
 static const struct file_operations benchmark_fops = {

@@ -24,6 +24,10 @@ def main():
 
     gen_asm(config)
     gen_asm_header(config)
+    gen_bind(config)
+    gen_bind_header(config)
+
+    print('ASM code generated')
 
 def license(filename):
     return LICENSE_C % dict(filename=filename)
@@ -32,9 +36,12 @@ def ident(value):
     value = value if value else ''
     return '\n'.join(['  %s' %i.strip() for i in value.split('\n') if i])
 
-def default_content(filename):
-    return dict(license=license(filename),
-                auto_gen=AUTO_GEN)
+def default_content(filename, content=None):
+    di = dict(license=license(filename),
+              auto_gen=AUTO_GEN)
+    if content:
+        di['content'] = content
+    return di
 
 def gen_asm(config):
     filename = 'benchmark_asm.S'
@@ -46,8 +53,7 @@ def gen_asm(config):
                     loop_count=LOOP_COUNT)
         content += ASM_PART % data
     
-    data = default_content(filename)
-    data['content'] = content
+    data = default_content(filename, content)
     with open(filename, 'w') as f:
         f.write((ASM_BODY % data).strip() + '\n\n')
     
@@ -56,13 +62,32 @@ def gen_asm_header(config):
     content = ''
     for sec in config.sections():
         content += 'void benchmark_%s(void);\n' % sec 
-    data = default_content(filename)
-    data['content'] = content
+    data = default_content(filename, content)
     filedata = '%(license)s\n\n%(auto_gen)s\n\n\n%(content)s' % data
     with open(filename, 'w') as f:
         f.write((filedata).strip() + '\n\n')
 
+def gen_bind(config):
+    filename = 'benchmark_bind.c'
+    content = '#include "benchmark_asm.h"\n#include <linux/seq_file.h>\n#include <linux/jiffies.h> \n\n'
+    for sec in config.sections():
+        content += BIND_PART % dict(func_name=sec)
+    data = default_content(filename, content)
+    filedata = '%(license)s\n\n%(auto_gen)s\n\n\n%(content)s' % data
+    with open(filename, 'w') as f:
+        f.write((filedata).strip() + '\n\n')
 
+def gen_bind_header(config):
+    filename = 'benchmark_bind.h'
+    content = '#include <linux/seq_file.h>\n\n'
+    for sec in config.sections():
+        content += 'int benchmark_show_%s(struct seq_file*, void*);\n' % sec
+    functions = ',\n'.join(['benchmark_show_%s' % i for i in config.sections()])
+    content += BIND_ARRAY % dict(functions=functions)
+    data = default_content(filename, content)
+    filedata = '%(license)s\n\n%(auto_gen)s\n\n\n%(content)s' % data
+    with open(filename, 'w') as f:
+        f.write((filedata).strip() + '\n\n')
 
 
 LICENSE_C="""
@@ -108,8 +133,26 @@ loop_benchmark_%(func_name)s:
   ret
 """
 
+BIND_PART="""
+int benchmark_show_%(func_name)s(struct seq_file* m, void* v)
+{
+    unsigned long long start_jif = get_jiffies_64();
+    unsigned long long exec_jif;
 
+    benchmark_%(func_name)s();
 
+    exec_jif = get_jiffies_64() - start_jif;
+    seq_printf(m, "%%llu\\n", (unsigned long long)exec_jif);
+    return 0;
+}
+"""
+
+BIND_ARRAY="""
+
+typedef int(*benchmark_show_bind)(struct seq_file*, void*);
+const benchmark_show_bind BENCHMARK_SHOW_BIND[] = { %(functions)s };
+
+"""
 
 if __name__ == "__main__":
     main()
