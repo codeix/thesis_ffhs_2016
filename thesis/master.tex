@@ -1,0 +1,87 @@
+%Vorlage fuer Thesen an der FFHS
+\documentclass{../template/ffhsthesis}
+
+\usepackage[utf8]{inputenc}
+
+% addional configuration from sam
+\usepackage{bibgerm}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{etoolbox}
+\makeatother
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+
+
+
+\begin{document}
+% addional configuration from sam
+\shorthandoff{"}
+
+\dokumentTyp{Disposition für die Bachelor-Thesis}
+\studiengang{INF}
+\title{Energie in der Informatik}
+\subtitle{ durch bessere Software sparen ohne Verzicht} % optional
+\titelbild[height=4.55cm,width=15cm]{Italy_Alps_and_Mediterranean.jpg}  % optional
+\author{Samuel Riolo}
+% \date{}
+\wohnort{Kerzers}
+%\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
+\referent{Jürg Hofer}
+%\referent{Jürg Hofer\\ Titel\\Unterrichtetes Fach}
+%\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
+
+
+\maketitle
+
+
+
+\tableofcontents
+
+
+\begin{abkuerzungen}[MUSTER] % Das Muster dient zur Bestimmung der Einrueckungstiefe
+%\item[DInf] Departement Informatik
+%\item[FFHS] Fernfachhochschule Schweiz
+\item[SoC] System on Chip
+\item[RISC] Reduced Instruction Set Computer
+\item[CISC] Custom Instruction Set Computer
+\item[ARM] Advanced RISC Machine
+\item[EpI] Energy per Instruction
+
+\end{abkuerzungen}
+
+
+\startThesis % Befehl muss vor dem ersten chapter stehen (Seitennummerierung!)
+
+
+% addional configuration from sam
+\addtolength{\parskip}{\baselineskip}
+\parindent 0pt 
+
+
+
+% content
+\input{sections/einleitung}
+\input{sections/fragestellung}
+\input{sections/vorgehen}
+\input{sections/wissenschaftlicherbezug}
+\input{sections/resultate}
+
+
+
+
+%\begin{thebibliography}{1}
+%\end{thebibliography}
+\bibliography{thesis_bibliography}
+\bibliographystyle{gerplain}
+
+% oder besser
+
+
+
+
+\end{document}
+
+
