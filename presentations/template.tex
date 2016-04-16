@@ -1,0 +1,75 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{Madrid}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{serif}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\usepackage[english]{babel}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{textpos}
+
+\lstset
+{
+    language=[LaTeX]TeX,
+    breaklines=true,
+    basicstyle=\tt\scriptsize,
+    %commentstyle=\color{green}
+    keywordstyle=\color{blue},
+    %stringstyle=\color{black}
+    identifierstyle=\color{magenta},
+}
+
+\setbeamertemplate{frametitle}[default][center]
+
+\addtobeamertemplate{frametitle}{}{%
+\begin{textblock*}{100mm}(.88\textwidth,-.9cm)
+\includegraphics[height=0.8cm,width=1.3cm]{ffhslogo}
+\end{textblock*}}
+
+
+\addtobeamertemplate{frametitle}{}{%
+\begin{textblock*}{100mm}(-.02\textwidth,-.9cm)
+\includegraphics[height=1.5cm,width=1.5cm]{chip}
+\end{textblock*}}
+
+
+\title[Energie in der Informatik]{Struktur der Thesis}
+\author{Samuel Riolo}
+\institute{FFHS}
+\date{15. April, 2016}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+\begin{frame}{Outline}
+\frametitle{Inhaltsverzeichnis}
+    \tableofcontents[]
+\end{frame}
+
+\section{Abschnitt Nr.1} 
+\begin{frame}
+\frametitle{Titel} 
+Die einzelnen Frames sollte einen Titel haben 
+\end{frame}
+
+
+\end{document}
+
