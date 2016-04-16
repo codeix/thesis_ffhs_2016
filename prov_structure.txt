@@ -1,0 +1,56 @@
+Der aktueller Stand der Thesis ist auf Github ersichtlich:
+https://github.com/codeix/thesis_ffhs_2016
+
+
+
+Struktur der Thesis
+===================
+
+
+Titelblatt                                      1
+
+Abstract De/En                                  1
+Abkürzungen                                     1
+Inhaltsverzeichnis                              1
+
+
+Einleitung                                      5
+ - Einführung
+ - Fragestellung
+ - Resultate
+ - Vorgehen      
+
+
+Energiepolitik 2050                             10
+ - Stromnachfrage 2010 - 2050
+ - Strom als Rückgrat des zukünftigen Energiesystem
+ - Spezifische Stromgestehungskosten
+ - Entwicklung der IT-Infrastruktur
+ - Erneuerbare Energien
+
+
+Aufbau des Experiments                          12
+ - Ziel des Experiments / Warum diese Methode
+ - Beschreibung der Hardware
+ - Funktionsweise eines CPU
+ - Software Interrupts unter Linux
+ - Aufbau der Software für die Messung
+ - Automatisation der Messung
+
+
+Messungen und Resultate                         8
+ - Welche Befesätze werden verwendet
+ - Erstellung von Vergleiche
+ - Auswertung / Resultate
+
+
+Fazit                                           2
+
+Quellen                                         2
+
+Selbsterklärung                                 1
+
+Anhang
+ - Code
+ - Messresultate 
+
