@@ -13,6 +13,8 @@
     colorlinks=false,
     pdfborder={0 0 0},
 }
+\setlength\parindent{0pt}
+
 
 
 
@@ -36,22 +38,12 @@
 
 \maketitle
 
+\input{sections/abstract}
 
 
 \tableofcontents
 
-
-\begin{abkuerzungen}[MUSTER] % Das Muster dient zur Bestimmung der Einrueckungstiefe
-%\item[DInf] Departement Informatik
-%\item[FFHS] Fernfachhochschule Schweiz
-\item[SoC] System on Chip
-\item[RISC] Reduced Instruction Set Computer
-\item[CISC] Custom Instruction Set Computer
-\item[ARM] Advanced RISC Machine
-\item[EpI] Energy per Instruction
-
-\end{abkuerzungen}
-
+\input{sections/abkuerzungen}
 
 \startThesis % Befehl muss vor dem ersten chapter stehen (Seitennummerierung!)
 
@@ -68,7 +60,7 @@
 \input{sections/vorgehen}
 \input{sections/wissenschaftlicherbezug}
 \input{sections/resultate}
-
+\input{sections/selbsterklaerung}
 
 
 
@@ -76,8 +68,6 @@
 %\end{thebibliography}
 \bibliography{thesis_bibliography}
 \bibliographystyle{gerplain}
-
-% oder besser
 
 
 
