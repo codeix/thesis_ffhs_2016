@@ -4,4 +4,15 @@ Die Idee der hier erstellte Messmethode, ist der CPU über ein Benchmark einen b
 \par
 Der eigentliche Kern des Benchmark besteht aus gezielten und kurzen Assembler-Zeilen. Der Assemblercode bewirkt eine Schleife über einen zu testenden Befehlssatz. Damit das Ergebnis über einen längeren Zeitraum gemessen werden kann, wird die Schleife um eine Grössenordnung von 100 Millionen nacheinander wiederholt. Dies erstellt ein Zeitraum für die Messung von ca. einer halbe Minute, auf einem 800MHz CISC-Prozessor.
 \par
-Während dem durchlaufen des Benchmark darf die Ausführung nicht gestört werden. OS, Zeitscheibe etc...Bli bla blup
+Während dem durchlaufen des Benchmark darf die Ausführung nicht gestört werden. Jedes moderne Betriebssystem ist Multitasking. Multitasking heisst, dass das Betriebssystem eine Zeitscheibe besitzt und die Ressourcen des CPU abwechslungsweise an die Prozesse verteilt werden. Ein Benchmark darf also nicht gewöhnlicher Prozess von einem Betriebssystem gestartet werden. Würde man das tun hätte man keine Kontrolle wann und wie viel Ressourcen der Benchmark schlussendlich zugesprochen bekommen hätte und dies würde das Messresultat verfälschen. Im Rahmen dieser Arbeit musste eine Methode erarbeitet werden, damit der Benchmark während der Durchführung die volle Ressourcen des CPU bekommt und einen kontrollierten Ablauf garantiert ist.
+\par
+Die Ursprungsidee was direkt auf Baremetal zu arbeiten. Baremetal ist eine Ausdrucksweise dafür, um direkt auf Hardware zu arbeiten. Bei dieser Methode wird auf das Betriebssystem verzichtet. Nach dem Bootprozess der Hardware wird direkt ein Programm gestartet und ausgeführt. An dieser stelle käme der Benchmark zum Zug. Eine speziell dafür präparierte Portion mit dem Banchmark, würde die Hardware booten und der Benchmark ausführen.
+\par
+Für die Baremetal-Methode wurde ein funktionstüchtigen Prototyp erstellt. Es zeigten sich aber einigen Nachteile aus. Auf komplexere Hardware mit x86-Prozessoren, ist der Boot-Vorgang um ein vielfaches aufwändiger\cite{intel_boot_process}. Diese Prozessoren-Typen können nicht einfach beim einschalten ein Programmcode ausführen, es müssen vorher eine lange Reihe von Abläufen in der Preboot Phase berücksichtigt und ausgeführt werden. Als zweiter Nachteil der Baremetal-Methode ist die Überprüfung des Benchmark. Um sicher zustellen das der Benchmark Erwartungsgemäss funktioniert oder überhaupt die Feststellung das er ausgeführt wird, benötigt eine Feedback nach aussen. Eine Led würde für dieses Feedback bereits ausreichen. Die GPIO die nötig sind um das Led zu steuern, sind je nach SoC sehr schwierig anzusprechen weil sie über ein PCI-Bus verbunden sind. Das Betriebssystem stellt normalerweise die nötigen Liberies zur Verfügung, um die Komponente wie die GPIO über ein PCI-Bus anzusteuern. Der dritte Nachteil auf eine Methode, ohne Betriebssystem zu arbeiten, ist die aufwändige Vorbereitung jeden einzelnen Test. Für jeden Test muss eine Partition mit dem Benchmark erstellt und auf ein Medium kopiert werden. Die Hardware muss neu gestartet werden
+damit die Messung erfolgen kann. Unter den Umständen wird ein automatisierter Betrieb erheblich erschwert.
+\par
+Ausarbeitung zweiter Idee.... jaja :-)
+
+
+
+ 
