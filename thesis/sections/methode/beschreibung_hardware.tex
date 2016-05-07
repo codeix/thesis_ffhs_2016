@@ -2,7 +2,7 @@
 
 \subsection{Intel Galileo Gen2}
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{r}{0.6\textwidth}
 \centering
 \includegraphics[scale=0.5]{images/iot_galileo.png}
 \caption{Intel Galileo Gen2\cite{intel_galileo_image}}
@@ -27,7 +27,7 @@ grössere Verbreitung und die damit verbundene Hilfestellungen im Internet. Das 
 \subsection{RaspberryPi}
 
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{r}{0.6\textwidth}
 \centering
 \includegraphics[scale=0.4]{images/raspberry-pi-2.png}
 \caption{Raspberry Pi 1 A\cite{raspberry_image}}
@@ -35,7 +35,7 @@ grössere Verbreitung und die damit verbundene Hilfestellungen im Internet. Das 
 \end{wrapfigure}
 
 
-Als zweites Experimentier-Board verwende ich das Raspberry Pi Model B\cite{raspberry_foundation}. Das Board wird von der Raspberry Pi Foundation betrieben. Das Modell besitzt ein Broadcom BCM2835\cite{broadcom_datasheet} Chip. Der darin verbaute Prozessor wurde von der Firma ARM unter dem Name ARM1176JZFS\cite{arm_datasheet} (ARM11) spezifiziert. Die Software muss für die Architektur ARMv6 kompiliert werden. Im Gegensatz zum Galileo Board von Intel ist der Prozessor ein RISC-CPU. Beide Board haben eine 32bit Adressierung.
+Als zweites Experimentier-Board wird das Raspberry Pi Model B\cite{raspberry_foundation} verwendet. Das Board wird von der Raspberry Pi Foundation betrieben. Das Modell besitzt ein Broadcom BCM2835\cite{broadcom_datasheet} Chip. Der darin verbaute Prozessor wurde von der Firma ARM unter dem Name ARM1176JZFS\cite{arm_datasheet} (ARM11) spezifiziert. Die Software muss für die Architektur ARMv6 kompiliert werden. Im Gegensatz zum Galileo Board von Intel ist der Prozessor ein RISC-CPU. Beide Board haben eine 32bit Adressierung.
 \par
 Eine Remote-Verbindung lässt sich über eine Serielle-Schnittstelle oder über Ethernet realisieren. Durch den besitz des Videoausgang und den USB-Anschluss, würde sich das Raspberry Pi auch direkt über Monitor und Tastatur bedienen lassen. Was allerdings für das Experiment nicht nötig sein wird. Die GPIO sind direkt über die Speicheraderessirrung ansprechbar. Somit wäre eine Erweiterung des Benchmark der in Assembler geschrieben ist, durchaus denkbar. So könnte auf einfache Weise weitere Messungen über die GPIO erfolgen. Das offizielle Betriebssystem der Foundation ist ein Dabian basiertes OS mit dem Name Raspbian. Zusätzlich werden als Third-Party Produkte weitere unterschiedliche Betriebssysteme zur Verfügung gestellt. 
 
