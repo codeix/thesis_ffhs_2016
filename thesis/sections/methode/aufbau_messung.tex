@@ -19,8 +19,38 @@ Todo
 \label{fig:Interrupt}
 \end{figure}
 
+\section{Starten des Benchmark über procfs}
+
+Der Benchmark wurde in Form eines Kernelmodul für ein Linux Betriebssystem gebaut. Das Kernelmodul registriert für jeden Benchmark ein Pseudofile, das unter der Verzeichnisstruktur \texttt{/proc/benchmark/} abrufbar ist.
+\par
+Das \texttt{procfs} oder \texttt{proc filesystem} genannter Filesystem erstellt eine Schnittstelle zwischen dem Benutzermodus und dem Kernelmodus. Es ist ein virtuelles Filesystem, dass unter der Verzeichnisstruktur \texttt{/proc} gemountet wurde\cite{mauerer2010professional}. Die Dateien die sich darin befinden sind Pseudofiles. Sie sind virtuelle, weil sie nicht wirklich existieren und somit auch nicht auf ein Medium gespeichert sind. Beim schreiben beziehungsweise lesen werden die Information am Kernel weiter gegeben, verarbeitet und zurück zum lesen gestellt. Weil das verhalten der Schnittstelle einer Datei entspricht, können für die Lese- und Schreiboperation, die Linux Standart-Werkzeuge verwendet werden.
+
+\lstset{language=Bash}
+\begin{lstlisting}
+sriolo@desktop ~ $ cat /proc/uptime 
+571433.06 1229766.89
+\end{lstlisting}
+\begin{lstlisting}
+sriolo@desktop ~ $ echo 1 > /proc/sys/net/ipv4/conf/default/forwarding
+\end{lstlisting}
+
+Im ersten Beispiel wird aus der Datei \texttt{uptime} gelesen, die Betriebszeit kommt als Ausgabe. Das folgende zweite Beispiel zeigt wie in einer Datei geschrieben werden kann. Dabei wird Kernel mitgeteilt dass, er das IP-Forwarding einschalten soll. Ein ähnlicher Aufbau hat das \texttt{sys filesystem}. Die Kommunikation ist dabei schwieriger weil das Design nicht für Menschen lesbar ist, sondern für Programme im Benutzermodus. Im Gegensatz dazu kann das \texttt{procfs} mit den Standard-Werkzeuge im ASCII-Format gelesen und geschrieben werden.
+\par
+Das \texttt{procfs} ist an dieser Stelle wichtig, weil der Benchmark im Kernelmodus laufen muss. Durch den Befehl \texttt{cat} auf die entsprechende Datei des Benchmark, startet im Kernelmodus den Ablauf für die Messung und gibt die verwendete Zeit als Ausgabe an. Das folgende Beispiel zeigt wie der Benchmark gestartet wird und der CPU durch eine Addieroperation ausgelastet wird.
+
+\begin{lstlisting}
+root@galileo ~ $ cat /proc/benchmark/addl_32
+321
+\end{lstlisting}
+
 
 \section{Aufbau der Software für die Messung}
+
+Der Grundbau der Software wurde mit der Programmiersprache C geschrieben. Der Kern des Benchmark besteht aus wenige Assembler Befehlssätze. Der Kernelmodul beinhaltet alle in dieser Arbeit relevante Benchmarks. 
+
+
+
+
 
 
 \begin{figure}[H]
