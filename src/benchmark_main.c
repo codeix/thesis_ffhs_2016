@@ -15,8 +15,12 @@
 #include <linux/proc_fs.h>  // for the proc filesystem
 #include <linux/seq_file.h> // for sequence files
 
-#include "benchmark_asm.h"
-#include "benchmark_bind.h"
+#ifdef GALILEO
+#include "galileo/benchmark_asm.h"
+#include "galileo/benchmark_bind.h"
+#endif
+
+
 
 #define PROC_DIR "benchmark"
 
