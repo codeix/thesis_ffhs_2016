@@ -8,6 +8,14 @@
 \usepackage{hyperref}
 \usepackage{cite}
 \usepackage{etoolbox}
+\usepackage{listings}
+\usepackage{wrapfig}
+\usepackage{fullpage}
+\usepackage[section]{placeins}
+\usepackage{float}%
+
+
+
 \makeatother
 \hypersetup{
     colorlinks=false,
@@ -21,12 +29,14 @@
 \begin{document}
 % addional configuration from sam
 \shorthandoff{"}
+\input{lstset}
+
 
 \dokumentTyp{Disposition für die Bachelor-Thesis}
 \studiengang{INF}
 \title{Energie in der Informatik}
 \subtitle{ durch bessere Software sparen ohne Verzicht} % optional
-\titelbild[height=4.55cm,width=15cm]{Italy_Alps_and_Mediterranean.jpg}  % optional
+\titelbild[height=4.55cm,width=15cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
 \author{Samuel Riolo}
 % \date{}
 \wohnort{Kerzers}
@@ -60,15 +70,23 @@
 \input{sections/vorgehen}
 \input{sections/wissenschaftlicherbezug}
 \input{sections/resultate}
-\input{sections/selbsterklaerung}
 
+\input{sections/energiepolitik}
+
+\input{sections/methode/chapter}
+\input{sections/methode/ziel_experiment}
+\input{sections/methode/beschreibung_hardware}
+\input{sections/methode/aufbau_messung}
+
+
+\input{sections/selbsterklaerung}
 
 
 %\begin{thebibliography}{1}
 %\end{thebibliography}
 \bibliography{thesis_bibliography}
 \bibliographystyle{gerplain}
-
+\listoffigures
 
 
 
