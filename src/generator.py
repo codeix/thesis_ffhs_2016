@@ -125,8 +125,7 @@ ASM_BODY="""
 """
 
 ASM_PART_GALILEO="""
-
-.globl benchmark_%(func_name)s
+.global benchmark_%(func_name)s
 .type benchmark_%(func_name)s, @function
 
 benchmark_%(func_name)s:
@@ -142,18 +141,18 @@ loop_benchmark_%(func_name)s:
 
 ASM_PART_RASPBERRY="""
 
-.globl benchmark_%(func_name)s
-.type benchmark_%(func_name)s, @function
+.global benchmark_%(func_name)s
 
 benchmark_%(func_name)s:
-  push %%ecx
-  movl $%(loop_count)s, %%ecx
+  ldr r1, =%(loop_count)s  /*Pseudo instruction for something like ldr r8, [pc, #offset] */
 %(pre)s
 loop_benchmark_%(func_name)s:
 %(bench)s
-  loop loop_benchmark_%(func_name)s
-  pop %%ecx
-  ret
+  sub r1, r1, #1      /* r1 ← r1 - 1 */
+  cmp r1, #0          /* update cpsr with r1 - 0 */
+  bge benchmark_%(func_name)s       /* branch if r1 >= 100 */
+  bx  lr
+
 """
 
 BIND_PART="""
