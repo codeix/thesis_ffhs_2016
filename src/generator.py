@@ -150,7 +150,7 @@ loop_benchmark_%(func_name)s:
 %(bench)s
   sub r1, r1, #1      /* r1 ← r1 - 1 */
   cmp r1, #0          /* update cpsr with r1 - 0 */
-  bge benchmark_%(func_name)s       /* branch if r1 >= 100 */
+  bge loop_benchmark_%(func_name)s       /* branch if r1 >= 100 */
   bx  lr
 
 """
