@@ -1,9 +1,15 @@
-obj-m += jif.o
+obj-m  := benchmark.o
+benchmark-y := ../benchmark_main.o benchmark_asm.o benchmark_bind.o
 
+ccflags-y :=  -DRASPBERRY
+
+
+KDIR= $(HOME)/3.18.16/lib/modules/3.18.16/build
 
 all:
-	make ARCH=x86 -C /home/sriolo/3.8.7/lib/modules/3.8.7/build M=$(PWD) modules
+	$(PWD)/../generator.py raspberry
+	make ARCH=arm -C $(KDIR) M=$(PWD) CROSS_COMPILE=arm-linux-gnueabihf- modules
 
 clean:
-	make ARCH=x86 -C /home/sriolo/3.8.7/lib/modules/3.8.7/build M=$(PWD) clean
+	make ARCH=arm -C $(KDIR) M=$(PWD)  clean
 
