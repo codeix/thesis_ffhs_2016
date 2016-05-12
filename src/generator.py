@@ -9,6 +9,8 @@ This software may be modified and distributed under the terms
 of the MIT license.  See the LICENSE file for details.
 """
 
+import os
+import sys
 import configparser
 from collections import defaultdict
 
@@ -20,7 +22,8 @@ LOOP_COUNT = 100000000
 def main():
     config = configparser.RawConfigParser(dict_type=lambda: defaultdict(list))
     config.sections()
-    config.read('benchmark_data.ini')
+    subdir = sys.argv[1]
+    config.read(os.path.join((subdir, 'benchmark_data.ini')))
 
     gen_asm(config)
     gen_asm_header(config)
@@ -44,6 +47,7 @@ def default_content(filename, content=None):
     return di
 
 def gen_asm(config):
+    asm_part=dict(galileo=ASM_PART_GALILEO, raspberry=ASM_PART_RASPBERRY)[sys.argv[1]]
     filename = 'benchmark_asm.S'
     content = ''
     for sec in config.sections():
@@ -51,7 +55,7 @@ def gen_asm(config):
                     pre=ident(config.get(sec, 'pre')),
                     bench=ident(config.get(sec, 'bench')),
                     loop_count=LOOP_COUNT)
-        content += ASM_PART % data
+        content += asm_part % data
     
     data = default_content(filename, content)
     with open(filename, 'w') as f:
@@ -120,9 +124,8 @@ ASM_BODY="""
 
 """
 
-ASM_PART="""
-
-.globl benchmark_%(func_name)s
+ASM_PART_GALILEO="""
+.global benchmark_%(func_name)s
 .type benchmark_%(func_name)s, @function
 
 benchmark_%(func_name)s:
@@ -134,6 +137,22 @@ loop_benchmark_%(func_name)s:
   loop loop_benchmark_%(func_name)s
   pop %%ecx
   ret
+"""
+
+ASM_PART_RASPBERRY="""
+
+.global benchmark_%(func_name)s
+
+benchmark_%(func_name)s:
+  ldr r1, =%(loop_count)s  /*Pseudo instruction for something like ldr r8, [pc, #offset] */
+%(pre)s
+loop_benchmark_%(func_name)s:
+%(bench)s
+  sub r1, r1, #1      /* r1 ← r1 - 1 */
+  cmp r1, #0          /* update cpsr with r1 - 0 */
+  bge loop_benchmark_%(func_name)s       /* branch if r1 >= 100 */
+  bx  lr
+
 """
 
 BIND_PART="""
