@@ -3,7 +3,7 @@ benchmark-y := ../benchmark_main.o benchmark_asm.o benchmark_bind.o
 
 ccflags-y :=  -DGALILEO
 
-KDIR= $(HOME)/3.8.7/lib/modules/3.8.7/build
+KDIR= $(PWD)/../linux/3.8.7_x86/lib/modules/3.8.7/build
 
 all:
 	$(PWD)/../generator.py galileo
