@@ -33,6 +33,7 @@ static struct proc_dir_entry* benchmark_file;
 static struct proc_dir_entry* benchmark_parent;
 
 
+
 static int benchmark_open(struct inode* inode, struct file* file)
 {
     #ifdef GALILEO
@@ -51,9 +52,11 @@ static const struct file_operations benchmark_fops = {
     .release = single_release,
 };
 
+
 static int __init benchmark_init(void)
 {
     int i;
+
     benchmark_parent = proc_mkdir(PROC_DIR, NULL);
     for(i=0; i < BENCHMARK_SHOW_LENGTH; i++){
         benchmark_file = proc_create_data(

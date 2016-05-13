@@ -15,7 +15,7 @@ import configparser
 from collections import defaultdict
 
 
-LOOP_COUNT = 100000000
+LOOP_COUNT = 1000000000
 
 
 
@@ -74,6 +74,7 @@ def gen_asm_header(config):
 def gen_bind(config):
     filename = 'benchmark_bind.c'
     content = '#include "benchmark_asm.h"\n#include <linux/seq_file.h>\n#include <linux/jiffies.h> \n\n'
+    content = BIND_CONTENT
     for sec in config.sections():
         content += BIND_PART % dict(func_name=sec)
     data = default_content(filename, content)
@@ -155,13 +156,49 @@ loop_benchmark_%(func_name)s:
 
 """
 
+BIND_CONTENT="""
+#include "benchmark_asm.h"
+#include <linux/seq_file.h>
+#include <linux/jiffies.h>
+#include <linux/interrupt.h>
+#include <linux/spinlock.h>
+typedef struct tasklet_data {
+   void (*func)(void);
+   spinlock_t lock;
+} tasklet_data_t;
+tasklet_data_t data = {NULL, NULL};
+
+/* Bottom Half Function */
+void benchmark_tasklet( unsigned long d )
+{
+  tasklet_data_t data = *(tasklet_data_t *)d;
+  unsigned long flags;
+  local_irq_save(flags);
+  data.func();
+  /* spin_unlock(&data.lock); */
+  local_irq_restore(flags);
+  return;
+}
+
+
+"""
+
+
 BIND_PART="""
+DECLARE_TASKLET( %(func_name)s_tasklet, benchmark_tasklet,
+                 (unsigned long) &data );
 int benchmark_show_%(func_name)s(struct seq_file* m, void* v)
 {
-    unsigned long long start_jif = get_jiffies_64();
+    unsigned long long start_jif;
     unsigned long long exec_jif;
+    
+    data.func = &benchmark_%(func_name)s; 
+    /* spin_lock_init(&data.lock); */
+    /* spin_lock(&data.lock);*/
 
-    benchmark_%(func_name)s();
+    start_jif = get_jiffies_64();
+    tasklet_hi_schedule( &%(func_name)s_tasklet );
+    /* spin_lock(&data.lock); */
 
     exec_jif = get_jiffies_64() - start_jif;
     seq_printf(m, "%%llu\\n", (unsigned long long)exec_jif);
