@@ -159,8 +159,26 @@ loop_benchmark_%(func_name)s:
 BIND_CONTENT="""
 #include "benchmark_asm.h"
 #include <linux/seq_file.h>
-#include <linux/jiffies.h>
 #include <linux/interrupt.h>
+#include <linux/time.h>
+#ifdef RASPBERRY
+#include <linux/timekeeping.h>
+#endif
+
+unsigned long timer_end(struct timeval start_time)
+{
+    struct timeval end_time;
+    do_gettimeofday(&end_time);
+    return((end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec)/1000) ;
+}
+
+struct timeval timer_start(void)
+{
+    struct timeval start_time;
+    do_gettimeofday(&start_time);
+    return start_time;
+}
+
 
 """
 
@@ -168,16 +186,16 @@ BIND_CONTENT="""
 BIND_PART="""
 int benchmark_show_%(func_name)s(struct seq_file* m, void* v)
 {
-    unsigned long long start_jif;
-    unsigned long long exec_jif;
     unsigned long flags; 
+    struct timeval start_time;
+    unsigned long  exec_time;
     
-    start_jif = get_jiffies_64();
     local_irq_save(flags);
+    start_time = timer_start();
     benchmark_%(func_name)s();
+    exec_time = timer_end(start_time);
     local_irq_restore(flags);
-    exec_jif = get_jiffies_64() - start_jif;  
-    seq_printf(m, "%%llu\\n", (unsigned long long)exec_jif);
+    seq_printf(m, "%%lu\\n", exec_time);
     return 0;
 }
 """
