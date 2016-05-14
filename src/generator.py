@@ -145,6 +145,7 @@ ASM_PART_RASPBERRY="""
 .global benchmark_%(func_name)s
 
 benchmark_%(func_name)s:
+  stmfd    sp!, {r0-r5}
   ldr r1, =%(loop_count)s  /*Pseudo instruction for something like ldr r8, [pc, #offset] */
 %(pre)s
 loop_benchmark_%(func_name)s:
@@ -152,6 +153,7 @@ loop_benchmark_%(func_name)s:
   sub r1, r1, #1      /* r1 ← r1 - 1 */
   cmp r1, #0          /* update cpsr with r1 - 0 */
   bge loop_benchmark_%(func_name)s       /* branch if r1 >= 100 */
+  ldmfd    sp!, {r0-r5}
   bx  lr
 
 """
