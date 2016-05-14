@@ -162,44 +162,61 @@ BIND_CONTENT="""
 #include <linux/jiffies.h>
 #include <linux/interrupt.h>
 #include <linux/spinlock.h>
+#include <linux/bitops.h>
+
 typedef struct tasklet_data {
    void (*func)(void);
-   spinlock_t lock;
+   int state;
 } tasklet_data_t;
 tasklet_data_t data = {NULL, NULL};
 
 /* Bottom Half Function */
-void benchmark_tasklet( unsigned long d )
+void benchmark_tasklet_func( unsigned long d )
 {
   tasklet_data_t data = *(tasklet_data_t *)d;
   unsigned long flags;
+   printk("PRE Super blup %i\\n", data.state);
+  data.state = 1;
+printk(KERN_INFO "In tasklet function\\n");
+  
   local_irq_save(flags);
+  printk(KERN_INFO "irq save func\\n");
   data.func();
-  /* spin_unlock(&data.lock); */
+  /*spin_unlock(&(data.lock));*/
+  data.state = 0;
+  printk("Prepare Super bla\\n");
+  printk("Super blup %i\\n", data.state);
   local_irq_restore(flags);
   return;
 }
+
+DECLARE_TASKLET( benchmark_tasklet, benchmark_tasklet_func,
+                 (unsigned long) &data );
 
 
 """
 
 
 BIND_PART="""
-DECLARE_TASKLET( %(func_name)s_tasklet, benchmark_tasklet,
-                 (unsigned long) &data );
 int benchmark_show_%(func_name)s(struct seq_file* m, void* v)
 {
     unsigned long long start_jif;
     unsigned long long exec_jif;
     
-    data.func = &benchmark_%(func_name)s; 
-    /* spin_lock_init(&data.lock); */
-    /* spin_lock(&data.lock);*/
+        unsigned long flags; 
+    data.func = &benchmark_%(func_name)s;
+    data.state = 1;
+    /*spin_lock_init(&(data.lock));*/
+    /*spin_lock(&(data.lock));*/
 
     start_jif = get_jiffies_64();
-    tasklet_hi_schedule( &%(func_name)s_tasklet );
-    /* spin_lock(&data.lock); */
-
+    /* tasklet_hi_schedule( &benchmark_tasklet ); */
+    local_irq_save(flags);
+    data.func();
+    local_irq_restore(flags);
+    /*spin_unlock_wait((&data.lock));*/
+    /*tasklet_unlock_wait( &%(func_name)s_tasklet );*/
+    /*while (data.state) { printk(KERN_INFO "loop %%i\\n", data.state); barrier(); } */
     exec_jif = get_jiffies_64() - start_jif;
     seq_printf(m, "%%llu\\n", (unsigned long long)exec_jif);
     return 0;
