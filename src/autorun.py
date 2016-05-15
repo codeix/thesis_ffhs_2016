@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 
+import os
 import time
 import serial
 import threading
+import configparser
+from collections import defaultdict
 
 
+
+BENCHPATH = 'cat /proc/benchmark/%s\r\n'
 READ_TIME_INTERVAL = 0
 
 
@@ -54,11 +59,56 @@ class PeakTech2015(object):
                 time.sleep(READ_TIME_INTERVAL)
 
 
+class Board(object):
+
+    ser = None
+
+    def __init__(self):
+        self.ser = serial.Serial(
+            port='/dev/ttyUSB0',
+            baudrate=115200,
+            timeout=1,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS
+        )
+        self.ser.write(b'\n')
+        self.ser.reset_input_buffer()
+
+    def benchmark(self, bench):
+        self.ser.write(b'\n')
+        self.ser.reset_input_buffer()
+        self.ser.readline()
+        self.ser.write((BENCHPATH % bench).encode())
+        wait = 10
+        for i in range(10):
+            out = self.ser.readline().decode().strip()
+            if out:
+                return out
+        raise ReadException('No output from SoC')
+
+
+class ReadException(Exception):
+    pass
+
+
 def main():
-    pt = PeakTech2015()
-    pt.set_buffer()
     import pdb;pdb.set_trace()
-    pt.get_values()
+    pt = PeakTech2015()
+    board = Board()
+    config = configparser.RawConfigParser(dict_type=lambda: defaultdict(list))
+    config.read('raspberry/benchmark_data.ini')
+    for sec in config.sections():
+        for i in range(5):
+            pt.set_buffer()
+            try:
+                time = board.benchmark(sec)
+            except ReadException:
+                print('Error command %s' % sec)
+                continue
+            values = pt.get_values()
+            print('command: %s/%s ==> %s' % (sec, time, values))
+            break
 
 
 if __name__ == '__main__':
