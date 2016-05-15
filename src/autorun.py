@@ -3,13 +3,14 @@
 import os
 import time
 import serial
+import paramiko
 import threading
 import configparser
 from collections import defaultdict
 
 
 
-BENCHPATH = 'cat /proc/benchmark/%s\r\n'
+BENCHPATH = 'cat /proc/benchmark/%s'
 READ_TIME_INTERVAL = 0
 
 
@@ -61,54 +62,35 @@ class PeakTech2015(object):
 
 class Board(object):
 
-    ser = None
+    ssh = None
 
     def __init__(self):
-        self.ser = serial.Serial(
-            port='/dev/ttyUSB0',
-            baudrate=115200,
-            timeout=1,
-            parity=serial.PARITY_NONE,
-            stopbits=serial.STOPBITS_ONE,
-            bytesize=serial.EIGHTBITS
-        )
-        self.ser.write(b'\n')
-        self.ser.reset_input_buffer()
+        self.ssh = paramiko.SSHClient()
+        self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        self.ssh.connect('192.168.1.100', username='pi')
 
     def benchmark(self, bench):
-        self.ser.write(b'\n')
-        self.ser.reset_input_buffer()
-        self.ser.readline()
-        self.ser.write((BENCHPATH % bench).encode())
-        wait = 10
-        for i in range(10):
-            out = self.ser.readline().decode().strip()
-            if out:
-                return out
-        raise ReadException('No output from SoC')
+        cmd = BENCHPATH % bench
+        ssh_stdin, ssh_stdout, ssh_stderr = self.ssh.exec_command(cmd)
+        return ssh_stdout.readline().strip()
 
-
-class ReadException(Exception):
-    pass
+    def close(self):
+        self.ssh.close()
 
 
 def main():
-    import pdb;pdb.set_trace()
     pt = PeakTech2015()
     board = Board()
     config = configparser.RawConfigParser(dict_type=lambda: defaultdict(list))
     config.read('raspberry/benchmark_data.ini')
     for sec in config.sections():
-        for i in range(5):
-            pt.set_buffer()
-            try:
-                time = board.benchmark(sec)
-            except ReadException:
-                print('Error command %s' % sec)
-                continue
-            values = pt.get_values()
-            print('command: %s/%s ==> %s' % (sec, time, values))
-            break
+        pt.set_buffer()
+        time = board.benchmark(sec)
+        values = pt.get_values()
+        print('command: %s/%s ==> %s' % (sec, time, values))
+
+    pt.close()
+    board.close()
 
 
 if __name__ == '__main__':
