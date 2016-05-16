@@ -15,8 +15,7 @@ import configparser
 from collections import defaultdict
 
 
-LOOP_COUNT = 1000000000
-
+LOOP_COUNT = 2147483648
 
 
 def main():
