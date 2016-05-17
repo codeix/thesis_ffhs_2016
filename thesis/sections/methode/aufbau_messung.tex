@@ -13,9 +13,7 @@ Ein Interrupt erzwingt den Linux Kernel vom Benutzermodus in den Kernelmodus zu 
 \par
 Interrupts sind dafür gemacht, damit sie sofort verarbeitet werden. Ein kleines Beispiel soll dies veranschaulichen. Der Benutzer eines Computer drückt eine Taste auf der Tastatur. Dadurch produziert er ein Hardware-Interrupt. Der aktuelle Prozess wird gespeichert und angehalten. Der Kernel stellt über eine Vektor-Tabelle fest um welchen Interrupt es sich handelt und führt die passende ISR aus, die zur Verarbeitung der gedrückte Tasten dient. ISR sind sehr kurze Programmcodes (Microcode). In diesem Fall speichert der Programmcode die gedrückte Taste in den RAM und übergibt die Ressourcen wieder frei. Der letzte Prozess wird danach, falls er nicht bereits fertig war, weitergeführt. Die Interrupts sind nötig um die Daten am Zeitpunkt des Geschehens zu verarbeiten.
 \par
-\autoref{fig:Interrupt} beschreibt die unterschiedlichen Interrupts und der Ablauf nach einem eingehender Interrupt. Die Hardware-Interrupts\footnote{Je nach Literatur, Sprache oder Betriebssystem werden unterschiedliche Fachausdrücke verwendet. Der Kontext bleibt aber der selbe.} wurden bereits oben beschrieben. Die "Exception / Trap" sind Interrupts die der CPU selber produziert. Als Beispiel für ein solches Interrupt wäre "Divisions by Zero", wenn man probiert eine Zahl durch Null zu teilen. Die Messmethode in dieser Arbeit stützt sich auf die Software-Interrupts. Software-Interrupts werden häufig verwendet um durch ein Kontextwechsel eine Aufgabe dem Kernel zu übergeben. Durch den Kontextwechsel wird vom unprivilegierten Ring  (Benutzermodus) in den privilegierten Ring (Kernelmodus) gewechselt. Dadurch können auf Befehlssätze und Speicheradressen zugegriffen die im Benutzermodus nicht möglich wären ohne unsicheren Code ausführen zu müssen. Dies wird zum Beispiel notwendig wenn man ein File lesen möchte.
-
-Todo
+\autoref{fig:Interrupt} beschreibt die unterschiedlichen Interrupts und der Ablauf nach einem eingehender Interrupt. Die Hardware-Interrupts\footnote{Je nach Literatur, Sprache oder Betriebssystem werden unterschiedliche Fachausdrücke verwendet. Der Kontext bleibt aber der selbe.} wurden bereits oben beschrieben. Die "Exception / Trap" sind Interrupts die der CPU selber produziert. Als Beispiel für ein solches Interrupt wäre "Divisions by Zero", wenn man probiert eine Zahl durch Null zu teilen. Die Messmethode in dieser Arbeit stützt sich auf die Software-Interrupts. Software-Interrupts werden als Systemcall bezeichnet, die häufig verwendet werden um durch ein Kontextwechsel eine Aufgabe dem Kernel zu übergeben. Durch den Kontextwechsel wird vom unprivilegierten Ring  (Benutzermodus) in den privilegierten Ring (Kernelmodus) gewechselt. Dadurch können auf Befehlssätze und Speicheradressen zugegriffen die im Benutzermodus nicht möglich wären ohne unsicheren Code ausführen zu müssen. Systemcall werden als ISR im selben Kontext ausgeführt wie Interrupts.
 
 \begin{figure}[H]
 \centering
@@ -53,7 +51,26 @@ root@galileo ~ $ cat /proc/benchmark/addl_32
 
 
 \subsection{Grundaufbau und Ablauf eines Benchmark}
-Der Grundbau der Software wurde mit der Programmiersprache C geschrieben. Der Kern des Benchmark besteht aus wenige Assembler Befehlssätze. Der Kernelmodul beinhaltet alle in dieser Arbeit relevante Benchmarks. 
+Der Grundbau der Software wurde mit der Programmiersprache C geschrieben. Der Kern des Benchmark besteht aus wenige Assembler Befehlssätze. Der Kernelmodul beinhaltet alle in dieser Arbeit relevante Benchmarks. Die \autoref{fig:Benchmark} zeigt der Ablauf des Programm. Durch ein Systemcall, dass über das \texttt{procfs} ausgelöst wird, wird der Benchmark gestartet. Da sich in der Software mehrere Benchmark befinden muss zuerst der Benchmark ermittelt werden. An dieser Stelle werden durch die Funktion \texttt{local\_irq\_save} alle weitere Interrupts geblockt. Die Startzeit wird ermittelt und zwischen gespeichert. Das Programm wechselt zum eigentlichen Benchmark der in Assembler geschrieben ist.
+
+
+\lstset{language=[x64]Assembler}
+\begin{lstlisting}
+
+benchmark_imull_zero:
+  stmfd    sp!, {r0-r5}
+  ldr r1, = 2147483648
+  ldr r3, = 0x0
+  ldr r4, = 0x0
+loop_benchmark_imull_zero:
+  mul r5, r3, r4
+  sub r1, r1, #1
+  cmp r1, #0
+  bge loop_benchmark_imull_zero
+  ldmfd    sp!, {r0-r5}
+  bx  lr
+\end{lstlisting}
+
 
 
 \begin{figure}[H]
