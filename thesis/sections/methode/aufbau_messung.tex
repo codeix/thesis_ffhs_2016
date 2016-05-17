@@ -28,20 +28,21 @@ Der Benchmark wurde in Form eines Kernelmodul für ein Linux Betriebssystem geba
 \par
 Das \texttt{procfs} oder \texttt{proc filesystem} genannter Filesystem erstellt eine Schnittstelle zwischen dem Benutzermodus und dem Kernelmodus. Es ist ein virtuelles Filesystem, dass unter der Verzeichnisstruktur \texttt{/proc} gemountet wurde\cite{mauerer2010professional}. Die Dateien die sich darin befinden sind Pseudofiles. Sie sind virtuelle, weil sie nicht wirklich existieren und somit auch nicht auf ein Medium gespeichert sind. Beim schreiben beziehungsweise lesen werden die Information am Kernel weiter gegeben, verarbeitet und zurück zum lesen gestellt. Weil das verhalten der Schnittstelle einer Datei entspricht, können für die Lese- und Schreiboperation, die Linux Standart-Werkzeuge verwendet werden.
 
-\lstset{language=Bash}
-\begin{lstlisting}
+
+\lstset{language=bash}
+\begin{lstlisting}[label={list:read_procfs},caption={Lesen im procfs}]
 sriolo@desktop ~ $ cat /proc/uptime 
 571433.06 1229766.89
 \end{lstlisting}
-\begin{lstlisting}
+\begin{lstlisting}[label={list:write_procfs},caption={Schreiben im procfs}]
 sriolo@desktop ~ $ echo 1 > /proc/sys/net/ipv4/conf/default/forwarding
 \end{lstlisting}
 
-Im ersten Beispiel wird aus der Datei \texttt{uptime} gelesen, die Betriebszeit kommt als Ausgabe. Das folgende zweite Beispiel zeigt wie in einer Datei geschrieben werden kann. Dabei wird Kernel mitgeteilt dass, er das IP-Forwarding einschalten soll. Ein ähnlicher Aufbau hat das \texttt{sys filesystem}. Die Kommunikation ist dabei schwieriger weil das Design nicht für Menschen lesbar ist, sondern für Programme im Benutzermodus. Im Gegensatz dazu kann das \texttt{procfs} mit den Standard-Werkzeuge im ASCII-Format gelesen und geschrieben werden.
+Im ersten Beispiel \autoref{list:read_procfs} wird aus der Datei \texttt{uptime} gelesen, die Betriebszeit kommt als Ausgabe. Das folgende zweite Beispiel \autoref{list:write_procfs} zeigt wie in einer Datei geschrieben werden kann. Dabei wird Kernel mitgeteilt dass, er das IP-Forwarding einschalten soll. Ein ähnlicher Aufbau hat das \texttt{sys filesystem}. Die Kommunikation ist dabei schwieriger weil das Design nicht für Menschen lesbar ist, sondern für Programme im Benutzermodus. Im Gegensatz dazu kann das \texttt{procfs} mit den Standard-Werkzeuge im ASCII-Format gelesen und geschrieben werden.
 \par
-Das \texttt{procfs} ist an dieser Stelle wichtig, weil der Benchmark im Kernelmodus laufen muss. Durch den Befehl \texttt{cat} auf die entsprechende Datei des Benchmark, startet im Kernelmodus den Ablauf für die Messung und gibt die verwendete Zeit als Ausgabe an. Das folgende Beispiel zeigt wie der Benchmark gestartet wird und der CPU durch eine Addieroperation ausgelastet wird.
+Das \texttt{procfs} ist an dieser Stelle wichtig, weil der Benchmark im Kernelmodus laufen muss. Durch den Befehl \texttt{cat} auf die entsprechende Datei des Benchmark, startet im Kernelmodus den Ablauf für die Messung und gibt die verwendete Zeit als Ausgabe an. Das folgende Beispiel in \autoref{list:start_benchmark} zeigt wie der Benchmark gestartet wird und der CPU durch eine Addieroperation ausgelastet wird.
 
-\begin{lstlisting}
+\begin{lstlisting}[label={list:start_benchmark},caption={Starten des Benchmark}]
 root@galileo ~ $ cat /proc/benchmark/addl_32
 321
 \end{lstlisting}
@@ -51,12 +52,20 @@ root@galileo ~ $ cat /proc/benchmark/addl_32
 
 
 \subsection{Grundaufbau und Ablauf eines Benchmark}
-Der Grundbau der Software wurde mit der Programmiersprache C geschrieben. Der Kern des Benchmark besteht aus wenige Assembler Befehlssätze. Der Kernelmodul beinhaltet alle in dieser Arbeit relevante Benchmarks. Die \autoref{fig:Benchmark} zeigt der Ablauf des Programm. Durch ein Systemcall, dass über das \texttt{procfs} ausgelöst wird, wird der Benchmark gestartet. Da sich in der Software mehrere Benchmark befinden muss zuerst der Benchmark ermittelt werden. An dieser Stelle werden durch die Funktion \texttt{local\_irq\_save} alle weitere Interrupts geblockt. Die Startzeit wird ermittelt und zwischen gespeichert. Das Programm wechselt zum eigentlichen Benchmark der in Assembler geschrieben ist.
+Der Grundbau der Software wurde mit der Programmiersprache C geschrieben. Der Kern des Benchmark besteht aus wenige Assembler Befehlssätze. Der Kernelmodul beinhaltet alle in dieser Arbeit relevante Benchmarks. Die \autoref{fig:Benchmark} zeigt der Ablauf des Programm.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{images/benchmark_ea.pdf}
+\caption{Benchmark}
+\label{fig:Benchmark}
+\end{figure}
+
+
+Durch ein Systemcall, dass über das \texttt{procfs} ausgelöst wird, wird der Benchmark gestartet. Da sich in der Software mehrere Benchmark befinden muss zuerst der Benchmark ermittelt werden. An dieser Stelle werden durch die Funktion \texttt{local\_irq\_save} alle weitere Interrupts geblockt. Die Startzeit wird ermittelt und zwischen gespeichert. Das Programm wechselt zum eigentlichen Benchmark der in Assembler geschrieben ist. Ist der Assembler-Teil abgearbeitet, wird die Zeit errechnet die zur Durchführung verwendet worden ist. Durch den Aufruf der Funktion \texttt{local\_irq\_restore} wird die Blockierung von weiteren Interrupts wieder freigeben. Als letztes wird die beanspruchte Zeit im Systemcall zurück geliefert.
 
 \lstset{language=[x64]Assembler}
-\begin{lstlisting}
-
+\begin{lstlisting}[label={list:asm_benchmark},caption={Benchmark in Assembler}]
 benchmark_imull_zero:
   stmfd    sp!, {r0-r5}
   ldr r1, = 2147483648
@@ -71,14 +80,13 @@ loop_benchmark_imull_zero:
   bx  lr
 \end{lstlisting}
 
+In der \autoref{list:asm_benchmark} ist der Assemblercode aufgeführt der, den CPU über eine länger Zeit durch die Rechenoperation $0*0$ stresst. Der Prozessor startet bei Zeile 1 und nächster Schritt werden alle Register \texttt{r1} bis \texttt{r5} im RAM auf einem Stack gelegt. Das Register \texttt{r1} wird mit $2^{31}$ abgefüllt. Dieser dient uns später eine Schlaufe zu erzeugen. Auf Zeile 4 und 5 wird der Benchmark auf die Rechenoperation vorbereitet, wobei \texttt{r3} und \texttt{r4} mit der Zahl 0 abgefüllt werden. Der Prozessor geht nun auf die wichtigste Zeile 7. An dieser stelle befindet sich die Multiplikation-Operation die eine Veränderung des Energieverbrauch erzeugt und gemessen wird. Nach der Abarbeitung wird der Index in Register \texttt{r1} um eins dekrementiert und anschliessend überprüft ob der Index bereits Null erreicht hat. Falls der Index noch nicht auf Null ist wird ein Programmsprung auf Zeile 7 erzeugt und die Schleife noch einmal wiederholt. Falls der Index Null erreicht hat wird der Programmsprung nicht erzeugt und dies führt zu einem austritt der Schleife. Die Register  \texttt{r1} bis \texttt{r5}, die am Anfang auf dem Stack gelegt wurden, werden aus dem RAM geholt und wiederherstellt. Damit ist das Assemblerprogramm am Ende.
+\par
 
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=1.0\textwidth]{images/benchmark_ea.pdf}
-\caption{Benchmark}
-\label{fig:Benchmark}
-\end{figure}
+
+
+
 
 \subsection{Kompilation und Programmstruktur}
 
