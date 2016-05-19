@@ -9,18 +9,20 @@ This software may be modified and distributed under the terms
 of the MIT license.  See the LICENSE file for details.
 """
 
+import os
+import sys
 import configparser
 from collections import defaultdict
 
 
-LOOP_COUNT = 100000000
-
+LOOP_COUNT = 2147483648
 
 
 def main():
     config = configparser.RawConfigParser(dict_type=lambda: defaultdict(list))
     config.sections()
-    config.read('benchmark_data.ini')
+    subdir = sys.argv[1]
+    config.read(os.path.join((subdir, 'benchmark_data.ini')))
 
     gen_asm(config)
     gen_asm_header(config)
@@ -44,6 +46,7 @@ def default_content(filename, content=None):
     return di
 
 def gen_asm(config):
+    asm_part=dict(galileo=ASM_PART_GALILEO, raspberry=ASM_PART_RASPBERRY)[sys.argv[1]]
     filename = 'benchmark_asm.S'
     content = ''
     for sec in config.sections():
@@ -51,7 +54,7 @@ def gen_asm(config):
                     pre=ident(config.get(sec, 'pre')),
                     bench=ident(config.get(sec, 'bench')),
                     loop_count=LOOP_COUNT)
-        content += ASM_PART % data
+        content += asm_part % data
     
     data = default_content(filename, content)
     with open(filename, 'w') as f:
@@ -70,6 +73,7 @@ def gen_asm_header(config):
 def gen_bind(config):
     filename = 'benchmark_bind.c'
     content = '#include "benchmark_asm.h"\n#include <linux/seq_file.h>\n#include <linux/jiffies.h> \n\n'
+    content = BIND_CONTENT
     for sec in config.sections():
         content += BIND_PART % dict(func_name=sec)
     data = default_content(filename, content)
@@ -120,9 +124,8 @@ ASM_BODY="""
 
 """
 
-ASM_PART="""
-
-.globl benchmark_%(func_name)s
+ASM_PART_GALILEO="""
+.global benchmark_%(func_name)s
 .type benchmark_%(func_name)s, @function
 
 benchmark_%(func_name)s:
@@ -136,16 +139,64 @@ loop_benchmark_%(func_name)s:
   ret
 """
 
+ASM_PART_RASPBERRY="""
+
+.global benchmark_%(func_name)s
+
+benchmark_%(func_name)s:
+  stmfd    sp!, {r0-r5}
+  ldr r1, =%(loop_count)s  /*Pseudo instruction for something like ldr r8, [pc, #offset] */
+%(pre)s
+loop_benchmark_%(func_name)s:
+%(bench)s
+  sub r1, r1, #1      /* r1 ← r1 - 1 */
+  cmp r1, #0          /* update cpsr with r1 - 0 */
+  bge loop_benchmark_%(func_name)s       /* branch if r1 >= 100 */
+  ldmfd    sp!, {r0-r5}
+  bx  lr
+
+"""
+
+BIND_CONTENT="""
+#include "benchmark_asm.h"
+#include <linux/seq_file.h>
+#include <linux/interrupt.h>
+#include <linux/time.h>
+#ifdef RASPBERRY
+#include <linux/timekeeping.h>
+#endif
+
+unsigned long timer_end(struct timeval start_time)
+{
+    struct timeval end_time;
+    do_gettimeofday(&end_time);
+    return((end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec)/1000) ;
+}
+
+struct timeval timer_start(void)
+{
+    struct timeval start_time;
+    do_gettimeofday(&start_time);
+    return start_time;
+}
+
+
+"""
+
+
 BIND_PART="""
 int benchmark_show_%(func_name)s(struct seq_file* m, void* v)
 {
-    unsigned long long start_jif = get_jiffies_64();
-    unsigned long long exec_jif;
-
+    unsigned long flags; 
+    struct timeval start_time;
+    unsigned long  exec_time;
+    
+    local_irq_save(flags);
+    start_time = timer_start();
     benchmark_%(func_name)s();
-
-    exec_jif = get_jiffies_64() - start_jif;
-    seq_printf(m, "%%llu\\n", (unsigned long long)exec_jif);
+    exec_time = timer_end(start_time);
+    local_irq_restore(flags);
+    seq_printf(m, "%%lu\\n", exec_time);
     return 0;
 }
 """

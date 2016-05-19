@@ -15,8 +15,17 @@
 #include <linux/proc_fs.h>  // for the proc filesystem
 #include <linux/seq_file.h> // for sequence files
 
-#include "benchmark_asm.h"
-#include "benchmark_bind.h"
+#ifdef GALILEO
+#include "galileo/benchmark_asm.h"
+#include "galileo/benchmark_bind.h"
+#endif
+
+#ifdef RASPBERRY
+#include "raspberry/benchmark_asm.h"
+#include "raspberry/benchmark_bind.h"
+#endif
+
+
 
 #define PROC_DIR "benchmark"
 
@@ -24,9 +33,15 @@ static struct proc_dir_entry* benchmark_file;
 static struct proc_dir_entry* benchmark_parent;
 
 
+
 static int benchmark_open(struct inode* inode, struct file* file)
 {
+    #ifdef GALILEO
     return single_open(file, BENCHMARK_SHOW_BIND[(int)PDE(inode)->data], benchmark_parent);
+    #endif
+    #ifdef RASPBERRY
+    return single_open(file, BENCHMARK_SHOW_BIND[(int)PDE_DATA(inode)], benchmark_parent);
+    #endif
 }
 
 static const struct file_operations benchmark_fops = {
@@ -37,9 +52,11 @@ static const struct file_operations benchmark_fops = {
     .release = single_release,
 };
 
+
 static int __init benchmark_init(void)
 {
     int i;
+
     benchmark_parent = proc_mkdir(PROC_DIR, NULL);
     for(i=0; i < BENCHMARK_SHOW_LENGTH; i++){
         benchmark_file = proc_create_data(
