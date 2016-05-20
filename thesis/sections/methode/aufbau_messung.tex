@@ -7,7 +7,7 @@
 % Found on http://www.linfo.org/software_interrupt.html
 
 
-Der Aufbau der Messmethode basiert auf Softwareinterrupts. Dafür wurde ein eigenes Kernelmodul erstellt, das den Benchmark beinhaltet und auf Verlangen ausführt.
+Der Aufbau der Messmethode basiert auf Softwareinterrupts. Dafür wurde ein eigenes Kernel\-modul erstellt, das den Benchmark beinhaltet und auf Verlangen ausführt.
 \par
 Ein Interrupt zwingt den Linux Kernel, vom Benutzermodus in den Kernelmodus zu wechseln\cite{Mandl2010_3}. Beim Wechsel werden alle laufenden Prozesse zwischengespeichert, angehalten und anschliessend wird eine Interrupt-Service-Routine (ISR) aufgerufen. Genau diese Eigenschaft wird für den Aufbau der Messmethode verwendet. Denn während der Ausführung der ISR sind alle Prozesse angehalten und können den Benchmark, der sich in der ISR befindet, nicht unterbrechen. Somit wird sichergestellt, dass nur der Benchmark ausgeführt wird und dieser die vollen Ressourcen des CPU bekommt, bis er fertig ist.
 \par
