@@ -1,0 +1,120 @@
+\documentclass{../template/ffhsthesis}
+\usepackage[a4paper, total={19cm, 26cm}]{geometry}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel} % this is needed for umlauts
+\usepackage[T1]{fontenc}    % this is needed for correct output of umlauts in pdf
+\usepackage{pgf,pgffor}
+\usepackage{pgfplots}
+\usepackage{float}%
+
+
+
+\makeatother
+
+\setlength\parindent{0pt}
+
+
+
+
+\begin{document}
+% addional configuration from sam
+\shorthandoff{"}
+
+
+\dokumentTyp{Disposition für die Bachelor-Thesis}
+\studiengang{INF}
+\title{Energie in der Informatik}
+\subtitle{ durch bessere Software sparen ohne Verzicht} % optional
+\titelbild[height=4.55cm,width=15cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
+\author{Samuel Riolo}
+% \date{}
+\wohnort{Kerzers}
+%\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
+\referent{Jürg Hofer}
+%\referent{Jürg Hofer\\ Titel\\Unterrichtetes Fach}
+%\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
+
+
+\maketitle
+
+
+
+
+
+\startThesis
+\chapter{Benchmark results with RaspberryPI}
+
+
+\foreach \fileno in {1,...,100}{
+\IfFileExists{raspberrydata/data\fileno.csv}{%
+\InputIfFileExists{raspberrydata/data\fileno .tex}{}{}%
+
+
+\section{\benchmark}
+fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar 
+\par
+\textit{data\fileno .csv}
+
+\begin{figure}[H]
+
+\foreach \n  in {0,...,2}{%
+\begin{minipage}{.33\textwidth}
+%
+\begin{tikzpicture}
+    \begin{axis}[
+            axis x line=middle,
+            axis y line=middle,
+            enlarge y limits=true,
+            xmin=0, xmax=10,
+            ymin=400, ymax=480,
+            width=6cm, height=4cm,     % size of the image
+            grid = major,
+            grid style={dashed, gray!30},
+            ylabel=ampere,
+            xlabel=seconds,
+            legend style={at={(0.1,-0.1)}, anchor=north}
+         ]
+          \addplot table [x=time\n, y=amp\n, col sep=comma] {raspberrydata/data\fileno .csv};
+
+    \end{axis}
+\end{tikzpicture}%
+
+
+
+% Example of an array in latex
+%\def\names{{"5454.5","Frank","Laura","Joe"}}%
+%\pgfmathparse{\names[0]}\pgfmathresult
+
+
+\begin{tabular}{lcc}
+Average:& \pgfmathparse{\average[\n]}\pgfmathresult \\
+Median:& \pgfmathparse{\median[\n]}\pgfmathresult \\
+Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
+\end{tabular}
+
+\end{minipage}
+}
+
+
+
+\end{figure}
+
+
+}
+}
+
+
+
+
+
+\chapter{Benchmark results with Intel Galileo Gen2}
+
+
+
+
+
+
+
+
+
+\end{document}
