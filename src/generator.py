@@ -15,8 +15,8 @@ import configparser
 from collections import defaultdict
 
 
-LOOP_COUNT = 2147483648
-
+#LOOP_COUNT = 2147483648
+LOOP_COUNT = 200
 
 def main():
     config = configparser.RawConfigParser(dict_type=lambda: defaultdict(list))
@@ -52,6 +52,7 @@ def gen_asm(config):
     for sec in config.sections():
         data = dict(func_name=sec,
                     pre=ident(config.get(sec, 'pre')),
+                    post=ident(config.get(sec, 'post')),
                     bench=ident(config.get(sec, 'bench')),
                     loop_count=LOOP_COUNT)
         content += asm_part % data
@@ -135,6 +136,7 @@ benchmark_%(func_name)s:
 loop_benchmark_%(func_name)s:
 %(bench)s
   loop loop_benchmark_%(func_name)s
+%(post)s
   pop %%ecx
   ret
 """
@@ -152,6 +154,7 @@ loop_benchmark_%(func_name)s:
   sub r1, r1, #1      /* r1 ← r1 - 1 */
   cmp r1, #0          /* update cpsr with r1 - 0 */
   bge loop_benchmark_%(func_name)s       /* branch if r1 >= 100 */
+%(post)s
   ldmfd    sp!, {r0-r5}
   bx  lr
 
@@ -165,6 +168,16 @@ BIND_CONTENT="""
 #ifdef RASPBERRY
 #include <linux/timekeeping.h>
 #endif
+
+
+#ifdef RASPBERRY
+#define REPEAT_BENCHMARK 10
+#endif
+
+#ifdef GALILEO
+#define REPEAT_BENCHMARK 3
+#endif
+
 
 unsigned long timer_end(struct timeval start_time)
 {
@@ -187,13 +200,15 @@ struct timeval timer_start(void)
 BIND_PART="""
 int benchmark_show_%(func_name)s(struct seq_file* m, void* v)
 {
+    int i;
     unsigned long flags; 
     struct timeval start_time;
     unsigned long  exec_time;
     
     local_irq_save(flags);
     start_time = timer_start();
-    benchmark_%(func_name)s();
+    for (i = 0; i < REPEAT_BENCHMARK; i++)
+        benchmark_%(func_name)s();
     exec_time = timer_end(start_time);
     local_irq_restore(flags);
     seq_printf(m, "%%lu\\n", exec_time);
