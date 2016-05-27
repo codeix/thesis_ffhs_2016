@@ -39,19 +39,20 @@
 
 
 
-
-
 \startThesis
 \chapter{Benchmark results with RaspberryPI}
 
+\tikzset{every picture/.style=thick}
 
-\foreach \fileno in {1,...,100}{
+
+\foreach \fileno in {0,...,100}{
 \IfFileExists{raspberrydata/data\fileno.csv}{%
 \InputIfFileExists{raspberrydata/data\fileno .tex}{}{}%
 
 
+
 \section{\benchmark}
-fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar 
+\description
 \par
 \textit{data\fileno .csv}
 
@@ -65,7 +66,7 @@ fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar
             axis x line=middle,
             axis y line=middle,
             enlarge y limits=true,
-            xmin=0, xmax=10,
+            xmin=0, xmax=100,
             ymin=400, ymax=480,
             width=6cm, height=4cm,     % size of the image
             grid = major,
@@ -74,7 +75,7 @@ fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar
             xlabel=seconds,
             legend style={at={(0.1,-0.1)}, anchor=north}
          ]
-          \addplot table [x=time\n, y=amp\n, col sep=comma] {raspberrydata/data\fileno .csv};
+          \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none] {raspberrydata/data\fileno .csv};
 
     \end{axis}
 \end{tikzpicture}%
@@ -87,8 +88,9 @@ fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar fooo bar
 
 
 \begin{tabular}{lcc}
-Average:& \pgfmathparse{\average[\n]}\pgfmathresult \\
-Median:& \pgfmathparse{\median[\n]}\pgfmathresult \\
+Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
+Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
+Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult ms\\
 Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{tabular}
 

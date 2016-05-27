@@ -15,8 +15,7 @@ import configparser
 from collections import defaultdict
 
 
-#LOOP_COUNT = 2147483648
-LOOP_COUNT = 200
+LOOP_COUNT = 2147483648
 
 def main():
     config = configparser.RawConfigParser(dict_type=lambda: defaultdict(list))

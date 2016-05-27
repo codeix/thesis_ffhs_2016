@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import csv
 import time
 import random
@@ -11,13 +12,13 @@ import threading
 import statistics
 import configparser
 from collections import defaultdict
-
+from collections import OrderedDict
 
 
 BENCHPATH = 'cat /proc/benchmark/%s'
 READ_TIME_INTERVAL = 0
 REPEAT = 3
-
+BREAK_TIME = 60
 
 
 class PeakTech2015(object):
@@ -28,10 +29,10 @@ class PeakTech2015(object):
     halt = False
     starttime = None
 
-    def __init__(self):
+    def __init__(self, port='/dev/ttyUSB0'):
 
         self.ser = serial.Serial(
-            port='/dev/ttyUSB0',
+            port=port,
             baudrate=2400,
             parity=serial.PARITY_ODD,
             stopbits=serial.STOPBITS_TWO,
@@ -72,10 +73,10 @@ class Board(object):
 
     ssh = None
 
-    def __init__(self):
+    def __init__(self, host, username):
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        self.ssh.connect('192.168.1.100', username='pi')
+        self.ssh.connect(host, username=username)
 
     def benchmark(self, bench):
         cmd = BENCHPATH % bench
@@ -89,9 +90,10 @@ def save_latex(val):
     return val.replace('_', '\_')
 
 
-def write(all_data):
-    for index, (benchmark, data) in enumerate(all_data.items()):
-        with open('data%i.csv' % index, 'w', newline='') as csvfile:
+def write(all_data, order, output):
+    for index, benchmark in enumerate(order):
+        data = all_data[benchmark]
+        with open(os.path.join(output, 'data%i.csv' % index), 'w', newline='') as csvfile:
             fieldnames = list()
             for rep in range(REPEAT):
                 fieldnames += ['time%s' % rep, 'amp%s' % rep]
@@ -110,7 +112,7 @@ def write(all_data):
                     writer.writerow(dict(row))
                 else:
                     break
-        with open('data%i.tex' % index, 'w') as texfile:
+        with open(os.path.join(output, 'data%i.tex' % index), 'w') as texfile:
            median_values = list()
            mean_values = list()
            for rep in range(REPEAT):
@@ -122,14 +124,28 @@ def write(all_data):
            texfile.write('\\def\\median{{%s}}%%\n' % ', '.join(['"%s"' % i for i in median_values]))
            texfile.write('\\def\\average{{%s}}%%\n' % ', '.join(['"%s"' % i for i in mean_values]))
            texfile.write('\\def\\run{{%s}}%%\n' % ', '.join(['"%s"' % (data[i]['run'] + 1) for i in range(REPEAT)]))
+           texfile.write('\\def\\exectime{{%s}}%%\n' % ', '.join(['"%s"' % data[i]['time']  for i in range(REPEAT)]))
            texfile.write('\\def\\benchmark{%s}%%\n' % save_latex(benchmark))
            texfile.write('\\def\\description{%s}%%\n' % save_latex(data[0]['config']['desc']))
 
 def main():
-    pt = PeakTech2015()
-    board = Board()
+
+    if len(sys.argv) != 6:
+        ex1 = '    Example: autorun.py /dev/ttyUSB0 192.168.1.100 pi raspberry/benchmark_data.ini ../results/raspberrydata/\n'
+        ex2 = '    Example: autorun.py /dev/ttyUSB0 192.168.1.76 pi galileo/benchmark_data.ini ../results/galileodata/'
+        print('Usage: autorun.py <port> <host> <username> <benchmark_data> <output>\n' + ex1 + ex2)
+        sys.exit(1)
+
+    port = sys.argv[1]
+    host = sys.argv[2]
+    username = sys.argv[3]
+    benchmark_data = sys.argv[4]
+    output = sys.argv[5]
+    
+    pt = PeakTech2015(port)
+    board = Board(host, username)
     config = configparser.RawConfigParser(dict_type=lambda: defaultdict(list))
-    config.read('raspberry/benchmark_data.ini')
+    config.read(benchmark_data)
     bench = list()
     for i in range(REPEAT):
         bench += config.sections()
@@ -138,15 +154,18 @@ def main():
     data = dict()
     for index, sec in enumerate(bench):
         pt.set_buffer()
-        time = board.benchmark(sec)
+        t = board.benchmark(sec)
         values = pt.get_values()
         data.setdefault(sec, list())
-        data[sec].append(dict(values=values, run=index, config=config[sec]))
-        print('command: %s/%s ==> %s' % (sec, time, dict(values).values()))
+        data[sec].append(dict(time=t, values=values, run=index, config=config[sec]))
+        print('command: %s/%s ==> %s' % (sec, t, dict(values).values()))
+        time.sleep(BREAK_TIME)
 
     pt.close()
     board.close()
-    write(data)
+    oc=configparser.ConfigParser(dict_type=OrderedDict)
+    oc.read(benchmark_data)
+    write(data, oc.sections(), output)
 
 
 if __name__ == '__main__':
