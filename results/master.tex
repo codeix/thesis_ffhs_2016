@@ -6,7 +6,7 @@
 \usepackage{pgf,pgffor}
 \usepackage{pgfplots}
 \usepackage{float}%
-
+\pgfplotsset{compat=newest}
 
 
 \makeatother
@@ -30,7 +30,7 @@
 % \date{}
 \wohnort{Kerzers}
 %\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
-\referent{Jürg Hofer}
+%\referent{Jürg Hofer}
 \referent{Jürg Hofer\\ Dipl. El. Ing. ETH\\WING}
 %\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
 
@@ -58,26 +58,36 @@
 
 \begin{figure}[H]
 
+\def\discon{$\wr\!\!\!\wr$}
 \foreach \n  in {0,...,2}{%
 \begin{minipage}{.33\textwidth}
 %
 \begin{tikzpicture}
+
     \begin{axis}[
             axis x line=middle,
             axis y line=middle,
             enlarge y limits=true,
             xmin=0, xmax=130,
-            ymin=400, ymax=480,
+            ymin=420, ymax=440,
             width=6cm, height=4cm,     % size of the image
             grid = major,
             grid style={dashed, gray!30},
-            ylabel=ampere,
+            ylabel=ampere(mA),
             xlabel=seconds,
+            extra x ticks = {1},
+            extra y ticks = {420},
+            ytick  = {425, 430, ..., 440},
+            extra y tick style = {grid=none, yticklabel style={xshift=2.6mm, rotate=0, inner sep=.5pt}},
+            extra y tick labels = {\includegraphics{almost_equals.eps}}]
             legend style={at={(0.1,-0.1)}, anchor=north}
          ]
-          \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none] {raspberrydata/data\fileno .csv};
+          \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none, ] {raspberrydata/data\fileno .csv};
+
 
     \end{axis}
+
+
 \end{tikzpicture}%
 
 
