@@ -130,6 +130,8 @@ ASM_PART_GALILEO="""
 
 benchmark_%(func_name)s:
   push %%ecx
+  push %%eax
+  push %%ebx
   movl $%(loop_count)s, %%ecx
 %(pre)s
 loop_benchmark_%(func_name)s:
@@ -137,6 +139,8 @@ loop_benchmark_%(func_name)s:
   loop loop_benchmark_%(func_name)s
 %(post)s
   pop %%ecx
+  pop %%eax
+  pop %%ebx
   ret
 """
 

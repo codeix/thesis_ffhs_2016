@@ -7,6 +7,7 @@
 \usepackage{pgfplots}
 \usepackage{float}%
 \pgfplotsset{compat=newest}
+\usepackage{calc}
 
 
 \makeatother
@@ -41,6 +42,8 @@
 
 \startThesis
 \chapter{Benchmark results with RaspberryPI}
+
+Das RaspberryPI wurde in den folgenden Benchmarks mit einer konstante Spannung von \textbf{5.18 V} gespeist. Der zu testende Befehlssatz wurde \textbf{21,4 Milliarden} oder genau 21'474'836'480 mal ausgeführt.
 
 \tikzset{every picture/.style=thick}
 
@@ -100,7 +103,7 @@
 \begin{tabular}{lcc}
 Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
 Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
-Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult ms\\
+Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult S\\
 Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{tabular}
 
@@ -119,11 +122,92 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 
 
 
+
+
+
+
+
+
+
 \chapter{Benchmark results with Intel Galileo Gen2}
 
 
 
 
+Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spannung von \textbf{6.36 V} gespeist. Der zu testende Befehlssatz wurde \textbf{6,4 Milliarden} oder genau 6'442'450'944 mal ausgeführt.
+
+\tikzset{every picture/.style=thick}
+
+
+\foreach \fileno in {0,...,100}{
+\IfFileExists{galileodata/data\fileno.csv}{%
+\InputIfFileExists{galileodata/data\fileno .tex}{}{}%
+
+
+
+\section{\benchmark}
+\description
+\par
+\textit{data\fileno .csv}
+
+\begin{figure}[H]
+
+\def\discon{$\wr\!\!\!\wr$}
+\foreach \n  in {0,...,2}{%
+\begin{minipage}{.33\textwidth}
+%
+\begin{tikzpicture}
+
+    \begin{axis}[
+            axis x line=middle,
+            axis y line=middle,
+            enlarge y limits=true,
+            xmin=0, xmax=130,
+            ymin=400, ymax=425,
+            width=6cm, height=4cm,     % size of the image
+            grid = major,
+            grid style={dashed, gray!30},
+            ylabel=ampere(mA),
+            xlabel=seconds,
+            extra x ticks = {1},
+            extra y ticks = {400},
+            ytick  = {405, 410, ..., 425},
+            extra y tick style = {grid=none, yticklabel style={xshift=2.6mm, rotate=0, inner sep=.5pt}},
+            extra y tick labels = {\includegraphics{almost_equals.eps}}]
+            legend style={at={(0.1,-0.1)}, anchor=north}
+         ]
+          \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none, ] {galileodata/data\fileno .csv};
+
+
+    \end{axis}
+
+
+\end{tikzpicture}%
+
+
+
+% Example of an array in latex
+%\def\names{{"5454.5","Frank","Laura","Joe"}}%
+%\pgfmathparse{\names[0]}\pgfmathresult
+
+
+\begin{tabular}{lcc}
+Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
+Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
+Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult mS\\
+Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
+\end{tabular}
+
+\end{minipage}
+}
+
+
+
+\end{figure}
+
+
+}
+}
 
 
 
