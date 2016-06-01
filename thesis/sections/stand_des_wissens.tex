@@ -21,6 +21,13 @@ In dieser Arbeit ist die Funktionsweise der ALU relevant. Wir wissen, dass die A
 \end{figure}
 
 \section{Aufbau des Linux Betriebssystem}
+Durch die Inspiration des Betriebssystem Minix, das von Andrew S. Tanenbaum für Ausbildungszwecke erstellt wurde, machte sich Linus Torvalds zum Ziel ein vollwertiges System neu zu schreiben. Im Jahr 1991 erschien die erste Linux Version 0.01\cite{ehses2011systemprogrammierung_chap2}. Die Aufgabe des Betriebsystemkern, der meistens nur einfach Kernel genannt wird, ist es eine Softwareschicht zwischen Hardware und Programme zu erstellen. Jedes Programm hat somit nicht ein direkten Zugriff auf die Hardware. Jedes Programm, dass Informationen der Hardware benötigt muss durch die Schicht des Kernels gehen. Die Kommunikation die durch Programm und Kernel besteht, werden Systemcalls genannt. Die unterschiedlichen Systemcalls sind im POSIX standardisiert\cite{ehses2011systemprogrammierung_chap2}. Zusätzlich erstellt der Kernel eine Art Abkapselung eines Programms. Dadurch können mehrere Programme gleichzeitig laufen ohne dass das eine Programm zugriff auf das andere hat. Der Kernel Verteilt die freien Ressourcen des CPU abwechslungsweise an die Programme. Dieses Verfahren heisst Multitasking und wurde seit den Anfängen unterstützt.
+\par
+Durch die Zusätzliche Softwareschicht der der Kernel bietet, müssen Programmiere ein Programm nicht für eine bestimmte Hardware schreiben, sondern für ein bestimmtes Betriebssystem. Dies ermöglicht eine höhere Portabilität eines Programm. Hardware wie Festplatten oder Netzwerkcontroller werden vom Kernel vereinheitlicht und dem Programm durch Systemcalls zur Verfügung gestellt.
+\par
+Kernelmodus/Usermodus ... + Abbildung
+
+
 
 
 \section{Unterschiede CISC und RISC CPUs}
