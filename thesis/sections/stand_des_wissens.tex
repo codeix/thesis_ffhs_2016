@@ -35,15 +35,22 @@ Durch die Zusätzliche Softwareschicht der der Kernel bietet, müssen Programmie
 \label{fig:kernel}
 \end{wrapfigure}
 
-Die \autoref{fig:kernel} zeigt wie die Unterschiedlichen Schichten miteinander kommunizieren. Eine Anwendung wird ausschliesslich im Benutzermodus(engl. User Space) ausgeführt. Durch Systemaufrufe werden anfragen an den Kernel geleitet. Trap ISR... 
-
-
+Die \autoref{fig:kernel} zeigt wie die Unterschiedlichen Schichten miteinander kommunizieren. Eine Anwendung wird ausschliesslich im Benutzermodus(engl. User Space) ausgeführt. Durch Systemaufrufe werden anfragen an den Kernel geleitet. Dabei findet ein Kontextwechsel statt vom unprivilegierter in den privilegierten Modus. Der unprivilegierter Modus bezeichnet den Benutzermodus in dem eine Applikation nur beschränkte Verfügbarkeit des Arbeitsspeicher und CPU Befehlssätze hat. Dies stellt sicher das eine Applikation gegenüber des Rest des System Abgekapselt betreiben wird und nicht ausbrechen kann. Nach dem Systemaufruf geht der Prozessor in den privilegierten Modus rüber und der Kernel trägt die Verantwortung die Anfrage im Kernelmodus (engl. Kernel Space) zu verarbeiten. Der Kernelmodus hat im Gegensatz zum Benutzermodus keine Einschränkungen und hat deswegen auch Zugang zur Hardware und Arbeitsspeicher. Der Kontextwechsel dient also dazu dass Programmcode der nicht zum Kernel gehört nur in einem unprivilegierten Modus ausgeführt werden kann.
 
 
 \section{Unterschiede CISC und RISC CPUs}
+
+Die Instruktionsarchitekturen der CPUs kann in zwei Gruppen unterteilt werden. Die CISC-Prozessoren (Custom Instruction Set Computer) mit sehr komplex und umfangreiche Instruktionsanweisungen und die RISC-Prozessoren (Reduced Instruction Set Computer) mit sehr primitive Instruktionsanweisungen.
+\par
+Der x86-Befehlssatz wurde durch den Intel 8086 Prozessor 1978 eingeführt und wurde somit zum Urvater moderne CISC-Prozessoren. Schon damals besitze dieser Prozessor ca. 120 Befehlssätze. Im Verlauf der Jahren zeichneten sich die CISC-Prozessoren mit immer mehr und komplexeren Befehlssätze aus. Dabei wurde immer beachtet das die Architektur, der neueren Modelle Rückwärtskompatibel, damit die Software ohne Anpassung auf neueren Prozessoren laufen kann. Die CISC-Architektur erlaubt es komplexe Instruktionen in einem Befehlssatz zu schreiben. Dabei wird der Befehlssatz von der CPU dekodiert und in einem oder mehreren Taktzyklen ausgeführt. Die Komplexität der Befehlssätze geht so weit das sogar Hardwareschleifen möglich werden. Ein anderes Merkmal der CISC-Prozessoren ist die geringe Anzahl der Register. Dafür kann ein Befehlssatz direkt die Anweisung haben, Daten von einer Speicherzelle im RAM zu einer andere zu transferiert ohne dabei auf ein Register angewiesen zu sein. Damit die immer komplexeren Befehlssätze dekodiert und in Instruktionen aufgeteilt werden können, besitzen die heutige CISC-Prozessoren sehr umfassende Steuerwerke. Allerdings bestehen die Steuerwerke nicht nur als Hardware Implementation, sondern besitzen teils innerhalb Microcode, die die Instruktionen an die ALU (Rechnerwerk) bilden kann.
+\par
+
+
+
 
 
 
 \section{Energy Storage in a Capacitor}
 
 
+Grundlage Technische Informatik Kap. Halbleitertechnik lesen!
