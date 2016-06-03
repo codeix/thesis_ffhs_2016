@@ -21,6 +21,9 @@ In dieser Arbeit ist die Funktionsweise der ALU relevant. Wir wissen, dass die A
 \end{figure}
 
 \section{Aufbau des Linux Betriebssystems}
+% Monolithische Systeme 
+% TRAP-Instruktion
+
 Durch die Inspiration des Betriebssystem Minix, das von Andrew S. Tanenbaum für Ausbildungszwecke erstellt wurde, machte sich Linus Torvalds zum Ziel ein vollwertiges System neu zu schreiben. Im Jahr 1991 erschien die erste Linux Version 0.01\cite{ehses2011systemprogrammierung_chap2}. Heute ist es ein weit verbreitetes Betriebssystem, dass im Bereich Desktop, Server, Smartphone und Embedded Systems angewendet wird.
 \par
 Die Aufgabe des Betriebssystemkern, der meistens nur einfach Kernel genannt wird, ist es eine Softwareschicht zwischen Hardware und Programme zu erstellen. Jedes Programm hat somit nicht ein direkten Zugriff auf die Hardware. Jedes Programm, dass Informationen der Hardware benötigt muss durch die Schicht des Kernels gehen. Die Kommunikation die durch Programm und Kernel besteht, werden Systemaufrufe (engl. Systemcalls) genannt. Die unterschiedlichen Systemaufrufe sind im POSIX standardisiert\cite{ehses2011systemprogrammierung_chap2}. Zusätzlich erstellt der Kernel eine Art Abkapselung eines Programms. Dadurch können mehrere Programme gleichzeitig laufen ohne dass das eine Programm zugriff auf das andere hat. Der Kernel Verteilt die freien Ressourcen des CPU abwechslungsweise an die Programme. Dieses Verfahren heisst Multitasking und wurde seit den Anfängen unterstützt.
@@ -49,6 +52,8 @@ Bis Mitte der Achtziger war man der Meinung, dass grössere Leistung durch kompl
 Patterson, David A. und Sequin, Carlo H. prägten Ende der achtziger Jahre den Begriff RISC \cite{Patterson:1981:RIR:800052.801895}. Obwohl Prozessoren mit einfacher Architektur bereits schon viel früher existierten, schon deswegen weil die Technik noch nicht sehr ausgereift war und die Prozessoren nur eine begrenzte Anzahl an Instruktionen verarbeiten konnten. RISC-Prozessoren Zeichnen sich durch eine Load-and-Store-Architektur, höhere Menge an Universelle-Registern und auf die Begrenzung auf die Elementarinstruktionen. Der Begriff "Load and Store" meint, dass Daten immer über Registern geladen und gespeichert werden müssen. Es ist also bei dieser Architektur nicht möglich die Daten von einer Speicherzelle im RAM zu einer andere zu transferieren ohne sie zuerst in einem Register zwischen zu speichern. Es benötigt bei diesem Vorgehen mindestens zwei Taktzyklen, den ersten zum Laden in einem Zwischenregister und den zweiten zum abspeichern in einer andere Speicherzelle. Durch die grössere Anzahl an Registern muss dafür ein RISC-Prozessor weniger auf dem Speicher zurückgreifen als ein CISC-Prozessor.
 \par
 Die frühere klassische Trennung der CISC- und RISC-Prozessoren wird immer wie kleiner. Die Entwicklung der CISC-Prozessoren hat sich stark nach den RISC-Prozessoren ausgerichtet. Da sie intern praktisch mit einer RISC-Struktur und einer hochentwickelten Vorverarbeitungsstufe ausgestattet sind. Bereits der Pentium Pro war mit einem RISC-Kern ausgestattet und die x86-Schnittstelle nach aussen, war so zu sagen ein vorgeschalteten x86-Emulator.
+
+
 
 
 
