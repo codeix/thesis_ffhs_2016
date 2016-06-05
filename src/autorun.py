@@ -104,7 +104,7 @@ def write(all_data, order, output):
                 for rep in range(REPEAT):
                     try:
                         t, a = data[rep]['values'][i]
-                        row.append(('time%s' % rep, t))
+                        row.append(('time%s' % rep, int(t) * 1000))
                         row.append(('amp%s' % rep, a))
                     except IndexError:
                         pass
