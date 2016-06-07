@@ -14,8 +14,12 @@
 \usepackage[section]{placeins}
 \usepackage{float}%
 \usepackage{verbatim}
-
-
+\usepackage{filecontents}
+\usepackage{siunitx}
+\sisetup{per=slash, load=abbr}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{width=7cm,compat=newest}
 
 \makeatother
 \hypersetup{
@@ -35,7 +39,7 @@
 % addional configuration from sam
 \shorthandoff{"}
 \input{lstset}
-
+\input{../template/custom-colors.tex}
 
 \dokumentTyp{Bachelor-Thesis}
 \studiengang{INF}
