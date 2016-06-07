@@ -5,18 +5,18 @@
 Die Daten wurden automatisiert, wie im \autoref{sec:automatisierung} beschrieben, aufgezeichnet und als Diagramme dargestellt. Die Resultate befinden sich im Anhang dieser Arbeit. Die Beschreibung zu den Daten sind wie folgt zu interpretieren:
 
 \begin{description}
-\item[Titel]
+\item[Titel:]
 Der Titel entspricht dem Benchmark das ausgeführt wurde. Der Name vordem Unterstrich ist auch der Befehlssatz, dass für den Benchmark verwendet worden ist. Wenn nach dem Unterstrich eine Zahl steht, definiert sie wie viele Bit das 32Bit-Register ausfüllt. Folglich steht z.B. für die Zahl 8 für die hexadezimale Zahl 0x000000FF.
-\item[Beschreibung]
+\item[Beschreibung:]
 Jeder Benchmark besitzt eine Beschreibung die unmittelbar nach dem Titel steht.
 \texttt{CSV-Datei} Die in kursiv geschriebene Datei definiert welche Daten für die Diagramme verwendet worden sind. Die Daten wurden im CSV-gespeichert und sind sind unter folgende URL zu finden: \url{https://github.com/codeix/thesis_ffhs_2016/tree/master/results}. Die Dateien sind entsprechend dem verwendeten Board in die Unterverzeichnisse \texttt{galileodata} und \texttt{raspberrydata} unterteilt. 
-\item[Diagramme]
+\item[Diagramme:]
 Die Daten sind als Liniendiagramm dargestellt. Jeder Benchmark wurde drei Mal ausgeführt, deswegen werden die Daten in drei Säulen dargestellt. Die Achsen wurden so ausgewählt, dass sie den Ausschnitt der relevanten Daten aufzeigen und möglichst viel Platz sparen.
-\item[Durchschnitt und Median]
+\item[Durchschnitt und Median:]
 In der selbe Säule des Diagramm sind die Werte des Durchschnitt und Median aufgeführt. Beschriftet sind sie auf Englisch mit \texttt{Average} und \texttt{Median}.
-\item[Durchlaufzeit]
+\item[Durchlaufzeit:]
 Mit \texttt{Exec time} ist die Durchlaufzeit des Benchmark in Millisekunden aufgeführt. Da dieser Wert direkt vom Benchmark stammt, ist er genauer als der im Diagramm (Die Amperemessung wurde mit einer separater Uhr im Multimeter aufgezeichnet).
-\item[Reihenfolge] Die Reihenfolge die mit \texttt{Exec order} bezeichnet ist, bestimmt in welche Folge die Daten aufgenommen worden sind. Die Benchmarks wurden nach einer Zufälliger Reihenfolge ausgeführt.
+\item[Reihenfolge:] Die Reihenfolge die mit \texttt{Exec order} bezeichnet ist, bestimmt in welche Folge die Daten aufgenommen worden sind. Die Benchmarks wurden nach einer Zufälliger Reihenfolge ausgeführt.
 
 \end{description}
 
@@ -24,8 +24,14 @@ Mit \texttt{Exec time} ist die Durchlaufzeit des Benchmark in Millisekunden aufg
 
 \section{Prüfung der Daten}
 
+Es ist wichtig die Daten nach der Richtigkeit zu prüfen. Um die Korrektheit unter Beweis zu stellen können Folgende Prüfkriterien erstellt werden.
+\par
+Als erstes wird der Verlauf der Daten, für jeden einzelnen Benchmark angeschaut. Während der Ausführung des Benchmark wurden ca. 200 Messungen vorgenommen. Diese sind auf einer Zeitachse und in einem Liniendiagramm dargestellt. Dabei kann man beobachten, dass sich die Linie gerade verläuft. Dies bestätigt, das der Benchmark einen wiederholender Ablauf ausführt und dadurch einen konstanten Stromverbrauch verursacht. Als zweiten Kriterium kann die drei Ausführungen eines einzelnen Benchmark gegenüber gestellt und Ausgewertet werden. Jeder Benchmark wurde drei Mal ausgeführt wobei die Reihenfolge aller Benchmarks zufällig war. Durch die Gegenüberstellung wird ersichtlich, dass sowohl Zeit wie auch der Median des Stromverbrauchs, mit Vorbehalt von Rundungsfehler, derselbe entspricht. Dies Beweist das innerhalb der selben Benchmarks keine Abweichung entstehen. Als letztes Prüfkriterium können die drei Benchmarks \texttt{nop}, \texttt{nop\_nop} und \texttt{nop\_nop\_nop} in Betracht gezogen werden. Der Benchmark \texttt{nop} ist eine leere Befehlszeile in einer Schlaufe. Er verbraucht bei der Ausführung ein CPU-Zyklus bei jedem Schlaufendurchlauf. Der Benchmark \texttt{nop\_nop} verbraucht zwei und der Benchmark \texttt{nop\_nop\_nop} drei CPU-Zyklen. Wird die Durchlaufszeit dieser drei Benchmarks Nebeneinander dargestellt, kann beobachtet werden, dass die Durchlaufzeit linear wächst. Durch diese Beobachtung kann man Prüfen wie viel Zeit ein CPU-Zyklus verwendet, wann man die Durchlaufzeit der Schlaufe abzählt. 
+
 
 \section{Auswertung der Resultate}
+
+
 
 \input{sections/diagrams/galileo_results}
 
