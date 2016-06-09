@@ -1,0 +1,95 @@
+\begin{filecontents}{dataset}
+Pos	Name	Bench1	Bench2	Bench3	Avg	time	energymWh
+1	nop	429	430	430	430	108112	82.1290826667
+2	nop\_nop	433	434	434	434	123559	94.7368039333
+3	nop\_nop\_nop	424	424	425	424	154447	115.6910994667
+4	sub\_0	429	429	429	429	108112	81.9380848
+5	sub\_32	435	435	435	435	108112	83.084072
+6	lsr\_0	429	430	430	430	108112	82.1290826667
+7	lsr\_32	435	436	435	435	108112	83.084072
+8	and\_0	429	429	429	429	108112	81.9380848
+9	or\_0	430	430	430	430	108112	82.1290826667
+10	or\_32	435	435	435	435	108112	83.084072
+11	xor\_0	435	435	435	435	108112	83.084072
+12	xor\_32	430	430	430	430	108112	82.1290826667
+13	add\_0	429	430	429	429	108113	81.9388427
+14	add\_32	435	435	434	435	108113	83.0848405
+15	sadd16\_0	434	434	434	434	108113	82.8938408667
+16	sadd16\_8	435	435	436	435	108113	83.0848405
+17	sadd8\_8	432	432	431	432	123555	94.297176
+18	lsl\_0	434	434	434	434	123556	94.7345037333
+19	and\_32	427	427	427	427	123556	93.2065278667
+20	sadd8\_0	432	433	434	433	123557	94.5169864333
+21	lsl\_32	436	436	436	436	123557	95.1718385333
+22	mul\_32	430	430	430	430	123558	93.862894
+23	mul\_0	425	425	425	425	123559	92.7722158333
+\end{filecontents}
+
+
+\begin{figure}[htb] 
+    \centering
+    \begin{tikzpicture} 
+        \begin{axis}[
+            ybar,
+            scale only axis,
+            xlabel= Benchmarks,
+            width = 0.85\textwidth,
+            height = 0.5\textwidth,
+            ylabel= Stromverbrauch in mA,
+            y axis line style=blau_2b!100!black,
+            % height = 80mm,
+            ymin = 420,
+            ymax = 440,
+            xmin = 0,
+            xmax = 24,
+            bar width = 2mm,
+            axis x line* = bottom,
+            axis y line* = left,
+            xticklabel style={rotate=90},
+            xticklabels from table = {dataset}{Name},
+            xtick = {1,...,23},
+            bar shift = -1mm,
+            y tick label style = {/pgf/number format/use comma},
+            legend style = {at={(0.5, 1.025)}, anchor = south east, legend columns = -1, draw=none, area legend},
+            area legend,
+            extra y ticks ={420},
+            extra y tick style = {grid=none, yticklabel style={yshift=2.5mm, xshift=1.9mm, rotate=0, inner sep=.5pt}},
+            extra y tick labels = {\includegraphics{almost_equals.eps}}
+            ]
+            \addplot+[mark=none, fill=blau_2a, draw = blau_2b] table[x=Pos, y=Avg, fill=red] {dataset};
+            \legend{Stromverbrauch}
+        \end{axis} 
+        \begin{axis}[
+            ybar,
+            scale only axis,
+            y axis line style=gruen_4b!100!black,
+            width = 0.85\textwidth,
+            height = 0.5\textwidth,
+            axis y line* = right,
+            axis x line = none,
+            ylabel = Durchlaufszeit in mS,
+            % height = 80mm,
+            xmin = 0,
+            xmax = 24,
+            ymin = 0,
+            xticklabel style={rotate=90},
+            xticklabels from table = {dataset}{Name},
+            xtick = {1,...,23},
+            ymax = 164447,
+            ymin = 87112,
+            bar width = 2mm,
+            bar shift = 1mm,
+            legend style = {at={(0.5, 1.025)}, anchor = south west, legend columns = -1, draw=none, area legend},
+            area legend,
+            extra y ticks ={87112},
+            extra y tick style = {grid=none, yticklabel style={yshift=2.5mm, xshift=-1.6mm, rotate=0, inner sep=.5pt}},
+            extra y tick labels = {\includegraphics{almost_equals.eps}},
+            ]
+            \addplot+[mark=none,  fill=gruen_4a, draw = gruen_4b,] table[x=Pos, y=time] {dataset};
+            \legend{Durchlaufszeit}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Ausführung aller Benchmarks auf dem Raspberry PI}
+    \label{fig:benchmarks_rasp}
+\end{figure}
+
