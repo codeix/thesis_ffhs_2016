@@ -26,7 +26,26 @@ Mit \texttt{Exec time} ist die Durchlaufzeit des Benchmark in Millisekunden aufg
 
 Es ist wichtig die Daten nach der Richtigkeit zu prüfen. Um die Korrektheit unter Beweis zu stellen können Folgende Prüfkriterien erstellt werden.
 \par
-Als erstes wird der Verlauf der Daten, für jeden einzelnen Benchmark angeschaut. Während der Ausführung des Benchmark wurden ca. 200 Messungen vorgenommen. Diese sind auf einer Zeitachse und in einem Liniendiagramm dargestellt. Dabei kann man beobachten, dass sich die Linie gerade verläuft. Dies bestätigt, das der Benchmark einen wiederholender Ablauf ausführt und dadurch einen konstanten Stromverbrauch verursacht. Als zweiten Kriterium kann die drei Ausführungen eines einzelnen Benchmark gegenüber gestellt und Ausgewertet werden. Jeder Benchmark wurde drei Mal ausgeführt wobei die Reihenfolge aller Benchmarks zufällig war. Durch die Gegenüberstellung wird ersichtlich, dass sowohl Zeit wie auch der Median des Stromverbrauchs, mit Vorbehalt von Rundungsfehler, derselbe entspricht. Dies Beweist das innerhalb der selben Benchmarks keine Abweichung entstehen. Als letztes Prüfkriterium können die drei Benchmarks \texttt{nop}, \texttt{nop\_nop} und \texttt{nop\_nop\_nop} in Betracht gezogen werden. Der Benchmark \texttt{nop} ist eine leere Befehlszeile in einer Schlaufe. Er verbraucht bei der Ausführung ein CPU-Zyklus bei jedem Schlaufendurchlauf. Der Benchmark \texttt{nop\_nop} verbraucht zwei und der Benchmark \texttt{nop\_nop\_nop} drei CPU-Zyklen. Wird die Durchlaufszeit dieser drei Benchmarks Nebeneinander dargestellt, kann beobachtet werden, dass die Durchlaufzeit linear wächst. Durch diese Beobachtung kann man Prüfen wie viel Zeit ein CPU-Zyklus verwendet, wann man die Durchlaufzeit der Schlaufe abzählt. 
+Als erstes wird der Verlauf der Daten, für jeden einzelnen Benchmark angeschaut. Während der Ausführung des Benchmark wurden ca. 200 Messungen vorgenommen. Diese sind auf einer Zeitachse und in einem Liniendiagramm dargestellt. Dabei kann man beobachten, dass sich die Linie gerade verläuft. Dies bestätigt, das der Benchmark einen wiederholender Ablauf ausführt und dadurch einen konstanten Stromverbrauch verursacht. Als zweiten Kriterium kann die drei Ausführungen eines einzelnen Benchmark gegenüber gestellt und Ausgewertet werden. Jeder Benchmark wurde drei Mal ausgeführt wobei die Reihenfolge aller Benchmarks zufällig war. Durch die Gegenüberstellung wird ersichtlich, dass sowohl Zeit wie auch der Median des Stromverbrauchs, mit Vorbehalt von Rundungsfehler, derselbe entspricht. Dies Beweist das innerhalb der selben Benchmarks keine Abweichung entstehen. Als letztes Prüfkriterium können die drei Benchmarks \texttt{nop}, \texttt{nop\_nop} und \texttt{nop\_nop\_nop} in Betracht gezogen werden. Der Benchmark \texttt{nop} ist eine leere Befehlszeile in einer Schlaufe. Er verbraucht bei der Ausführung ein CPU-Zyklus bei jedem Schlaufendurchlauf. Der Benchmark \texttt{nop\_nop} verbraucht zwei und der Benchmark \texttt{nop\_nop\_nop} drei CPU-Zyklen. Wird die Durchlaufszeit dieser drei Benchmarks Nebeneinander dargestellt, kann beobachtet werden, dass die Durchlaufzeit linear wächst. Durch diese Beobachtung kann man Prüfen wie viel Zeit ein CPU-Zyklus verwendet, wann man die Durchlaufzeit der Schlaufe abzählt.
+\par
+Das letzte Kriterium kann durch eine einfache Rechnung unter Beweis gestellt werden. Die beiden Benchmarks \texttt{nop} und \texttt{nop\_nop} besteht aus einer Schlaufe und einem oder zwei leeren Befehlssätze. Durch eine Subtraktion der beiden erhalten wir die Durchlaufzeit des leeren Befehlssatz. Also genau einen CPU-Zyklus mal die Anzahl der Schlaufendurchläufe. Durch eine Inter- und Extrapolation kann man überprüfen ob es sich mit der Prozessortaktfrequenz des Herstellers übereinstimmt. Die Taktfrequenz des Galileo Board Beträgt 400 MHz. Über die Kommandozeile mit dem Befehl \texttt{lscpu} kann der genau Wert heraus gelesen werden, der mit 399.076MHz ein wenig tiefer liegt.
+
+\[ \left(\frac{t_2-t_1}{n}\right)^{-1} =  \left(\frac{(145'292-129'147)/1'000}{6'442'450'944}\right)^{-1} \approx 399'000'000 \]
+
+Diese Berechnung kann nicht für jede Architektur eines CPU verwendet werden. Wird die selbe Berechnung auf einem ARM Prozessor mit 700MHz eines RaspberryPI Board angewendet bekommt man eine Zahl die etwa doppelt so hoch ist als die Taktfrequenz.
+\[ \left(\frac{t_2-t_1}{n}\right)^{-1} =  \left(\frac{(123'559-108'112)/1'000}{21'474'836'480}\right)^{-1} \approx 1'390'000'000 \]
+Werden die drei Benchmarks \texttt{nop}, die auf den RaspberryPI Board angewendet worden sind gegenüberstellt, kann man beobachten das sie sich nicht Linear vergrössern. Dies liegt daran, dass moderne CPUs interne Optimierungen besitzen. So werden Befehlssätze wenn möglich parallel ausgeführt. Die Anzahl über die genau verwendeten Zyklen ist sehr schwer berechenbar. Dies zeigt auch folgendes Zitat aus der Dokumentation von ARM für den ARM1176JZF-S Prozessor.
+
+\begin{quotation}
+Complex instruction dependencies and memory system interactions make it impossible to
+describe briefly the exact cycle timing of all instructions in all circumstances.
+\par
+...
+\par
+ If precise timings are required you must use a cycle-accurate model of the processor.
+\cite{arm_datasheet}
+\end{quotation}
+
 
 
 \section{Auswertung der Resultate}
