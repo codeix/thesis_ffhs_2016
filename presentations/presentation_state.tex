@@ -1,0 +1,134 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{Madrid}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{serif}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\usepackage[english]{babel}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{textpos}
+
+
+\usepackage{verbatim}
+\usepackage{filecontents}
+\usepackage{siunitx}
+\sisetup{per=slash, load=abbr}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{width=7cm,compat=newest}
+\usepackage[autostyle=true,german=quotes]{csquotes}
+
+\input{../template/custom-colors.tex}
+
+
+\lstset
+{
+    language=[LaTeX]TeX,
+    breaklines=true,
+    basicstyle=\tt\scriptsize,
+    %commentstyle=\color{green}
+    keywordstyle=\color{blue},
+    %stringstyle=\color{black}
+    identifierstyle=\color{magenta},
+}
+
+\renewcommand{\rmdefault}{phv} % Arial
+\renewcommand{\sfdefault}{phv} % Arial
+
+\setbeamertemplate{frametitle}[default][center]
+
+\addtobeamertemplate{frametitle}{}{%
+\begin{textblock*}{100mm}(.88\textwidth,-.87cm)
+\includegraphics[height=0.8cm,width=1.3cm]{ffhslogo}
+\end{textblock*}}
+
+
+\addtobeamertemplate{frametitle}{}{%
+\begin{textblock*}{100mm}(-.02\textwidth,-.9cm)
+\includegraphics[height=1.5cm,width=1.5cm]{chip}
+\end{textblock*}}
+
+
+\title[Energie in der Informatik]{Stand der Thesis}
+\author{Samuel Riolo}
+\institute{FFHS}
+\date{18. Juli 2016}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+\begin{frame}{Outline}
+\frametitle{Inhaltsverzeichnis}
+    \tableofcontents[]
+\end{frame}
+
+
+
+\section{Um was geht es in k{\"u}rze} 
+\begin{frame}
+\frametitle{Um was geht es in k{\"u}rze} 
+\begin{itemize}
+\item Energieverbrauch pro Befehlssatz
+\item Erstellung eines Benchmarks
+\item Befehlssatz x-mal ausführen und Strommessen
+\end{itemize}
+
+
+\begin{figure}
+  \includegraphics[width=200px,height=120px]{iot_galileo.png}
+\end{figure}	
+
+\end{frame}
+
+
+\section{Struktur ToDo} 
+\begin{frame}
+\frametitle{ToDo}
+\begin{itemize}
+\item Idee und Zielsetzung (Stichworte sind vorhanden und muss noch in Sätze gefasst werden)
+\item Unterkapitel Ziele für die Energieeinsparung 2050
+\item Unterkapitel Strom-Landung und -Entladung innerhalb eines Transistors
+\item Kapitel Resultate fertigstellen
+\item Fazit mit Diskussion erstellen
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Resultate in Roh­form} 
+\Huge Präsentation: Diagramme im Anhang
+\end{frame}
+
+\section{Struktur Resultate}
+\begin{frame}
+\frametitle{Resultate} 
+\begin{minipage}{0.8\textwidth}
+
+\input{../thesis/sections/diagrams/galileo_results.tex}
+\end{minipage}
+\end{frame}
+
+
+
+
+
+\end{document}
+
