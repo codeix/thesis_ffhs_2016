@@ -37,13 +37,12 @@ Diese Berechnung kann nicht für jede Architektur eines CPU verwendet werden. Wi
 Werden die drei Benchmarks \texttt{nop}, die auf den RaspberryPI Board angewendet worden sind gegenüberstellt, kann man beobachten das sie sich nicht Linear vergrössern. Dies liegt daran, dass moderne CPUs interne Optimierungen besitzen. So werden Befehlssätze wenn möglich parallel ausgeführt. Die Anzahl über die genau verwendeten Zyklen ist sehr schwer berechenbar. Dies zeigt auch folgendes Zitat aus der Dokumentation von ARM für den ARM1176JZF-S Prozessor.
 
 \begin{quotation}
-Complex instruction dependencies and memory system interactions make it impossible to
-describe briefly the exact cycle timing of all instructions in all circumstances.
+\enquote{Complex instruction dependencies and memory system interactions make it impossible to
+describe briefly the exact cycle timing of all instructions in all circumstances.}
 \par
 ...
 \par
- If precise timings are required you must use a cycle-accurate model of the processor.
-\cite{arm_datasheet}
+\enquote{ If precise timings are required you must use a cycle-accurate model of the processor.\cite{arm_datasheet}}
 \end{quotation}
 
 
