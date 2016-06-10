@@ -65,6 +65,7 @@ class PeakTech2015(object):
                 continue
             value = abs(int(stream.decode()[:5]))
             if self.value_buffer is not None:
+                value = float(value)/10
                 self.value_buffer.append((time.time() - self.starttime, value))
                 time.sleep(READ_TIME_INTERVAL)
 
