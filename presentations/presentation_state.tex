@@ -20,6 +20,7 @@
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{textpos}
+\usepackage{pdfpages}
 
 
 \usepackage{verbatim}
@@ -65,7 +66,7 @@
 \title[Energie in der Informatik]{Stand der Thesis}
 \author{Samuel Riolo}
 \institute{FFHS}
-\date{18. Juli 2016}
+\date{18. Juni 2016}
 
 
 \begin{document}
@@ -82,13 +83,13 @@
 
 
 
-\section{Um was geht es in k{\"u}rze} 
+\section{Um was geht es -- in K{\"u}rze} 
 \begin{frame}
-\frametitle{Um was geht es in k{\"u}rze} 
+\frametitle{Um was geht es -- in K{\"u}rze} 
 \begin{itemize}
 \item Energieverbrauch pro Befehlssatz
 \item Erstellung eines Benchmarks
-\item Befehlssatz x-mal ausführen und Strommessen
+\item Befehlssatz x-mal ausführen und Strom messen
 \end{itemize}
 
 
@@ -99,13 +100,13 @@
 \end{frame}
 
 
-\section{Struktur ToDo} 
+\section{ToDo} 
 \begin{frame}
 \frametitle{ToDo}
 \begin{itemize}
-\item Idee und Zielsetzung (Stichworte sind vorhanden und muss noch in Sätze gefasst werden)
-\item Unterkapitel Ziele für die Energieeinsparung 2050
-\item Unterkapitel Strom-Landung und -Entladung innerhalb eines Transistors
+\item Idee und Zielsetzung (Stichworte sind vorhanden, muss jedoch noch in Sätze gefasst werden)
+\item Unterkapitel: Ziele für die Energieeinsparung 2050
+\item Unterkapitel: Strom-Ladung und -Entladung innerhalb eines Transistors
 \item Kapitel Resultate fertigstellen
 \item Fazit mit Diskussion erstellen
 \end{itemize}
@@ -117,7 +118,7 @@
 \Huge Präsentation: Diagramme im Anhang
 \end{frame}
 
-\section{Struktur Resultate}
+\section{Resultate}
 \begin{frame}
 \frametitle{Resultate} 
 \begin{minipage}{0.8\textwidth}
@@ -127,7 +128,15 @@
 \end{frame}
 
 
+\IfFileExists{../../../ResearchPoster.pdf}{%
+\section{Research Poster}
 
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{background canvas}{\includegraphics[height = \paperheight, 
+                                      width = \paperwidth, scale=0.06]{../../../ResearchPoster.pdf}}
+\begin{frame}[plain]
+\end{frame}
+}
 
 
 \end{document}
