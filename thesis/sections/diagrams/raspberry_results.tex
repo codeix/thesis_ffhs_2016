@@ -1,28 +1,28 @@
 \begin{filecontents}{dataset}
-Pos	Name	Bench1	Bench2	Bench3	Avg	time	energymWh
-1	nop	429	430	430	430	108112	82.1290826667
-2	nop\_nop	433	434	434	434	123559	94.7368039333
-3	nop\_nop\_nop	424	424	425	424	154447	115.6910994667
-4	sub\_0	429	429	429	429	108112	81.9380848
-5	sub\_32	435	435	435	435	108112	83.084072
-6	lsr\_0	429	430	430	430	108112	82.1290826667
-7	lsr\_32	435	436	435	435	108112	83.084072
-8	and\_0	429	429	429	429	108112	81.9380848
-9	or\_0	430	430	430	430	108112	82.1290826667
-10	or\_32	435	435	435	435	108112	83.084072
-11	xor\_0	435	435	435	435	108112	83.084072
-12	xor\_32	430	430	430	430	108112	82.1290826667
-13	add\_0	429	430	429	429	108113	81.9388427
-14	add\_32	435	435	434	435	108113	83.0848405
-15	sadd16\_0	434	434	434	434	108113	82.8938408667
-16	sadd16\_8	435	435	436	435	108113	83.0848405
-17	sadd8\_8	432	432	431	432	123555	94.297176
-18	lsl\_0	434	434	434	434	123556	94.7345037333
-19	and\_32	427	427	427	427	123556	93.2065278667
-20	sadd8\_0	432	433	434	433	123557	94.5169864333
-21	lsl\_32	436	436	436	436	123557	95.1718385333
-22	mul\_32	430	430	430	430	123558	93.862894
-23	mul\_0	425	425	425	425	123559	92.7722158333
+Pos	Name	Bench1	Bench2	Bench3	time1	time2	time3	medbench	medtime	energymWh
+1	nop	439	439.6	439.6	123555	123556	123556	439.6	123556	77.8518118933
+2	nop\_nop	431.1	431.5	431.8	154444	154445	154445	431.5	154445	95.5216584167
+3	nop\_nop\_nop	424.2	424.3	424.1	154447	154446	154446	424.2	154446	93.90625692
+4	add\_0	435.3	435.5	435.5	123556	123556	123556	435.5	123556	77.1257144667
+5	add\_32	438.4	438.6	438.7	108112	108112	108113	438.6	108112	67.96568992
+6	sadd8\_0	429.3	429.5	429.5	123556	123555	123555	429.5	123555	76.06251725
+7	sadd8\_8	437.7	437.6	437.6	123556	123555	123555	437.6	123555	77.4969908
+8	sadd16\_0	434.9	434.7	434.9	123556	123556	123556	434.9	123556	77.0194563067
+9	sadd16\_8	432.2	432.5	432.4	108112	108110	108112	432.4	108112	67.0049346133
+10	sub\_0	435	434	434	123557	123555	123556	434	123556	76.8600690667
+11	sub\_32	431.9	431.8	432.2	108111	108112	108112	431.9	108112	66.9274543467
+12	lsr\_0	437.8	438	437.7	123556	123555	123555	437.8	123555	77.5324099
+13	lsr\_32	438.6	438.8	438.7	108110	108112	108112	438.7	108112	67.9811859733
+14	lsl\_0	438.5	438.7	438.7	108112	108112	108112	438.7	108112	67.9811859733
+15	lsl\_32	429.8	429.8	430.2	123556	123556	123555	429.8	123556	76.1162619467
+16	mul\_0	427.9	428.1	428.3	123558	123557	123557	428.1	123557	75.81581077
+17	mul\_32	434.1	434.1	433.8	123559	123559	123560	434.1	123559	76.87964539
+18	and\_0	434.7	434.9	435.2	123556	123554	123556	434.9	123556	77.0194563067
+19	and\_32	438.5	438.6	438.5	108111	108112	108111	438.5	108111	67.94956535
+20	or\_0	438.8	438.7	438.8	123555	123554	123554	438.8	123554	77.7088764533
+21	or\_32	432.5	432.7	432.7	108112	108112	108113	432.7	108112	67.0514227733
+22	xor\_0	429.4	429.4	429.3	123555	123555	123555	429.4	123555	76.0448077
+23	xor\_32	432.2	432.5	432.6	108113	108112	108110	432.5	108112	67.0204306667
 \end{filecontents}
 
 
@@ -38,7 +38,7 @@ Pos	Name	Bench1	Bench2	Bench3	Avg	time	energymWh
             ylabel= Stromverbrauch in mA,
             y axis line style=blau_2b!100!black,
             % height = 80mm,
-            ymin = 420,
+            ymin = 415,
             ymax = 440,
             xmin = 0,
             xmax = 24,
@@ -52,11 +52,12 @@ Pos	Name	Bench1	Bench2	Bench3	Avg	time	energymWh
             y tick label style = {/pgf/number format/use comma},
             legend style = {at={(0.5, 1.025)}, anchor = south east, legend columns = -1, draw=none, area legend},
             area legend,
-            extra y ticks ={420},
+            extra y ticks ={415},
+            ytick  = {420, 425, ...,440},
             extra y tick style = {grid=none, yticklabel style={yshift=2.5mm, xshift=1.9mm, rotate=0, inner sep=.5pt}},
             extra y tick labels = {\includegraphics{almost_equals.eps}}
             ]
-            \addplot+[mark=none, fill=blau_2a, draw = blau_2b] table[x=Pos, y=Avg, fill=red] {dataset};
+            \addplot+[mark=none, fill=blau_2a, draw = blau_2b] table[x=Pos, y=medbench, fill=red] {dataset};
             \legend{Stromverbrauch}
         \end{axis} 
         \begin{axis}[
@@ -76,16 +77,16 @@ Pos	Name	Bench1	Bench2	Bench3	Avg	time	energymWh
             xticklabels from table = {dataset}{Name},
             xtick = {1,...,23},
             ymax = 164447,
-            ymin = 87112,
+            ymin = 92112,
             bar width = 2mm,
             bar shift = 1mm,
             legend style = {at={(0.5, 1.025)}, anchor = south west, legend columns = -1, draw=none, area legend},
             area legend,
-            extra y ticks ={87112},
+            extra y ticks ={92112},
             extra y tick style = {grid=none, yticklabel style={yshift=2.5mm, xshift=-1.6mm, rotate=0, inner sep=.5pt}},
             extra y tick labels = {\includegraphics{almost_equals.eps}},
             ]
-            \addplot+[mark=none,  fill=gruen_4a, draw = gruen_4b,] table[x=Pos, y=time] {dataset};
+            \addplot+[mark=none,  fill=gruen_4a, draw = gruen_4b,] table[x=Pos, y=medtime] {dataset};
             \legend{Durchlaufszeit}
         \end{axis}
     \end{tikzpicture}
