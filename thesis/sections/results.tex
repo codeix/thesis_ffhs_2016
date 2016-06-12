@@ -49,6 +49,10 @@ describe briefly the exact cycle timing of all instructions in all circumstances
 
 \section{Auswertung der Resultate}
 
+Um eine Aussage zu machen welcher Benchmark und der damit verbundener Befehlssatz mehr Energie verbraucht. Wurden die sie in einem Balkendiagramm gegenüber gestellt. Diese sind für das Galileo Board in \autoref{fig:benchmarks_galileo} und für das Raspberry in \autoref{fig:benchmarks_rasp} ersichtlich. Aus der Erhebung der Daten die im \autoref{sec:automatisierung} beschrieben sind, bekommt man die Durchlaufszeit und Stromverbrauch jedes einzelnen Benchmark. Beide CPU-Architekturen auf denen die Benchmarks ausgeführt wurden, haben unterschiedliche Durchlaufzeiten für jeweils einen Befehlssatz der getestet wird. Der Energieverbrauch entspricht der Leistung mal die beanspruchte Zeit. Die Darstellung der Balkendiagramme wurde Absichtlich so gewählt, dass Leistung und Durchlaufzeit ersichtlich sind. Jeder Benchmark wurde drei Mal ausgeführt, um die Leistung zu bestimmen wurde der Medien der Benchmark berechnet und durch die Spannung des Spannungsregler multipliziert. Um den gewünschten EPI, also Energieverbrauch pro Befehlssatz zu Berechnen, sind zwei weitere Schritte notwendig die in den Diagrammen nicht mehr ersichtlich sind. Als erster Schritt, muss die Energie Berechnet werden. Die Energie berechnet sich durch die Leistung mal die Zeit die ein Benchmark benötigt hat um durch zu laufen. Man erhält den Energie verbrauch pro Benchmark. Der Benchmark besteht aber aus einer Schlaufe der einen bestimmten Befehlssatz mehrere Milliarden Male ausführt. Um die Energie pro Befehlssatz zu bestimmen muss als letzter Schritt die gesamt Energie durch die Anzahl Durchläufe des Benchmark dividiert werden. Die folgende Formel zeigt die Berechnung des EPI.
+
+\[ \frac{Strom * Spannung * Zeit}{Anzahl Durchläufe} = EPI \]
+
 
 
 \input{sections/diagrams/galileo_results}
@@ -56,6 +60,8 @@ describe briefly the exact cycle timing of all instructions in all circumstances
 
 \input{sections/diagrams/raspberry_results}
 
+
+\section{Auswertung der Resultate}
 
 
 

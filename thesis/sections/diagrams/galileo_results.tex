@@ -1,31 +1,31 @@
 \begin{filecontents}{dataset}
-Pos	Name	Bench1	Bench2	Bench3	time1	time2	time3	medbench	medtime	energymWh
-1	nop	431.9	432	432	129147	129147	129147	432	129147	79.9678224
-2	nop\_nop	430.2	430.4	430.3	145291	145291	145291	430.3	145291	89.6101614633
-3	nop\_nop\_nop	431	431.1	431.1	161435	161434	161434	431.1	161434	99.75168294
-4	addl\_0	431.4	431.7	431.5	145292	145291	145291	431.5	145291	89.8600619833
-5	addl\_32	435.3	435.2	435.5	145291	145291	145291	435.3	145291	90.65141363
-6	and\_0	431.4	432.1	431.2	145291	145291	145292	431.4	145291	89.83923694
-7	and\_32	434.9	435.2	435.3	145291	145291	145291	435.2	145291	90.6305885867
-8	xor\_0	432.8	432.8	433.5	177578	177579	177579	432.8	177579	110.16054072
-9	subl\_0	432.7	432.6	432.9	177578	177578	177578	432.7	177578	110.1344675267
-10	inc\_8	433.1	432.9	432.8	177579	177579	177579	432.9	177579	110.18599371
-11	xor\_32	432.7	432.9	433.1	177578	177578	177578	432.9	177578	110.18537322
-12	or\_32	427.9	427.3	427.4	226008	226008	226008	427.4	226008	138.45400752
-13	subl\_32	429.7	429.5	429.9	226008	226008	226008	429.7	226008	139.19908056
-14	dec\_8	436.4	435.6	435.7	145292	145291	145291	435.7	145291	90.7347138033
-15	or\_0	433.8	434.4	434.6	161434	161434	161434	434.4	161434	100.51526576
-16	shr\_0	434.7	435.2	435.1	145292	145291	145291	435.1	145291	90.6097635433
-17	shr\_32	428.6	429.7	430.6	145291	145291	145292	429.7	145291	89.4852112033
-18	shl\_0	436	435.3	434.9	145291	145291	145291	435.3	145291	90.65141363
-19	shl\_32	429.8	431.2	431.4	145291	145291	145291	431.2	145291	89.7975868533
-20	imull\_0	432.5	431.5	431.5	145291	145292	145292	431.5	145292	89.8606804667
-21	imull\_32	434.2	435	435	145291	145292	145291	435	145291	90.5889385
+Pos	Name	Bench1	Bench2	Bench3	time1	time2	time3	medbench	medtime	energymWh	power
+1	nop	431.9	432	432	129147	129147	129147	432	129.147	79.9678224	2.74752
+2	nop\_nop	430.2	430.4	430.3	145291	145291	145291	430.3	145.291	89.6101614633	2.736708
+3	nop\_nop\_nop	431	431.1	431.1	161435	161434	161434	431.1	161.434	99.75168294	2.741796
+4	addl\_0	431.4	431.7	431.5	145292	145291	145291	431.5	145.291	89.8600619833	2.74434
+5	addl\_32	435.3	435.2	435.5	145291	145291	145291	435.3	145.291	90.65141363	2.768508
+6	and\_0	431.4	432.1	431.2	145291	145291	145292	431.4	145.291	89.83923694	2.743704
+7	and\_32	434.9	435.2	435.3	145291	145291	145291	435.2	145.291	90.6305885867	2.767872
+8	xor\_0	432.8	432.8	433.5	177578	177579	177579	432.8	177.579	110.16054072	2.752608
+9	subl\_0	432.7	432.6	432.9	177578	177578	177578	432.7	177.578	110.1344675267	2.751972
+10	inc\_8	433.1	432.9	432.8	177579	177579	177579	432.9	177.579	110.18599371	2.753244
+11	xor\_32	432.7	432.9	433.1	177578	177578	177578	432.9	177.578	110.18537322	2.753244
+12	or\_32	427.9	427.3	427.4	226008	226008	226008	427.4	226.008	138.45400752	2.718264
+13	subl\_32	429.7	429.5	429.9	226008	226008	226008	429.7	226.008	139.19908056	2.732892
+14	dec\_8	436.4	435.6	435.7	145292	145291	145291	435.7	145.291	90.7347138033	2.771052
+15	or\_0	433.8	434.4	434.6	161434	161434	161434	434.4	161.434	100.51526576	2.762784
+16	shr\_0	434.7	435.2	435.1	145292	145291	145291	435.1	145.291	90.6097635433	2.767236
+17	shr\_32	428.6	429.7	430.6	145291	145291	145292	429.7	145.291	89.4852112033	2.732892
+18	shl\_0	436	435.3	434.9	145291	145291	145291	435.3	145.291	90.65141363	2.768508
+19	shl\_32	429.8	431.2	431.4	145291	145291	145291	431.2	145.291	89.7975868533	2.742432
+20	imull\_0	432.5	431.5	431.5	145291	145292	145292	431.5	145.292	89.8606804667	2.74434
+21	imull\_32	434.2	435	435	145291	145292	145291	435	145.291	90.5889385	2.7666
 \end{filecontents}
 
 
 
-\begin{figure}[htb] 
+\begin{figure}[t] 
     \centering
     \begin{tikzpicture} 
         \begin{axis}[
@@ -35,10 +35,10 @@ Pos	Name	Bench1	Bench2	Bench3	time1	time2	time3	medbench	medtime	energymWh
             width = 0.85\textwidth,
             height = 0.5\textwidth,
             y axis line style=blau_2b!100!black,
-            ylabel= Stromverbrauch in mA,
+            ylabel= Leistungsvbrauch in W,
             % height = 80mm,
-            ymin = 425,
-            ymax = 440,
+            ymin = 2.688264,
+            ymax = 2.801052,
             xmin = 0,
             xmax = 22,
             bar width = 2mm,
@@ -51,12 +51,12 @@ Pos	Name	Bench1	Bench2	Bench3	time1	time2	time3	medbench	medtime	energymWh
             y tick label style = {/pgf/number format/use comma},
             legend style = {at={(0.5, 1.025)}, anchor = south east, legend columns = -1, draw=none, area legend},
             area legend,
-            extra y ticks ={425},
+            extra y ticks ={2.688264},
             extra y tick style = {grid=none, yticklabel style={yshift=2.5mm, xshift=1.9mm, rotate=0, inner sep=.5pt}},
             extra y tick labels = {\includegraphics{almost_equals.eps}}
             ]
-            \addplot+[mark=none, fill=blau_2a, draw = blau_2b] table[x=Pos, y=medbench, fill=red] {dataset};
-            \legend{Stromverbrauch}
+            \addplot+[mark=none, fill=blau_2a, draw = blau_2b] table[x=Pos, y=power, fill=red] {dataset};
+            \legend{Leistungsverbrauch}
         \end{axis} 
         \begin{axis}[
             ybar,
@@ -74,13 +74,13 @@ Pos	Name	Bench1	Bench2	Bench3	time1	time2	time3	medbench	medtime	energymWh
             xticklabel style={rotate=90},
             xticklabels from table = {dataset}{Name},
             xtick = {1,...,21},
-            ymax = 246008,
-            ymin = 109147,
+            ymax = 246.008,
+            ymin = 109.147,
             bar width = 2mm,
             bar shift = 1mm,
             legend style = {at={(0.5, 1.025)}, anchor = south west, legend columns = -1, draw=none, area legend},
             area legend,
-            extra y ticks ={109147},
+            extra y ticks ={109.147},
             extra y tick style = {grid=none, yticklabel style={yshift=2.5mm, xshift=-1.6mm, rotate=0, inner sep=.5pt}},
             extra y tick labels = {\includegraphics{almost_equals.eps}},
             ]
