@@ -48,6 +48,7 @@ describe briefly the exact cycle timing of all instructions in all circumstances
 
 
 \section{Auswertung der Resultate}
+\label{sec:auswertung_resultate}
 
 Um eine Aussage zu machen welcher Benchmark und der damit verbundener Befehlssatz mehr Energie verbraucht. Wurden die sie in einem Balkendiagramm gegenüber gestellt. Diese sind für das Galileo Board in \autoref{fig:benchmarks_galileo} und für das Raspberry in \autoref{fig:benchmarks_rasp} ersichtlich. Aus der Erhebung der Daten die im \autoref{sec:automatisierung} beschrieben sind, bekommt man die Durchlaufszeit und Stromverbrauch jedes einzelnen Benchmark. Beide CPU-Architekturen auf denen die Benchmarks ausgeführt wurden, haben unterschiedliche Durchlaufzeiten für jeweils einen Befehlssatz der getestet wird. Der Energieverbrauch entspricht der Leistung mal die beanspruchte Zeit. Die Darstellung der Balkendiagramme wurde Absichtlich so gewählt, dass Leistung und Durchlaufzeit ersichtlich sind. Jeder Benchmark wurde drei Mal ausgeführt, um die Leistung zu bestimmen wurde der Medien der Benchmark berechnet und durch die Spannung des Spannungsregler multipliziert. Um den gewünschten EPI, also Energieverbrauch pro Befehlssatz zu Berechnen, sind zwei weitere Schritte notwendig die in den Diagrammen nicht mehr ersichtlich sind. Als erster Schritt, muss die Energie Berechnet werden. Die Energie berechnet sich durch die Leistung mal die Zeit die ein Benchmark benötigt hat um durch zu laufen. Man erhält den Energie verbrauch pro Benchmark. Der Benchmark besteht aber aus einer Schlaufe der einen bestimmten Befehlssatz mehrere Milliarden Male ausführt. Um die Energie pro Befehlssatz zu bestimmen muss als letzter Schritt die gesamt Energie durch die Anzahl Durchläufe des Benchmark dividiert werden. Die folgende Formel zeigt die Berechnung des EPI.
 
@@ -61,8 +62,16 @@ Um eine Aussage zu machen welcher Benchmark und der damit verbundener Befehlssat
 \input{sections/diagrams/raspberry_results}
 
 
-\section{Auswertung der Resultate}
+\section{Beobachtung}
 
+Betrachtet man die Durchlaufzeit wird ersichtlich das sie Stufen auf einer Ratioskala bilden. Die Intervalle können als CPU-Zyklus erklärt werden, dabei nimmt ein CPU-Zyklus immer gleich viel Zeit in Anspruch. Aus den Stufen die die Durchlaufzeit wiedergibt, ist es möglich Kategorien zu bilden und ein Befehlssatz ein, zwei oder mehrere CPU-Zyklen zu zuteilen. Je nach Prozessor Architektur und Komplexität des Befehlssatz, benötigt es für die Abarbeitung mehrere CPU-Zyklen. Dazu kommt, dass moderne Prozessoren fähig sind mehrere Befehlssätze gleichzeitig auf einem Single-Core auszuführen. Wobei sehr komplexe Kriterien erfühlt sein müssen, die vom Hersteller nicht immer gegeben sind.
+\par
+Wie bereits im \autoref{sec:auswertung_resultate} ist die Energie eine Zusammensetzung von Leistung und Zeit. Die Zeit stellt eigentlich den grössten Stromverbraucher dar. Denn die Leistungsunterschiede innerhalb einer Zyklen-Kategorie ist vernachlässigbar klein gegen über einer Höheren Kategorie.
+\par
+Innerhalb ähnliche Zyklen-Kategorien wie z.B. die Daten vom Raspberry Board \texttt{add\_0} und \texttt{add\_32} oder die vom Galileo Board \texttt{addl\_0} und \texttt{addl\_32} zeigen die durchaus einen Messbaren Leistungsunterschied. Es geht hervor, dass das Galileo Board einen grösseren Leistungsverbrauch einer Addition mit grösseren Zahlen als mit kleineren hat. Beim Raspberry Board ist diese Beobachtung gerade umgekehrt. Um die Ursache zu finden müsste an dieser Stelle weitere Forschung angestrebt werden.
+\par
+Wird der Fokus auf beide Benchmark \texttt{add\_32} und \texttt{sadd16\_8} gelegt die auf dem Raspberry Board ausgeführt wurden. Kann man erkennen,  dass eine die Additionsoperation die parallel zwei Mal eine Zahl von 16-Bit rechnen kann, weniger Leistung in Anspruch nimmt als die Additionsoperation für eine 32-Bit Zahl. Wäre es also möglich für Zahlen bis zu einer Grösse von 16-Bit, konsequent die Assemblerinstruktion \texttt{sadd16} anstelle von \texttt{add} zu wählen, ergäbe es sich womöglich ein Sparpotenzial. Die beide Benchmarks haben je ein Verbrauch von 2.263W und 2.231W. Das Ersparnispotenzial wäre also 32mW oder ca. 1.4\%. Dabei ist aber zu Beachten, dass das Ersparnis erst bei 21 Milliarden Durchläufe erreicht wird. Was allerdings je nach Anwendung schnell erreicht ist, wenn z.B. an die Pixelberechnung eines Bild denkt.
+\par
 
 
 
