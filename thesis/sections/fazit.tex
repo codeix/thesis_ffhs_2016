@@ -1,8 +1,6 @@
 \chapter{Fazit}
 
-Im Bezug auf die Umwelt und das streben nach einer Energieeinsparung, zeigt diese Arbeit, dass es möglich ist einzelne Befehlssätze zu messen und auszuwerten. Es zeigt aber auch wie unterschiedlich die Verschiedene Architekturen sind und wie sie sich deshalb die Benchmarks komplett anderes auswirken. Es ist anzunehmen, dass die erzeugten Daten der Benchmarks nur für ein CPU-Typ gültig sind und es nicht möglich ist eine Schlussfolgerung auf andere CPUs, der selben Modellreihe zu schliessen. Somit bleibt eine Verallgemeinerung im Bezug auf den Leistungsverbrauch der Befehlssätze aus. Die Arbeit zeigt auch, dass grosse Differenzen existieren innerhalb eines Befehlssatz. Dabei spielt es eine grosse Rolle welche Zahlen eine Operation behandeln muss, wie grosse die zu behandelten Wortbreite ist oder in welchen Reihenfolge Befehlssätze durchlaufen müssen. Um ein Versuch einer Verallgemeinerung auf einer einzelne Hardware zu erstellen, müssten viel grössere Mengen an Benchmarks durchgeführt werden. Damit möglichst jeder Fall abgedeckt wird und sich daraus eine Verallgemeinerung aus dieser hohe Komplexität der Gestaltung der Befehlssätze erstellen würde. Eine andere Möglichkeit, ist ein bestimmten Algorithmus in einer Applikation zu Optimieren und dafür geeignete Benchmarks erstellen. Dieses Vorgehen hätte den Vorteil, dass man sich nicht auf eine aufwändige Verallgemeinerung stützt, sondern sich auf eine bestimmte stelle im Programmcode der Applikation konzentriert. Die Optimierung würde dort statt finden wo vorhersehbar ist, dass ein Programm an einer bestimmter Stelle sehr viele Male durchläuft.
-\par
-% Best Case scenario
+Im Bezug auf die Umwelt und das streben nach einer Energieeinsparung, zeigt diese Arbeit, dass es möglich ist einzelne Befehlssätze zu messen und auszuwerten. Es zeigt aber auch wie unterschiedlich die Verschiedene Architekturen sind und wie sie sich deshalb die Benchmarks komplett anderes ausgewirkt haben. Es ist anzunehmen, dass die erzeugten Daten der Benchmarks nur für ein CPU-Typ gültig sind und es nicht möglich ist eine Schlussfolgerung auf andere CPUs, der selben Modellreihe zu schliessen. Somit bleibt eine Verallgemeinerung im Bezug auf den Leistungsverbrauch der Befehlssätze aus. Die Arbeit zeigt auch, dass grosse Differenzen existieren innerhalb eines Befehlssatz. Dabei spielt es eine grosse Rolle welche Zahlen eine Operation behandeln muss, wie grosse die zu behandelten Wortbreite ist oder in welchen Reihenfolge Befehlssätze durchlaufen müssen. Um ein Versuch einer Verallgemeinerung auf einer einzelne Hardware zu erstellen, müssten viel grössere Mengen an Benchmarks durchgeführt werden. Damit möglichst jeder Fall abgedeckt wird und sich daraus eine Verallgemeinerung aus dieser hohe Komplexität der Gestaltung der Befehlssätze erstellen würde. Eine andere Möglichkeit, ist ein bestimmten Algorithmus in einer Applikation zu Optimieren und dafür geeignete Benchmarks erstellen. Dieses Vorgehen hätte den Vorteil, dass man sich nicht auf eine aufwändige Verallgemeinerung stützt, sondern sich auf eine bestimmte stelle im Programmcode der Applikation konzentriert. Die Optimierung würde dort statt finden wo vorhersehbar ist, dass ein Programm an einer bestimmter Stelle sehr viele Male durchläuft.
 
 \par
 % Best Performance decrease cpu cycles
@@ -11,7 +9,35 @@ Die grösste Energieeinsparung erhält man wann man Befehlssätze verwendet, die
 Bei allen Optimierungen bleibt die Frage offen, ob es für einen Energie verschwenderischen Befehlssatz sich eine gleichwertige alternative finden lässt. Diese Frage hängt sehr stark nach der Anforderung des Programmcode ab. Es ist durchaus denkbar das zweifache eines Wert durch eine Multiplikation oder durch eine binäre Verschiebung mit dem selben Resultat zu erreichen. Falls die Wortlänge nicht 16 Bit überschreitet könnte anstelle des Befehlssatz \texttt{add} auch \texttt{sadd16} für die Erzeugung des selben Resultates verwendet werden. Es ist also möglich alternative Befehlssätze zu finden, es verlangt aber sehr starke engineering Arbeit und muss für jeden Anwendungsfall individuell gelöst werden.
 
 
+\par
+Um eine Ahnung zu erhalten wie weit die Energieersparnis, bei optimierte Algorithmen liegt, kann man eine einfache Theorie aufstellen. Wird die grösste Differenz des Energieverbrauch zweier Benchmarks genommen, erhält man einen ungefähren Wert wo das Potenzial liegen könnte. Dabei muss beachtet werden dass, die Anzahl der Durchläufe auf dem zu optimierenden Algorithmus entsprechend Hochgerechnet werden muss. Dieser Wert bleibt nur ein theoretischer Wert, denn wie bereits erwähnt muss ein alternativer Befehlssatz gefunden werden. Die Werte in \autoref{fig:energysave_table} wurden anhand der Bestehenden Benchmarks\footnote{Siehe Tabelle im Anhang. Kap. 1.2 und Kap.2.2. Die \texttt{nop} Benchmarks wurden ausgeschlossen} erstellt, es ist Wahrscheinlich, dass durch eine höhere Anzahl an Benchmarks grössere Differenzen gefunden werden können.
 
+
+\begin{figure}[H]
+\center
+\begin{tabular}{ |l|l|l|l| }
+\hline
+Board & Min/Max (mW/h) & Durchläufe & Differenz (mW/h) \\ \hhline{|=|=|=|=|}
+\multirow{2}{*}{Galileo} & 89.5 & \multirow{2}{*}{$\approx$6.4 Mrd.} & \multirow{2}{*}{49.7} \\ 
+ & 139.2 & &  \\ \hline
+\multirow{2}{*}{Raspberry} & 66.9 & \multirow{2}{*}{$\approx$21.4 Mrd.} & \multirow{2}{*}{10.8} \\ 
+ & 77.7 & &  \\
+\hline
+\end{tabular}
+\caption{Theoretische Energieeinsparung}
+\label{fig:energysave_table}
+\end{figure}
+
+% pro kontra
+\par
+Ein Vorteil der in dieser Arbeit verwendeter Messmethode liegt darin, dass die Benchmarks durch Assemblercode geschrieben werden können. Dadurch lässt es sich, mit grosser Freiheit, exakt definierte Benchmarks erstellen und später analysieren. Die Kontrolle des Ablaufs eines Benchmarks liegt stets beim Programmierer. Rückschlüsse auf das Verhalten eines Benchmarks können mittels Dokumentation, Beobachtung und Analyse vollzogen werden. Die Rückschlüsse erfordern zum teil sehr viel Zeitaufwand. Die Benchmarks innerhalb eines Kernelmodul zu starten hat sich als sehr gut geeignet erwiesen. Mit dieser Methode kann der CPU durch ein Linux-Betriebssystem gestartet werden bis vor und nach der Ausführung des Benchmarks kann das Betriebssystem vollumfänglich benützt werden. Nachteilig ist das Aufwändige aufsetzen der Entwicklungsumgebung für die Erstellung der Benchmarks. Da es sich um ein Kernel handelt, müssen während der Kompilierung die Linux-Headers vorhanden sein. Werden die Benchmarks cross-compiliert, dies heisst sie werden auf einem anderen Computer mit einem unterschiedlichen Betriebssystem kompiliert, müssen die Linux-Header vorbereitet werden. Für die Vorbereitung muss der passende Kernel kompiliert und mit den richtigen Flags konfiguriert werden. Für das Raspberry Board muss sogar ein spezieller GCC verwendet werden. Ist einmal die Entwicklungsumgebung hergestellt, können die Benchmarks sehr schnell erstellt werden. Der Sourcecode ist so aufgebaut das sich die Benchmarks nur durch eine Konfigurationsdatei definieren lassen und das ganze Softwaregerüst drum­he­r­um automatisch gebaut wird und anschliessend kompiliert wird. Die automatisierter Messung hat sich während der Arbeit Positiv ausgewirkt. So können effizient eine grosse Mengen an Benchmarks durchlaufen werden. Die Automatisierung ermöglicht es auf Einfacherweise die Benchmarks mehrfach auszuführen und auf ein wiederholtes Resultat zu prüfen.
+
+
+Messung am 
+
+
+
+Da die Dokumentation der Hersteller nicht immer Aufschluss geben. Gut beschrieben ist die obere Schnittstelle der Hardware. Feine Details sind zum Teil nicht dokumentiert, bla bla bullshit
 
 
 
