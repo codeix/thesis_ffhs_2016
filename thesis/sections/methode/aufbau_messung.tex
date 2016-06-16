@@ -11,16 +11,21 @@ Der Aufbau der Messmethode basiert auf Softwareinterrupts. Dafür wurde ein eige
 \par
 Ein Interrupt zwingt den Linux Kernel, vom Benutzermodus in den Kernelmodus zu wechseln\cite{Mandl2010_3}. Beim Wechsel werden alle laufenden Prozesse zwischengespeichert, angehalten und anschliessend wird eine Interrupt-Service-Routine (ISR) aufgerufen. Genau diese Eigenschaft wird für den Aufbau der Messmethode verwendet. Denn während der Ausführung der ISR sind alle Prozesse angehalten und können den Benchmark, der sich in der ISR befindet, nicht unterbrechen. Somit wird sichergestellt, dass nur der Benchmark ausgeführt wird und dieser die vollen Ressourcen des CPU bekommt, bis er fertig ist.
 \par
-Interrupts sind dafür gemacht, sofort verarbeitet zu werden. Ein kleines Beispiel soll dies veranschaulichen. Der Benutzer eines Computers drückt eine Taste auf der Tastatur. Dadurch produziert er ein Hardware-Interrupt. Der aktuelle Prozess wird gespeichert und angehalten. Der Kernel stellt über eine Vektor-Tabelle fest, um welchen Interrupt es sich handelt und führt die passende ISR aus, die zur Verarbeitung der gedrückten Tasten dient. Die ISR besteht aus einem sehr kurzem Programmcode (Microcode). In diesem Fall speichert der Programmcode die gedrückte Taste im RAM und gibt die Ressourcen wieder frei. Der letzte Prozess wird danach, falls er nicht bereits fertig war, weitergeführt. Die Interrupts sind nötig, um die Daten am Zeitpunkt des Geschehens zu verarbeiten.
-\par
-\autoref{fig:Interrupt} stellt die unterschiedlichen Interrupts und den Ablauf nach einem eingehenden Interrupt dar. Die Hardware-Interrupts\footnote{Je nach Literatur, Sprache oder Betriebssystem werden unterschiedliche Fachausdrücke verwendet. Der Kontext bleibt aber derselbe.} wurden bereits oben beschrieben. Die "Exception / Trap" sind Interrupts, die die CPU selber produziert. Ein Beispiel für ein solches Interrupt ist "Divisions by Zero", dabei probiert man eine Zahl durch Null zu teilen. Die Messmethode in dieser Arbeit stützt sich auf Software-Interrupts. Software-Interrupts werden als Systemcall bezeichnet, die häufig verwendet werden, um durch einen Kontextwechsel eine Aufgabe dem Kernel zu übergeben. Beim Kontextwechsel wird vom unprivilegierten Ring (Benutzermodus) in den privilegierten Ring (Kernelmodus) gewechselt. Dadurch kann auf Befehlssätze und Speicheradressen zugegriffen werden, was im Benutzermodus nicht möglich wäre, ohne unsicheren Code ausführen zu müssen. Systemcalls werden als ISR im selben Kontext ausgeführt wie Interrupts.
 
-\begin{figure}[H]
+\begin{wrapfigure}{l!}{0.5\textwidth}
 \centering
-\includegraphics[width=1.0\textwidth]{images/interrupt_ea.pdf}
+\includegraphics[scale=0.45]{images/interrupt_ea.pdf}
 \caption{Interrupt}
 \label{fig:Interrupt}
-\end{figure}
+\end{wrapfigure}
+
+Interrupts sind dafür gemacht, sofort verarbeitet zu werden. Ein kleines Beispiel soll dies veranschaulichen. Der Benutzer eines Computers drückt eine Taste auf der Tastatur. Dadurch produziert er ein Hardware-Interrupt. Der aktuelle Prozess wird gespeichert und angehalten. Der Kernel stellt über eine Vektor-Tabelle fest, um welchen Interrupt es sich handelt und führt die passende ISR aus, die zur Verarbeitung der gedrückten Tasten dient. Die ISR besteht aus einem sehr kurzem Programmcode (Microcode). In diesem Fall speichert der Programmcode die gedrückte Taste im RAM und gibt die Ressourcen wieder frei. Der letzte Prozess wird danach, falls er nicht bereits fertig war, weitergeführt. Die Interrupts sind nötig, um die Daten am Zeitpunkt des Geschehens zu verarbeiten.
+\par
+
+\autoref{fig:Interrupt} stellt die unterschiedlichen Interrupts und den Ablauf nach einem eingehenden Interrupt dar. Die Hardware-Interrupts\footnote{Je nach Literatur, Sprache oder Betriebssystem werden unterschiedliche Fachausdrücke verwendet. Der Kontext bleibt aber derselbe.} wurden bereits oben beschrieben. Die "Exception / Trap" sind Interrupts, die die CPU selber produziert. Ein Beispiel für ein solches Interrupt ist "Divisions by Zero", dabei probiert man eine Zahl durch Null zu teilen. Die Messmethode in dieser Arbeit stützt sich auf Software-Interrupts. Software-Interrupts werden als Systemcall bezeichnet, die häufig verwendet werden, um durch einen Kontextwechsel eine Aufgabe dem Kernel zu übergeben. Beim Kontextwechsel wird vom unprivilegierten Ring (Benutzermodus) in den privilegierten Ring (Kernelmodus) gewechselt. Dadurch kann auf Befehlssätze und Speicheradressen zugegriffen werden, was im Benutzermodus nicht möglich wäre, ohne unsicheren Code ausführen zu müssen. Systemcalls werden als ISR im selben Kontext ausgeführt wie Interrupts.
+
+
+
 
 \section{Starten des Benchmarks über procfs}
 
@@ -28,8 +33,8 @@ Der Benchmark wurde in Form eines Kernelmoduls für ein Linux Betriebssystem geb
 \par
 Das \texttt{procfs} oder \texttt{proc filesystem} genannte Filesystem erstellt eine Schnittstelle zwischen dem Benutzermodus und dem Kernelmodus. Es ist ein virtuelles Filesystem, das unter der Verzeichnisstruktur \texttt{/proc} gemountet wurde\cite{mauerer2010professional}. Die Dateien, die sich darin befinden, sind Pseudofiles. Sie sind virtuell, weil sie nicht physisch existieren und somit auch nicht auf ein Medium gespeichert werden können. Beim Schreiben beziehungsweise Lesen werden die Informationen dem Kernel weitergegeben, verarbeitet und die Informationen werden zum Lesen bereitgestellt. Weil das Verhalten der Schnittstelle den Eigenschaften einer Datei entspricht, können für die Lese- und Schreiboperationen, die Linux-Standardwerkzeuge verwendet werden.
 
-
 \lstset{language=bash}
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[label={list:read_procfs},caption={Lesen im procfs}]
 sriolo@desktop ~ $ cat /proc/uptime 
 571433.06 1229766.89
@@ -37,15 +42,20 @@ sriolo@desktop ~ $ cat /proc/uptime
 \begin{lstlisting}[label={list:write_procfs},caption={Schreiben im procfs}]
 sriolo@desktop ~ $ echo 1 > /proc/sys/net/ipv4/conf/default/forwarding
 \end{lstlisting}
+\end{minipage}
+
 
 Im ersten Beispiel \autoref{list:read_procfs} wird aus der Datei \texttt{uptime} gelesen. Dabei wird durch ein Systemcall die Betriebszeit gerechnet und zurückgegeben. Das folgende, zweite Beispiel \autoref{list:write_procfs} zeigt, wie in einer Datei geschrieben werden kann. Dabei wird dem Kernel mitgeteilt, dass er das IP-Forwarding einschalten soll. Ein ähnlicher Aufbau hat das \texttt{sys filesystem}. Die Kommunikation ist dabei schwieriger, weil das Design für Menschen nicht lesbar ist, sondern lediglich für Programme im Benutzermodus. Im Gegensatz dazu kann das \texttt{procfs} mit den Standard-Werkzeugen im ASCII-Format gelesen und geschrieben werden.
 \par
 Das \texttt{procfs} ist an dieser Stelle wichtig, weil der Benchmark im Kernelmodus laufen muss. Durch den Befehl \texttt{cat} auf die entsprechende Datei des Benchmarks startet im Kernelmodus der Ablauf für die Messung und gibt die verwendete Zeit als Ausgabe an. Das folgende Beispiel in \autoref{list:start_benchmark} zeigt wie der Benchmark gestartet wird und der CPU durch eine Addieroperation ausgelastet wird.
 
+\lstset{language=bash}
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[label={list:start_benchmark},caption={Starten des Benchmark}]
 root@galileo ~ $ cat /proc/benchmark/addl_32
 321
 \end{lstlisting}
+\end{minipage}
 
 
 \section{Aufbau der Software für die Messung}
@@ -64,6 +74,8 @@ Der Grundbau der Software wurde mit der Programmiersprache C geschrieben. Der Ke
 
 Durch einen Systemcall, der über das \texttt{procfs} ausgelöst wird, wird der Benchmark gestartet. Da sich in der Software mehrere Benchmarks befinden, muss zuerst einer dieser Benchmarks ermittelt werden. An dieser Stelle werden durch die Funktion \texttt{local\_irq\_save} alle weiteren Interrupts geblockt. Die Startzeit wird ermittelt und zwischengespeichert. Das Programm wechselt zum eigentlichen Benchmark, der in Assembler geschrieben ist. Ist der Assembler-Teil abgearbeitet, wird die Zeit errechnet, die zur Durchführung des Benchmarks verwendet worden ist. Durch den Aufruf der Funktion \texttt{local\_irq\_restore} wird die Blockierung von weiteren Interrupts wieder freigeben. Als letztes wird die beanspruchte Zeit in den Systemcall zurückgeliefert.
 
+
+\begin{minipage}{\linewidth}
 \lstset{language=[x64]Assembler}
 \begin{lstlisting}[label={list:asm_benchmark},caption={Benchmark in Assembler}]
 benchmark_imull_zero:
@@ -79,6 +91,8 @@ loop_benchmark_imull_zero:
   ldmfd    sp!, {r0-r5}
   bx  lr
 \end{lstlisting}
+\end{minipage}
+
 
 In der \autoref{list:asm_benchmark} ist der Assemblercode aufgeführt, der die CPU über einen längeren Zeitraum mit der Rechenoperation $0*0$ stresst. Die \autoref{list:asm_benchmark} dient als Beispiel für die Grundstruktur eines Benchmarks. Auf dieser basieren dann die unterschiedlichen Benchmarks, die je einen Befehlssatz beinhalten, der mit den anderen verglichen werden kann. Der Prozessor startet bei Zeile 1 und im nächsten Schritt werden alle Register \texttt{r1} bis \texttt{r5} im RAM auf einen Stack gelegt. Das Register \texttt{r1} wird mit $2^{31}$ gefüllt. Dieses dient dazu, später eine Schlaufe zu erzeugen. In Zeile 4 und 5 wird der Benchmark auf die Rechenoperation vorbereitet, wobei \texttt{r3} und \texttt{r4} auf null gesetzt werden. Der Prozessor geht nun auf die wichtigste Zeile, die Nummer 7. An dieser Stelle befindet sich die Multiplikationsoperation, die eine Veränderung des Energieverbrauchs erzeugt und diesen misst. Nach der Abarbeitung wird der Index im Register \texttt{r1} um eins dekrementiert und anschliessend wird überprüft, ob der Index bereits null erreicht hat. Falls der Index noch nicht auf null ist, wird ein Programmsprung auf Zeile 7 erzeugt und die Schleife noch einmal wiederholt. Falls der Index null erreicht hat, wird der Programmsprung nicht erzeugt und dies führt zu einem Austritt aus der Schleife. Die Register \texttt{r1} bis \texttt{r5}, die am Anfang auf den Stack gelegt wurden, werden aus dem RAM geholt und wiederhergestellt. Damit ist das Assemblerprogramm am Ende.
 \par
