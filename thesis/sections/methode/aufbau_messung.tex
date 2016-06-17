@@ -73,6 +73,20 @@ Der Grundbau der Software wurde mit der Programmiersprache C geschrieben. Der Ke
 
 
 Durch einen Systemcall, der über das \texttt{procfs} ausgelöst wird, wird der Benchmark gestartet. Da sich in der Software mehrere Benchmarks befinden, muss zuerst einer dieser Benchmarks ermittelt werden. An dieser Stelle werden durch die Funktion \texttt{local\_irq\_save} alle weiteren Interrupts geblockt. Die Startzeit wird ermittelt und zwischengespeichert. Das Programm wechselt zum eigentlichen Benchmark, der in Assembler geschrieben ist. Ist der Assembler-Teil abgearbeitet, wird die Zeit errechnet, die zur Durchführung des Benchmarks verwendet worden ist. Durch den Aufruf der Funktion \texttt{local\_irq\_restore} wird die Blockierung von weiteren Interrupts wieder freigeben. Als letztes wird die beanspruchte Zeit in den Systemcall zurückgeliefert.
+\par
+Die Grösse der Schleife die in Assembler geschrieben worden ist, ist durch ihre Anzahl begrenzt. Beide Boards haben eine 32Bit-Architektur. Die maximale Anzahl der Durchläufe sind also durch die Wortbreite von 32Bit begrenzt. Aus diesem Grund wird ein einfacher Trick angewendet, damit die Messung eines Benchmarks über eine längere Zeit gemessen werden kann. Um den Assembler-Code wird eine Vorschleife gelegt. Diese Vorschleife verlängert die Ausführung des Benchmarks um das drei- bis zehnfache. Die genau Durchgänge pro Board sind in \autoref{fig:benchmark_loop_size} einsehbar. Die Auswirkung der Vorschleife auf das Messresultat kann vernachlässigt werden. Da die Vorschleife um ein X-Fache kleiner ist als die Endschleife und sich somit kaum auf Ergebnis auswirken kann.
+
+\begin{figure}[H]
+\center
+\begin{tabular}{ |l|l|l|l| }
+\hline
+Board & Vorschleife (C) & Endschleife (Assembler) & Total \\ \hhline{|=|=|=|=|}
+Galileo & 3 & 2147483648 & $\approx$6.4 Mrd.  \\ \hline
+Raspberry & 10 & 2147483648 & $\approx$21.4 Mrd. \\ \hline
+\end{tabular}
+\caption{Anzahl Durchläufe eines zu testender Befehlssatz}
+\label{fig:benchmark_loop_size}
+\end{figure}
 
 
 
