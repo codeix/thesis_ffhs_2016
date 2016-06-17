@@ -75,6 +75,7 @@ Der Grundbau der Software wurde mit der Programmiersprache C geschrieben. Der Ke
 Durch einen Systemcall, der über das \texttt{procfs} ausgelöst wird, wird der Benchmark gestartet. Da sich in der Software mehrere Benchmarks befinden, muss zuerst einer dieser Benchmarks ermittelt werden. An dieser Stelle werden durch die Funktion \texttt{local\_irq\_save} alle weiteren Interrupts geblockt. Die Startzeit wird ermittelt und zwischengespeichert. Das Programm wechselt zum eigentlichen Benchmark, der in Assembler geschrieben ist. Ist der Assembler-Teil abgearbeitet, wird die Zeit errechnet, die zur Durchführung des Benchmarks verwendet worden ist. Durch den Aufruf der Funktion \texttt{local\_irq\_restore} wird die Blockierung von weiteren Interrupts wieder freigeben. Als letztes wird die beanspruchte Zeit in den Systemcall zurückgeliefert.
 
 
+
 \begin{minipage}{\linewidth}
 \lstset{language=[x64]Assembler}
 \begin{lstlisting}[label={list:asm_benchmark},caption={Benchmark in Assembler}]
