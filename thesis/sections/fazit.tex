@@ -7,10 +7,14 @@ Im Bezug auf die Umwelt und das streben nach einer Energieeinsparung, zeigt dies
 \section{Bestimmung des EPI}
 \label{sec:bestimmung_grundenergie}
 
-Ein Benchmark besteht aus einer Schleife die ein gewünschter Befehlssatz eine hohe Anzahl wiederholt wird, damit dieser im Bezug auf die Energie gemessen werden kann. Um den Energieverbrauch eines einzelnen Befehlssatz (EPI) zu bestimmen, muss die Anzahl der Schleifendurchläufe durch die gesamte Energie geteilt werden. Das Problem liegt daran, dass die Schleife selbst eine gewisse Energie Aufweist die dem Endresultat abgezogen werden muss. Die Grundenergie der Schleife zu messen zeichnet sich als sehr schwierig aus. Eine Möglichkeit ist eine Benchmark zu erstellen der kein zu testender Befehlssatz beinhaltet und dieser als Referenz zur Bestimmung der Grundenergie zu benutzen. Es müssen aber etliche Versuche statt finden um zu beweisen, dass es sich wirklich um die Grundenergie der Schleife handelt und zur Berechnung der EPI verwendet werden darf.
+Aus den Resultaten wurde der EPI aus Grund der aufwendige Schritte nicht bis zum Schluss berechnet. Die Rückschlüsse konnten auch ohne EPI gemacht werden. Ein Benchmark besteht aus einer Schleife die ein gewünschter Befehlssatz eine hohe Anzahl wiederholt wird, damit dieser im Bezug auf die Energie gemessen werden kann. Um den Energieverbrauch eines einzelnen Befehlssatz (EPI) zu bestimmen, muss die Anzahl der Schleifendurchläufe durch die gesamte Energie geteilt werden. Das Problem liegt daran, dass die Schleife selbst eine gewisse Energie Aufweist die dem Endresultat abgezogen werden muss. Die Grundenergie der Schleife zu messen zeichnet sich als sehr schwierig aus. Dafür können zwei Ansätze weiterverfolgt werden:
+\begin{description}
+\item[Ansatz 1:]
+Es wird ein Benchmark erstellt der kein zu testender Befehlssatz beinhaltet und dieser als Referenz zur Bestimmung der Grundenergie zu benutzen. Es müssen aber etliche Versuche statt finden um zu beweisen, dass es sich wirklich um die Grundenergie der Schleife handelt und zur Berechnung der EPI verwendet werden darf.
 \par
+\item[Ansatz 2:]
 Ein Andere Ansatz sind die Benchmarks gegen übereinander zu vergleichen ohne dem genaue EPI zu berechnen. Grundsätzlich reicht bereits die Information aus, dass ein Befehlssatz sparsamer ist als ein anderer. Angenommen ein Benchmark besteht aus $x_1 + b + x_2$ und mit $x_1 + a + x_2$ der Vergleichsbenchmark. Mit $x_1$ und $x_2$ wir der Verbrauch der Schleife bestimmt der anfangs und ende der Schleife produziert wird. Man kann davon ausgehen, dass der Energieverbrauch der Schleife in beiden Benchmarks gleich hoch ist. Mit $a$ und $b$ wird die Energie des Befehlssatz innerhalb der Schleife bestimmt. So lässt es sich sagen, dass ein Benchmark gegenüber sein Vergleichsbenchmark $(x_1 + b + x_2) - (x_1 + a + x_2) = b - a$ ist. So kann ein Energieersparnis bestimmt werden, wenn eines Befehlssatz aus einem Algorithmus durch ein alternativ Befehlssatz ausgewechselt wird.
-
+\end{description}
 
 
 \section{Einfluss der CPU-Zyklen auf die Energie}
