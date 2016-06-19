@@ -52,35 +52,5 @@ Die automatisierter Messung hat sich während der Arbeit Positiv ausgewirkt. So 
 Die Messung am Eingang des Board vorzunehmen, heisst dass die gesamte Leistung dessen gemessen wird und eine Grundleistung der umliegende Komponente im Resultat enthalten sein wird. Die Grundleistung einzubeziehen kann als wünschenswert oder störend erachtet werden, da es darauf ankommt was man als Endresultat erreichten will. Die hier ausgeführten Benchmarks wurden nicht direkt am CPU gemessen und dadurch erhält man die effektive Leistung, dass der Prozessor und die Umliegende Komponente benötigen. Wird die gesamte Leistung gemessen können die Umliegende Komponente Schwankungen verursachen, in dem sie die Messung durch unkontrollierbares Verhalten verfälschen. Auf SoC sind diese Komponente sehr klein und durch eine mehrfache Messung konnte gezeigt werden dass diese kaum die Messung beeinflussen. Auf grössere Systeme, wie bereits ein PC oder ein Server sind Festplatten, Lüfter oder Kommunikationsschnittstellen, verbaut. Deshalb muss überprüft werden wie gross diese Komponente auf die Messung Einflussnehmen. Gegebenenfalls müssten solche während der Messung deaktiviert oder entfernt werden. Für den reinen Leistungsverbrauch des CPU zu bestimmen, muss ein Weg gefunden werden die Messung direkt an dieser Vorzunehmen. Dabei könnte die Messung über eine thermische Kamera erfolgen. Die Methodik wurde in der Arbeit "Measuring Power and Temperatur from Real Prozessor"\cite{measuring_power_temperature,} von Francisco J. Mesa-Martinez,  Michael Brown, Joesph  Nayfach-Battilana und Jose Renau beschrieben.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-%Da die Dokumentation der Hersteller nicht immer Aufschluss geben. Gut beschrieben ist die obere Schnittstelle der Hardware. Feine Details sind zum Teil nicht dokumentiert, bla bla bullshit
-
-
-
-
-
-
-
-
-
-%Vergleich mit ähnliche Papers (z.B. Energiemessung durch thermische Kamera)
-%Das Resultat in Sätze gefasst
-
-
-
-
-
-
-
-
+\section{Abschliessendes Fazit}
+Aus der Diskussion wird gezeigt, dass sich die Messmethodik mit den Benchmarks sowie die dazugehörige Automatisierung gut geeignet hat, weil so effizient Resultate erzielt werden konnte. Es zeigte sich dass für ein Verallgemeinerung der Aussage, wie viel Energie ein Befehlssatz braucht, viel grössere Menge an Benchmarks erstellt werden muss. Weil dies unter Berücksichtigung, des CPU-Typ und dessen Architektur, Grösse des Operand und Anzahl der CPU-Zyklus das ein Befehlssatz benötigt, erfolgen muss. Die Energieersparnis eines einzelnen Befehlssatz ist sehr klein. Deshalb sind Algorithmen ideal die eine hohe Durchlaufzahl an der selbe stelle im Sourcecode aufweisen, so lässt sich auch Punktuell optimieren und nur einen bestimmten Bereich analysieren. Die grösste Einsparung erhält man wenn man Befehlssätze anwendet die eine niedrige Anzahl an CPU-Zyklen aufweisen. Ein Energieersparnis kann für ein Algorithmus durch Optimierte Befehlssätze erzielt werden, wenn dafür Alternative Befehlssätze gefunden werden können.
