@@ -128,3 +128,4 @@ Da die Grundstruktur des Benchmarks für jede Messung immer gleich ist, wurde ei
 \par
 Der Kompiler muss die Headerfiles des Kernels während des Kompiliervorganges kennen. Die Headerfiles sind aber nicht in jeder Linux-Distribution enthalten. Deswegen muss der gleiche Kernel als Source geladen und kompiliert werden. Dieser Vorgang dauert auf einem SoC zu lange. Deshalb wurde der Kernel und das Kernelmodul auf eine leistungsstärkere Maschine Cross-kompiliert. Für das RaspberryPi wird zusätzlich ein modifizierter GCC benötigt, der auf der offiziellen Seite zum Download bereitgestellt wird. Die technische Dokumentation befindet sich im Wiki meines Projektes zur Thesis unter \url{https://github.com/codeix/thesis_ffhs_2016/wiki}. Nach dem fehlerfreien Kompilieren des Kernelmoduls kann dieses auf das Board kopiert und mit dem Befehl \texttt{insmod} in den Kernel geladen werden.
 
+
