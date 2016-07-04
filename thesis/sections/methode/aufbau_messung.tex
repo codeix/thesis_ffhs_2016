@@ -31,7 +31,7 @@ Interrupts sind dafür gemacht, sofort verarbeitet zu werden. Ein kleines Beispi
 
 Der Benchmark wurde in Form eines Kernelmoduls für ein Linux Betriebssystem gebaut. Das Kernelmodul registriert für jeden Benchmark ein Pseudofile, das unter der Verzeichnisstruktur \texttt{/proc/benchmark/} abrufbar ist.
 \par
-Das \texttt{procfs} oder \texttt{proc filesystem} genannte Filesystem erstellt eine Schnittstelle zwischen dem Benutzermodus und dem Kernelmodus. Es ist ein virtuelles Filesystem, das unter der Verzeichnisstruktur \texttt{/proc} gemountet wird\cite{mauerer2010professional}. Die Dateien, die sich darin befinden, sind Pseudofiles. Sie sind virtuell, weil sie nicht physisch existieren und somit auch nicht auf ein Medium gespeichert werden können. Beim Schreiben beziehungsweise Lesen werden die Informationen dem Kernel weitergegeben, verarbeitet und die Informationen werden zum Lesen bereitgestellt. Weil das Verhalten der Schnittstelle den Eigenschaften einer Datei entspricht, können für die Lese- und Schreiboperationen die Linux-Standardwerkzeuge verwendet werden.
+Das \texttt{procfs} oder \texttt{proc filesystem} genannte Filesystem erstellt eine Schnittstelle zwischen dem Benutzermodus und dem Kernelmodus. Es ist ein virtuelles Filesystem, das unter der Verzeichnisstruktur \texttt{/proc} gemountet wird\cite{mauerer2010professional}. Die Dateien, die sich darin befinden, sind Pseudofiles. Sie sind virtuell, weil sie nicht physisch existieren und somit auch nicht auf ein Medium gespeichert werden können. Beim Schreiben beziehungsweise Lesen der Pseudofiles werden die Informationen dem Kernel weitergegeben, verarbeitet und die Informationen werden zum Lesen im Benutzermodus bereitgestellt. Weil das Verhalten der Schnittstelle den Eigenschaften einer Datei entspricht, können für die Lese- und Schreiboperationen die Linux-Standardwerkzeuge verwendet werden.
 
 \lstset{language=bash}
 \begin{minipage}{\linewidth}
@@ -51,7 +51,7 @@ Das \texttt{procfs} ist an dieser Stelle wichtig, weil der Benchmark im Kernelmo
 
 \lstset{language=bash}
 \begin{minipage}{\linewidth}
-\begin{lstlisting}[label={list:start_benchmark},caption={Starten des Benchmark}]
+\begin{lstlisting}[label={list:start_benchmark},caption={Starten des Benchmarks}]
 root@galileo ~ $ cat /proc/benchmark/addl_32
 321
 \end{lstlisting}
