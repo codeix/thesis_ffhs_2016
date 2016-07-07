@@ -1,5 +1,4 @@
 \documentclass{../template/ffhsthesis}
-\usepackage[a4paper, total={19cm, 26cm}]{geometry}
 \usepackage[utf8]{inputenc} % this is needed for umlauts
 \usepackage[ngerman]{babel} % this is needed for umlauts
 \usepackage[T1]{fontenc}    % this is needed for correct output of umlauts in pdf
@@ -13,6 +12,7 @@
 \usepackage{pdflscape}
 \usepackage{multirow}
 \usepackage{xfrac}
+\usepackage[a4paper]{geometry}
 
 
 \makeatother
@@ -50,7 +50,7 @@
 Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung von \textbf{5.16 V} gespeist. Der zu testende Befehlssatz wurde \textbf{21,4 Milliarden} oder genau 21'474'836'480 mal ausgeführt.
 
 \tikzset{every picture/.style=thick}
-
+\tikzset{font={\fontsize{8pt}{12}\selectfont}}
 
 
 
@@ -71,7 +71,7 @@ Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung 
 
 \def\discon{$\wr\!\!\!\wr$}
 \foreach \n  in {0,...,2}{%
-\begin{minipage}{.33\textwidth}
+\begin{minipage}{.325\textwidth}
 %
 \begin{tikzpicture}
 
@@ -81,7 +81,7 @@ Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung 
             enlarge y limits=true,
             xmin=0, xmax=150000,
             ymin=425, ymax=445,
-            width=6cm, height=4cm,     % size of the image
+            width=5.35cm, height=4cm,     % size of the image
             grid = major,
             grid style={dashed, gray!30},
             ylabel=ampere (mA),
@@ -129,7 +129,7 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 }
 }
 
-
+\newgeometry{left=3.5cm,bottom=2cm,right=1cm}
 \begin{landscape}
 \section{Results in tabular form}
 \centering
@@ -141,6 +141,7 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \par
 * The Energy (mW/) used for the benchmark with $\approx$21,4 billion cycles.
 \end{landscape}
+\restoregeometry
 
 
 
@@ -186,7 +187,7 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
 
 \def\discon{$\wr\!\!\!\wr$}
 \foreach \n  in {0,...,2}{%
-\begin{minipage}{.33\textwidth}
+\begin{minipage}{.325\textwidth}
 %
 \begin{tikzpicture}
 
@@ -196,7 +197,7 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
             enlarge y limits=true,
             xmin=0, xmax=150000,
             ymin=415, ymax=440,
-            width=6cm, height=4cm,     % size of the image
+            width=5.35cm, height=4cm,     % size of the image
             grid = major,
             grid style={dashed, gray!30},
             ylabel=ampere (mA),
@@ -248,7 +249,7 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 
 
 
-
+\newgeometry{left=3.5cm,bottom=2cm,right=1cm}
 \begin{landscape}
 \section{Results in tabular form}
 \centering
@@ -260,7 +261,7 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \par
 * The Energy (mW/) used for the benchmark with $\approx$6.4 billion cycles.
 \end{landscape}
-
+\restoregeometry
 
 
 
