@@ -51,7 +51,7 @@ Durch die zusätzliche Softwareschicht, die der Kernel bietet, müssen Programmi
 Die \autoref{fig:kernel} zeigt, wie die unterschiedlichen Schichten miteinander kommunizieren. Eine Anwendung wird ausschliesslich im Benutzermodus (engl. User Space) ausgeführt. Durch Systemaufrufe werden Anfragen an den Kernel übermittelt. Dabei findet ein Kontextwechsel vom unprivilegierten in den privilegierten Modus statt. Der unprivilegierte Modus bezeichnet den Benutzermodus, in dem eine Applikation nur beschränkt über den Arbeitsspeicher verfügen kann und nur gewisse CPU-Befehlssätze ausgeführt werden können. Dies stellt sicher, dass eine Applikation gegenüber dem Rest des Systems abgekapselt betrieben wird und nicht darauf zugreifen kann. Nach dem Systemaufruf geht der Prozessor in den privilegierten Modus über und der Kernel trägt die Verantwortung, die Anfrage im Kernelmodus (engl. Kernel Space) zu verarbeiten. Der Kernelmodus weist im Gegensatz zum Benutzermodus keine Einschränkungen auf und hat deswegen auch Zugang zur Hardware und zum gesamten Arbeitsspeicher. Demzufolge dient der Kontextwechsel dazu, dass derjenige Programmcode, der nicht zum Kernel gehört, nur in einem unprivilegierten Modus ausgeführt werden kann.
 
 
-\section{Unterschiede zwischen CISC- und RISC-CPUs\cite{todo}}
+\section{Unterschiede zwischen CISC- und RISC-CPUs\cite{Hoffmann2014_risc_cisc}}
 
 Die CPUs können, je nach dem wie ihre Befehlssatzarchitektur aufgebaut ist, in unterschiedliche Gruppen aufgeteilt werden. CISC-Prozessoren (Custom Instruction Set Computer) weisen im Vergleich zu RISC-Prozessoren (Reduced Instruction Set Computer) sehr komplexe und umfangreiche Befehlssätze auf.
 \par
