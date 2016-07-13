@@ -1,0 +1,269 @@
+\documentclass{../template/ffhsthesis}
+\usepackage[utf8]{inputenc} % this is needed for umlauts
+\usepackage[ngerman]{babel} % this is needed for umlauts
+\usepackage[T1]{fontenc}    % this is needed for correct output of umlauts in pdf
+\usepackage{pgf,pgffor}
+\usepackage{pgfplots}
+\usepackage{float}%
+\pgfplotsset{compat=newest}
+\usepackage{calc}
+\usepackage{verbatim}
+\usepackage{csvsimple}
+\usepackage{pdflscape}
+\usepackage{multirow}
+\usepackage{xfrac}
+\usepackage[a4paper]{geometry}
+
+
+\makeatother
+
+\setlength\parindent{0pt}
+
+
+
+
+\begin{document}
+% addional configuration from sam
+\shorthandoff{"}
+
+
+\dokumentTyp{Anhang der Bachelor-Thesis}
+\studiengang{INF}
+\title{Durch bessere Software Energie sparen}
+\subtitle{Analyse des Energieverbrauchs pro Befehlssatz} % optional
+\titelbild[height=4.55cm,width=15cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
+\author{Samuel Riolo}
+% \date{}
+\wohnort{Kerzers}
+%\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
+%\referent{Jürg Hofer}
+\referent{Jürg Hofer\\ Dipl. El. Ing. ETH\\WING}
+%\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
+
+
+\maketitle
+
+
+
+\startThesis
+\chapter{Benchmark results with Raspberry Pi}
+Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung von \textbf{5.16 V} gespeist. Der zu testende Befehlssatz wurde \textbf{21,4 Milliarden} oder genau 21'474'836'480 mal ausgeführt.
+
+\tikzset{every picture/.style=thick}
+\tikzset{font={\fontsize{8pt}{12}\selectfont}}
+
+
+
+
+\section{Raw results}
+\foreach \fileno in {0,...,100}{
+\IfFileExists{raspberrydata/data\fileno.csv}{%
+\InputIfFileExists{raspberrydata/data\fileno .tex}{}{}%
+
+
+
+\subsection{\benchmark}
+\description
+\par
+\textit{data\fileno .csv}
+
+\begin{figure}[H]
+
+\def\discon{$\wr\!\!\!\wr$}
+\foreach \n  in {0,...,2}{%
+\begin{minipage}{.325\textwidth}
+%
+\begin{tikzpicture}
+
+    \begin{axis}[
+            axis x line=middle,
+            axis y line=middle,
+            enlarge y limits=true,
+            xmin=0, xmax=150000,
+            ymin=425, ymax=445,
+            width=5.35cm, height=4cm,     % size of the image
+            grid = major,
+            grid style={dashed, gray!30},
+            ylabel=ampere (mA),
+            xlabel=seconds (mS),
+            extra x ticks = {1},
+            xtick  = {50000, 100000},
+            scaled x ticks = false, 
+            x tick label style={/pgf/number format/.cd, fixed, fixed zerofill, int detect,1000 sep={\;},precision=3},  % Removing scientific notation
+            extra y ticks = {425},
+            ytick  = {430, 435, ..., 445},
+            extra y tick style = {grid=none, yticklabel style={xshift=2.6mm, rotate=0, inner sep=.5pt}},
+            extra y tick labels = {\includegraphics{almost_equals.eps}}]
+            legend style={at={(0.1,-0.1)}, anchor=north}
+         ]
+          \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none, ] {raspberrydata/data\fileno .csv};
+
+
+    \end{axis}
+
+
+\end{tikzpicture}%
+
+
+
+% Example of an array in latex
+%\def\names{{"5454.5","Frank","Laura","Joe"}}%
+%\pgfmathparse{\names[0]}\pgfmathresult
+
+
+\begin{tabular}{lcc}
+Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
+Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
+Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult mS\\
+Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
+\end{tabular}
+
+\end{minipage}
+}
+
+
+
+\end{figure}
+
+
+}
+}
+
+\newgeometry{left=3.5cm,bottom=2cm,right=1cm}
+\begin{landscape}
+\section{Results in tabular form}
+\centering
+\thispagestyle{empty}
+\csvautotabular{raspberrytable.csv}
+\par
+\vspace{10pt}
+\textbf{BM} = Benchmark, \textbf{T} = executiontime of an Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
+\par
+* The Energy (mW/) used for the benchmark with $\approx$21,4 billion cycles.
+\end{landscape}
+\restoregeometry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{Benchmark results with Intel Galileo Gen2}
+
+
+
+
+Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spannung von \textbf{6.36 V} gespeist. Der zu testende Befehlssatz wurde \textbf{6,4 Milliarden} oder genau 6'442'450'944 mal ausgeführt.
+
+\tikzset{every picture/.style=thick}
+
+\section{Raw results}
+
+\foreach \fileno in {0,...,100}{
+\IfFileExists{galileodata/data\fileno.csv}{%
+\InputIfFileExists{galileodata/data\fileno .tex}{}{}%
+
+
+
+\subsection{\benchmark}
+\description
+\par
+\textit{data\fileno .csv}
+
+\begin{figure}[H]
+
+\def\discon{$\wr\!\!\!\wr$}
+\foreach \n  in {0,...,2}{%
+\begin{minipage}{.325\textwidth}
+%
+\begin{tikzpicture}
+
+    \begin{axis}[
+            axis x line=middle,
+            axis y line=middle,
+            enlarge y limits=true,
+            xmin=0, xmax=150000,
+            ymin=415, ymax=440,
+            width=5.35cm, height=4cm,     % size of the image
+            grid = major,
+            grid style={dashed, gray!30},
+            ylabel=ampere (mA),
+            xlabel=seconds (mS),
+            extra x ticks = {1},
+            xtick  = {50000, 100000},
+            scaled x ticks = false, 
+            x tick label style={/pgf/number format/.cd, fixed, fixed zerofill, int detect,1000 sep={\;},precision=3},  % Removing scientific notation
+            extra y ticks = {415},
+            ytick  = {420, 425, ..., 440},
+            extra y tick style = {grid=none, yticklabel style={xshift=2.6mm, rotate=0, inner sep=.5pt}},
+            extra y tick labels = {\includegraphics{almost_equals.eps}}]
+            legend style={at={(0.1,-0.1)}, anchor=north}
+         ]
+          \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none, ] {galileodata/data\fileno .csv};
+
+
+    \end{axis}
+
+
+\end{tikzpicture}%
+
+
+
+% Example of an array in latex
+%\def\names{{"5454.5","Frank","Laura","Joe"}}%
+%\pgfmathparse{\names[0]}\pgfmathresult
+
+
+\begin{tabular}{lcc}
+Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
+Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
+Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult mS\\
+Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
+\end{tabular}
+
+\end{minipage}
+}
+
+
+
+\end{figure}
+
+
+}
+}
+
+
+
+
+
+\newgeometry{left=3.5cm,bottom=2cm,right=1cm}
+\begin{landscape}
+\section{Results in tabular form}
+\centering
+\thispagestyle{empty}
+\csvautotabular{galileotable.csv}
+\par
+\vspace{10pt}
+\textbf{BM} = Benchmark, \textbf{T} = executiontime of an Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
+\par
+* The Energy (mW/) used for the benchmark with $\approx$6.4 billion cycles.
+\end{landscape}
+\restoregeometry
+
+
+
+
+\end{document}

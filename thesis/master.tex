@@ -14,7 +14,16 @@
 \usepackage[section]{placeins}
 \usepackage{float}%
 \usepackage{verbatim}
-
+\usepackage{filecontents}
+\usepackage{siunitx}
+\sisetup{per=slash, load=abbr}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{width=7cm,compat=newest}
+\usepackage[autostyle=true,german=quotes]{csquotes}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{amsmath}
 
 
 \makeatother
@@ -35,18 +44,18 @@
 % addional configuration from sam
 \shorthandoff{"}
 \input{lstset}
+\input{../template/custom-colors.tex}
 
-
-\dokumentTyp{Disposition für die Bachelor-Thesis}
+\dokumentTyp{Bachelor-Thesis}
 \studiengang{INF}
-\title{Energie in der Informatik}
-\subtitle{ durch bessere Software sparen ohne Verzicht} % optional
+\title{Durch bessere Software Energie sparen}
+\subtitle{Analyse des Energieverbrauchs pro Befehlssatz} % optional
 \titelbild[height=4.55cm,width=15cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
 \author{Samuel Riolo}
 % \date{}
 \wohnort{Kerzers}
 %\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
-\referent{Jürg Hofer}
+\referent{Jürg Hofer\\Dipl. El. Ing. ETH\\WING}
 %\referent{Jürg Hofer\\ Titel\\Unterrichtetes Fach}
 %\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
 
@@ -77,29 +86,32 @@
 \input{sections/stand_des_wissens}
 
 
+%Table 1.2. Double-precision VFP operations
+%Instruction types	Issue latency
+%DP MUL and MAC	2 cycle
+%SP DIV, SQRT	14 cycles
+%DP DIV, SQRT	28 cycles
+%All other instructions	1 cycle
 
-\chapter{Idee und Zielsetzung}
 
+\input{sections/idee_zielsetzung}
 
 \input{sections/methode/chapter}
 \input{sections/methode/ziel_experiment}
 \input{sections/methode/beschreibung_hardware}
 \input{sections/methode/aufbau_messung}
 \input{sections/methode/automatisierung}
+\input{sections/methode/uebersich_messung.tex}
 
-\chapter{Resultate}
-\chapter{Fazit}
-\section{Diskussion}
-%Vergleich mit ähnliche Papers (z.B. Energiemessung durch thermische Kamera)
-Das Resultat in Sätze gefasst
+\input{sections/results.tex}
+\input{sections/fazit.tex}
 
 
-
-\input{sections/selbsterklaerung}
 
 
 %\begin{thebibliography}{1}
 %\end{thebibliography}
+\input{sections/selbsterklaerung}
 \bibliography{thesis_bibliography}
 \bibliographystyle{gerplain}
 \listoffigures

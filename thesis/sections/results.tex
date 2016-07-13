@@ -1,0 +1,97 @@
+\chapter{Resultate}
+
+Das Kapitel beschreibt, welche Daten erhoben und wie diese auf ihre Richtigkeit geprüft werden. Zusätzlich wird erläutert, wie die erhobenen Daten als Rohdaten verarbeitet sowie ausgewertet werden und welche Beobachtungen dabei gemacht werden konnten.
+
+
+\section{Auswahl der Benchmarks}
+
+Die Benchmarks bilden gewissermassen eine Kapsel um einen zu messenden Befehlssatz. Für das Experiment wurde ein Set von Benchmarks gewählt, das nach der Messung eine grösstmögliche Übersicht über den unterschiedlichen Energieverbrauch der einzelnen Befehlssätze bieten kann. Die Übersicht soll als Grundbasis dienen, aufgrund deren Auswertung weitere Benchmarks erstellt und erforscht werden können. Auf beiden Boards wurden Benchmarks geschrieben, die einen, zwei oder drei Befehlssätze \texttt{nop} beinhalten. Ein solcher Befehlssatz wurde dann pro Schleifenumgang ein bis drei mal nacheinander abgehandelt. Der Pseudo-Assemblerbefehl \texttt{nop} steht für einen alternativen Befehlssatz, der zwar keine Wirkung erzeugt, aber trotzdem auf der CPU ausgeführt wird. Weitere Benchmarks wurden so ausgewählt, dass sie die Grundoperationen "Addition", "Subtraktion" und "Multiplikation" testen. Die dazugehörige Division wird von der CPU nicht immer unterstützt und wenn doch, dann auf eine sehr spezielle Art und Weise. Deshalb wurde sie für die Messung ausgelassen. Zusätzlich wurden Benchmarks, die eine binäre Verschiebung von links und rechts aufweisen sowie solche mit logischen Operatoren verwendet. Alle Benchmarks wurden einmal mit Null und einmal mit der grösstmöglichen Zahl erstellt.
+
+
+
+
+\section{Beschreibung der Daten}
+
+Die Daten wurden, wie in \autoref{sec:automatisierung} beschrieben, automatisiert, anschliessend aufgezeichnet und als Diagramme dargestellt. Die Resultate befinden sich im Anhang dieser Arbeit. Die Beschreibungen der Daten sind wie folgt zu interpretieren:
+
+\begin{description}
+\item[Titel:]
+Der Titel entspricht dem Benchmark, der ausgeführt wurde. Der Name vor dem Unterstrich stellt gleichzeitig auch den Befehlssatz dar, der für den Benchmark verwendet worden ist. Falls eine Zahl nach dem Unterstrich steht, definiert diese wie viele Bits des 32bit-Registers ausgefüllt sind. Folglich steht beispielsweise die Zahl 8 für die hexadezimale Zahl 0x000000FF.
+\item[Beschreibung:]
+Jeder Benchmark besitzt eine Beschreibung, die unmittelbar nach dem Titel steht. Die in kursiver Schrift geschriebene \texttt{CSV-Datei} definiert, welche Daten für die Diagramme verwendet worden sind. Die Daten wurden in CSV-Dateien gespeichert und sind unter folgende URL zu finden: \url{https://github.com/codeix/thesis_ffhs_2016/tree/master/results}. Die Dateien sind entsprechend dem verwendeten Board in die Unterverzeichnisse \texttt{galileodata} und \texttt{raspberrydata} unterteilt. 
+\item[Diagramme:]
+Die Daten sind als Liniendiagramme dargestellt. Jeder Benchmark wurde drei Mal ausgeführt. Deswegen werden die Daten in drei Säulen unterteilt. Die Anfangspunkte der Achsen wurden so ausgewählt, dass sie nur den Ausschnitt mit den relevanten Daten aufzeigen.
+\item[Durchschnitt und Median:]
+Die Werte des Durchschnitts als auch jene des Medians sind in derselben Säule des Diagramms aufgeführt. Beschriftet sind sie auf Englisch mit \texttt{Average} und \texttt{Median}.
+\item[Durchlaufzeit:]
+Mit \texttt{Exec time} wird die Durchlaufzeit des Benchmarks in Millisekunden festgehalten. Da dieser Wert direkt vom Benchmark stammt, ist er präziser als der im Diagramm aufgeführte. Dies, weil die Amperemessung mit einer separaten Uhr im Multimeter aufgezeichnet wurde.
+\item[Reihenfolge:] Die Abfolge, in welcher die Benchmarks ausgeführt und die Daten vom Messgerät aufgenommen wurden, geschah nach dem Zufallsprinzip. \texttt{Exec order} bezeichnet dabei die Position des Benchmarks in der zufällig festgelegten Reihenfolge.
+
+\end{description}
+
+
+
+\section{Prüfung der Daten}
+
+Es ist wichtig, die Daten auf ihre Richtigkeit zu überprüfen. Um die Korrektheit unter Beweis zu stellen, können folgende Prüfkriterien erstellt werden.
+\par
+Als erstes wird der Verlauf der Daten für jeden Benchmark einzeln angeschaut. Während der Ausführung des Benchmarks wurden zirka 200 Messungen (etwa 100 für jedes Board) vorgenommen. Diese sind auf einer Zeitachse und in einem Liniendiagramm dargestellt. Dabei kann man beobachten, dass die Linie gerade verläuft. Dies bestätigt, dass der Benchmark einen sich wiederholenden Ablauf ausführt und dadurch einen konstanten Stromverbrauch verursacht. Als zweites Kriterium können sich die drei Ausführungen eines einzelnen Benchmark gegenübergestellt und ausgewertet werden. Jeder Benchmark wurde drei Mal ausgeführt, wobei die Reihenfolge aller Benchmarks zufällig war. Das bedeutet, dass die drei Ausführungen desselben Benchmarks im Regelfall nicht nacheinander stattfanden. Durch diese Gegenüberstellung wird ersichtlich, dass sich bei jeder der drei Ausführungen sowohl die Zeit wie auch der Median des Stromverbrauchs, mit Vorbehalt von Rundungsfehlern, jeweils gegenseitig entsprechen. Dies beweist, dass innerhalb derselben Benchmarks keine markanten Abweichungen entstehen. Als letztes Prüfkriterium können die drei Benchmarks \texttt{nop}, \texttt{nop\_nop} und \texttt{nop\_nop\_nop} in Betracht gezogen werden. Der Benchmark \texttt{nop} ist eine leere Befehlszeile in einer Schleife. Er braucht bei der Ausführung eines jeden Schleifendurchlaufes jeweils nur einen CPU-Zyklus. Der Benchmark \texttt{nop\_nop} benötigt zwei und der Benchmark \texttt{nop\_nop\_nop} drei CPU-Zyklen. Werden die Durchlaufszeiten dieser drei Benchmarks nebeneinander dargestellt, erkennt man, dass die Durchlaufzeit linear wächst. Wenn die Durchlaufszeit der Schleife abgezogen wird, kann man anhand dieser Feststellung prüfen, wie viel Zeit für einen CPU-Zyklus aufgewendet wird.
+\par
+Das letzte Merkmal kann durch eine einfache Rechnung unter Beweis gestellt werden. Die beiden Benchmarks \texttt{nop} und \texttt{nop\_nop} bestehen aus einer Schleife und einem oder zwei leeren Befehlssätzen. Durch die Subtraktion der Durchlaufszeit des einen Benchmarks von derjenigen des anderen Benchmarks erhalten wir die Durchlaufzeit des leeren Befehlssatzes, also genau einen CPU-Zyklus mal die Anzahl der Schleifendurchläufe. Durch eine Inter- und Extrapolation kann man überprüfen, ob dies mit der Prozessortaktfrequenz des Herstellers übereinstimmt. Die Taktfrequenz des Galileo Boards beträgt 400 MHz. Über die Kommandozeile kann mit dem Befehl \texttt{lscpu} der genaue Wert herausgelesen werden. Dieser liegt zwar mit 399.076MHz ein wenig tiefer liegt, stimmt aber annähernd überein.
+
+\[ \left(\frac{t_2-t_1}{n}\right)^{-1} =  \left(\frac{(145'292-129'147)/1'000}{6'442'450'944}\right)^{-1} \approx 399'000'000 \]
+
+Diese Berechnung kann nicht bei jeder CPU-Architektur angewendet werden. Wird dieselbe Berechnung auf einem ARM Prozessor mit 700MHz eines Raspberry Pi Boards vorgenommen, erhält man eine Zahl, die etwa doppelt so hoch ist im Vergleich zur Taktfrequenz.
+\[ \left(\frac{t_2-t_1}{n}\right)^{-1} =  \left(\frac{(123'559-108'112)/1'000}{21'474'836'480}\right)^{-1} \approx 1'390'000'000 \]
+Werden die drei Benchmarks \texttt{nop}, die auf dem Raspberry Pi Board berechnet worden sind, einander gegenüberstellt, kann festgestellt werden, dass sich diese nicht linear vergrössern. Dies liegt daran, dass moderne CPUs interne Optimierungen besitzen. So werden Befehlssätze, wenn möglich, parallel ausgeführt. Die genaue Anzahl der verwendeten Zyklen ist deshalb sehr schwer berechenbar. Dies zeigt auch das folgende Zitat aus der Dokumentation von ARM für den ARM1176JZF-S Prozessor.
+
+\begin{quotation}
+\enquote{Complex instruction dependencies and memory system interactions make it impossible to
+describe briefly the exact cycle timing of all instructions in all circumstances.}
+\par
+...
+\par
+\enquote{ If precise timings are required you must use a cycle-accurate model of the processor.\cite{arm_datasheet}}
+\end{quotation}
+
+
+
+\section{Auswertung der Resultate}
+\label{sec:auswertung_resultate}
+
+Um eine Aussage darüber machen zu können, welcher Benchmark und der damit verbundene Befehlssatz mehr Energie verbraucht, wurden sie sich in einem Balkendiagramm gegenübergestellt. Diese sind für das Galileo Board in der \autoref{fig:benchmarks_galileo} und für das Raspberry Pi in der \autoref{fig:benchmarks_rasp} einsehbar. Aus der Erhebung der Daten, die im \autoref{sec:automatisierung} beschrieben sind, bekommt man die Durchlaufszeit und den Stromverbrauch jedes einzelnen Benchmark. Beide CPU-Architekturen, auf denen die Benchmarks ausgeführt wurden, weisen für jeweils einen Befehlssatz, der getestet wird, unterschiedliche Durchlaufszeiten auf. Der Energieverbrauch entspricht der Leistung mal der beanspruchten Zeit. Die Darstellung der Balkendiagramme wurde absichtlich so gewählt, dass Leistung und Durchlaufszeit ersichtlich sind. Jeder Benchmark wurde drei Mal ausgeführt. Um die Leistung zu bestimmen, wurde der Median des Stomverbrauchs der drei Ausführungen des Benchmarks berechnet und mit der Spannung des Spannungsregler multipliziert. Um den gewünschten EPI-Verbrauch, also den Energieverbrauch pro Befehlssatz zu berechnen, sind zwei weitere Schritte notwendig. Diese sind aus den Diagrammen nicht mehr ersichtlich. Als erster Schritt muss der Energieverbrauch pro Benchmark berechnet werden. Dazu wird die Leistung mal die Zeit, die ein Benchmark benötigt hat, um durchzulaufen, gerechnet. Der Benchmark besteht aber aus einer Schleife, die einen bestimmten Befehlssatz mehrere Milliarden Male ausführt. Daher muss in einem zweiten Schritt der Gesamtenergieverbrauch des Benchmarks durch die Anzahl Durchläufe der Schleife dividiert werden. Dieser Schritt bestimmt den Energieverbrauch des Benchmarks pro Schleifendurchlauf. Da jedoch die Schleife pro Durchlauf ebenfalls einen bestimmten Grundenergieverbrauch aufweist, muss dieser noch vom Energieverbrauch pro Benchmark abgezogen werden, um den Energieverbrauch pro Befehlssatz zu erhalten. Auf das Problem der Bestimmung der Grundenergie der Schleife wird im \autoref{sec:bestimmung_grundenergie} noch einmal eingegangen. Die folgenden Formeln zeigen die Berechnung des EPI-Verbrauchs, also des Energieverbrauchs pro Befehlssatz.
+
+\[ \textnormal{Leistung} = \textnormal{Median der drei Strommessungen eines Benchmarks} * \textnormal{Spannung} \]
+
+\[\textnormal{EPI-Verbrauch} = \frac{\textnormal{Leistung} * \textnormal{Zeit}}{\textnormal{Anzahl Durchl{\"a}ufe}} - \frac{\textnormal{Grundenergieverbrauch pro Schleifendurchgang}}{\textnormal{Anzahl Durchl{\"a}ufe}}  \]
+
+\input{sections/diagrams/galileo_results}
+
+
+\input{sections/diagrams/raspberry_results}
+
+
+\section{Beobachtungen}
+
+Betrachtet man die Durchlaufzeit wird klar ersichtlich, dass sie Stufen auf einer Ratioskala bilden. Die Intervalle können als CPU-Zyklen erklärt werden, wobei ein CPU-Zyklus immer gleich viel Zeit in Anspruch nimmt. Aus den Stufen, die die Durchlaufzeit wiedergibt, ist es möglich Zyklus-Kategorien zu bilden, je nachdem, ob ein Befehlssatz einen, zwei oder mehrere CPU-Zyklen durchläuft. Je nach Architektur des Prozessors und Komplexität des Befehlssatz benötigt die Abarbeitung mehrere CPU-Zyklen. Hinzu kommt, dass moderne Prozessoren fähig sind, mehrere Befehlssätze gleichzeitig auf einem Single-Core auszuführen. Dazu müssen jedoch sehr komplexe Voraussetzungen erfüllt sein, die vom Hersteller nicht immer gegeben sind.
+\par
+Wie bereits in \autoref{sec:auswertung_resultate} erläutert, ist der Energieverbrauch von den beiden Faktoren "Leistung" und "Zeit" abhängig. Dabei wirkt sich die Zeit gravierender auf den Energieverbrauch der Benchmarks aus als die Leistung. Wie aus den Abbildungen \autoref{fig:benchmarks_galileo} und \ref{fig:benchmarks_rasp} ersichtlich, sind die Leistungsunterschiede innerhalb einer Zyklus-Kategorie minim im Gegensatz zu einer höheren Zyklus-Kategorie. Multipliziert man die Leistungsverbrauche der unterschiedlichen Zyklus-Kategorien mit ihrer jeweiligen Durchlaufszeit werden die Differenzen im Verbrauch jedoch markanter. Somit ist erwiesen, dass der Faktor "Zeit" den grösseren Einfluss auf den Stromverbrauch ausübt. 
+\par
+Innerhalb ähnlicher Zyklus-Kategorien können durchaus Leistungsunterschiede gemessen werden, wie dies beispielsweise die Daten vom Raspberry Pi Board \texttt{add\_0} und \texttt{add\_32} oder vom Galileo Board \texttt{addl\_0} und \texttt{addl\_32} darlegen. Es geht hervor, dass das Galileo Board einen grösseren Leistungsverbrauch bei der Addition von grösseren Zahlen als bei der von kleineren hat. Beim Raspberry Pi Board stellt sich die Situation gerade umgekehrt dar. Um die Ursache dieses Phänomens zu finden, müssten an dieser Stelle weitere Forschungen angestrebt werden.
+\par
+Wird der Fokus auf die beiden Benchmarks \texttt{sadd16\_8} und \texttt{add\_32} gelegt, die auf dem Raspberry Pi Board ausgeführt werden, ergibt sich die folgende Erkenntnis. Die Additionsoperation, die parallel zweimal eine Zahl von 16bit rechnen kann, nimmt weniger Leistung in Anspruch als die Additionsoperation einer 32bit-Zahl. Könnte also für Zahlen bis zu einer Grösse von 16bit konsequent die Assemblerinstruktion \texttt{sadd16} anstelle von \texttt{add} gewählt werden, ergäbe sich womöglich ein Sparpotenzial. Die beiden Benchmarks haben einen Verbrauch von 2.231W und 2.263W. Das Ersparnispotenzial betrüge somit also 32mW oder zirka 1.4 Prozent. Dabei ist aber zu bedenken, dass die Energieersparnis erst nach 21 Milliarden Durchläufen eintritt. Diese sind je nach Art der Anwendung allerdings relativ schnell erreicht. Als Beispiel ist hier an die Pixelberechnung eines Bildes zu denken.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,19 +1,15 @@
 \chapter{Einleitung}
 
 
-
-In der heutigen Zeit ist die nachhaltige Produktion von Energie und ein schonender Umgang mit dieser Ressource ein wichtiges Anliegen der Öffentlichkeit. Speziell die IT-Branche ist von einem grossen Wachstum geprägt. Immer mehr Tätigkeiten werden automatisiert und bestehende Systeme ausgebaut. Dies verursacht einen immer grösseren Stromverbrauch im IT-Bereich. Ein Ziel der Energiepolitik 2050 ist die Senkung des immer weiter steigenden Energieverbrauchs.
+In der heutigen Zeit ist die nachhaltige Produktion von Energie und ein schonender Umgang mit dieser Ressource ein wichtiges Anliegen der Öffentlichkeit. Der Bundesrat hat einen Teil der Ziele seiner Energiepolitik in dem Partnerschaftsprogramm EnergieSchweiz festgelegt. Aus Sicht der Informatikbranche ist es interessant zu evaluieren, welchen Anteil sie zur Energieeinsparung beitragen kann. Aus der heutigen Gesellschaft sind Computer nicht mehr wegzudenken. Sie sind sowohl im privaten wie im geschäftlichen Bereich weit verbreitet und erleben nach wie vor einen starken Zuwachs. Daher ergibt auch die kleinste Einsparung pro Computer in der Summe ein immenses Energiesparpotenzial und einen beachtlichen quantitativen Anteil am gesamthaften Sparpotenzial. 
 \par
-Um in der IT-Branche Energie zu sparen, können verschiedene Ansätze gewählt werden. Beispielsweise besteht die Möglichkeit bei Inaktivität automatisch in den Ruhemodus zu wechseln oder die Prozessoren durch sogenannte Sparmodi, insbesondere dynamische Taktfrequenzen oder das kurzzeitige Ein- und Ausschalten der Rechnereinheit, zu optimieren. Diese Sparansätze zielen jeweils nur auf den Hard- oder Softwarebereich ab. Sie berücksichtigen jedoch nicht die besondere Funktionsweise eines jeden Computers, wo die Software die Hardware, also ein Programm einen Prozessor, ansteuert. Anders im Rahmen dieser Arbeit, in welcher das Sparpotenzial bereichsübergreifend erforscht wird.
-
-
-
-
-
-
-
-
-
+In der IT-Branche existieren bereits heute zahlreiche Möglichkeiten, auf welche Art und Weise ein nachhaltiger und schonender Umgang mit elektrischer Energie erreicht werden kann. Aus allen möglichen Massnahmen zur Energieeinsparung in der Computerwelt, wurde hier jene ausgewählt und erforscht, die auf bereits bestehender Hardware umgesetzt werden können und somit keinen Ersatz dieser erfordern. Die Basis aller Computertätigkeiten ist die Abarbeitung von unendlich vielen Befehlssätzen durch den Prozessor. Selbst Programme, die interpretiert werden oder in einer höheren Programmiersprachen geschrieben wurden, werden schliesslich als eine Reihe von Befehlssätzen auf dem Prozessor ausgeführt. Aus diesem Grundwissen wird folgende Forschungsfrage formuliert: Ist es möglich durch effizientere Befehlssätze Energie zu sparen?
+\par
+Um diese Frage zu beantworten, wurde im Rahmen dieser Engineeringarbeit eine Messmethodik zur Analyse des Energiebedarfs eines Prozessors pro Befehlssatz entwickelt. Sie ermöglicht es, den Energiebedarf einzelner, beliebiger Befehlssätze effizient zu messen. So können Daten erstellt, die Informationen über den Energieverbrauch einzelner Befehlssätze liefern. Die Messungen erfolgen dabei auf unterschiedlichen CPU-Architekturen, damit abweichende Messresultate beobachtet werden können.
+\par
+Im Endeffekt ist das Hauptziel der vorgenommenen Messungen die Evaluation des Energiesparpotentials. Mit der Arbeit soll aufgezeigt werden, ob im Softwarebereich Energie gespart werden kann. Gleichzeitig sollen die Messmethodik und die erzielten Erkenntnisse als Grundlage für weitergehende Forschungen dienen. Sie könnten diese beispielsweise zur Optimierung von Smartphones im Sinne einer längeren Akkulaufzeit eingesetzt werden.
+\par
+Um die technische Aspekte für den Leser nachvollziehbar zu gestalten, wurde mit viele Grafiken gearbeitet. Alle Abbildung in dieser Arbeit wurden vom Autor selbst erstellt \footnote{Ausgenommen sind die Produktbilder \autoref{fig:Intel Galileo Gen2} und \ref{fig:Raspberry Pi 1 A}.}. 
 
 
 
@@ -27,10 +23,17 @@ Um in der IT-Branche Energie zu sparen, können verschiedene Ansätze gewählt w
 
 
 \begin{comment}
+
+In der heutigen Zeit ist die nachhaltige Produktion von Energie und ein schonender Umgang mit dieser Ressource ein wichtiges Anliegen der Öffentlichkeit. Speziell die IT-Branche ist von einem grossen Wachstum geprägt. Immer mehr Tätigkeiten werden automatisiert und bestehende Systeme ausgebaut. Dies verursacht einen immer grösseren Stromverbrauch im IT-Bereich. Ein Ziel der Energiepolitik 2050 ist die Senkung des immer weiter steigenden Energieverbrauchs.
+\par
+Um in der IT-Branche Energie zu sparen, können verschiedene Ansätze gewählt werden. Beispielsweise besteht die Möglichkeit bei Inaktivität automatisch in den Ruhemodus zu wechseln oder die Prozessoren durch sogenannte Sparmodi, insbesondere dynamische Taktfrequenzen oder das kurzzeitige Ein- und Ausschalten der Rechnereinheit, zu optimieren. Diese Sparansätze zielen jeweils nur auf den Hard- oder Softwarebereich ab. Sie berücksichtigen jedoch nicht die besondere Funktionsweise eines jeden Computers, wo die Software die Hardware, also ein Programm einen Prozessor, ansteuert. Anders im Rahmen dieser Arbeit, in welcher das Sparpotenzial bereichsübergreifend erforscht wird.
+
+
+
 \section{Übersicht}
 
 Die Energiepolitik ist auf der ganzen Welt ein grosses Thema und wird heftig diskutiert. Immer mehr Leute
-sind der Überzeugung, dass eine Energiewende unumgäglich ist. Dabei wird die Energiewende von politischen, aber auch
+sind der Überzeugung, dass eine Energiewende unumgänglich ist. Dabei wird die Energiewende von politischen, aber auch
 von wirtschaftlichen Interessen beeinflusst. Die Energiewende beinhaltet aber nicht nur
 das Produzieren von erneuerbaren Energien, sondern viele unterschiedliche Teilaspekte. Für die Energiewende
 müssen Energieressourcen gespeichert werden, damit sie bei Bedarf genutzt werden können. Wird Strom über
@@ -59,8 +62,7 @@ auf unterschiedlichen SoC (System on Chip) Architekturen erfolgen, damit Verglei
 \par
 Ziel der Arbeit ist es, Daten zu erhalten, die Informationen über den Energieverbrauch einzelner Befehlssätze liefern. Diese Daten
 könnte man zum Beispiel auf Workstations oder Server hochrechnen. Für CPU-Befehle, die sich eher verschwenderisch auf den
-Strombedarf auswirken, könnte man Alternativen finden. Man könnte sich zum Beispiel eine Green-Flag für den GNU C Compiler
-vorstellen, der "grünen Maschinencode" erstellt.
+Strombedarf auswirken, könnte man Alternativen finden.
 
 \end{comment}
 
