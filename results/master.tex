@@ -126,6 +126,11 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{figure}
 
 
+% manuall page break
+\pgfmathparse{mod(\fileno,2))? 1:2}
+\ifnum2=\pgfmathresult\pagebreak\fi%
+
+
 }
 }
 
@@ -241,6 +246,10 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 
 \end{figure}
 
+
+% manuall page break
+\pgfmathparse{mod(\fileno,2))? 1:2}
+\ifnum2=\pgfmathresult\pagebreak\fi%
 
 }
 }
