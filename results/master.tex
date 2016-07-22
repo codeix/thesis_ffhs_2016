@@ -56,7 +56,7 @@ Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung 
 
 
 \section{Raw results}
-\foreach \fileno in {0,...,100}{
+\foreach \fileno in {0,...,2}{
 \IfFileExists{raspberrydata/data\fileno.csv}{%
 \InputIfFileExists{raspberrydata/data\fileno .tex}{}{}%
 
@@ -79,25 +79,29 @@ Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung 
             axis x line=middle,
             axis y line=middle,
             enlarge y limits=true,
-            xmin=0, xmax=150000,
+            xmin=0, xmax=160000,
             ymin=425, ymax=445,
             width=5.35cm, height=4cm,     % size of the image
             grid = major,
             grid style={dashed, gray!30},
-            ylabel=ampere (mA),
-            xlabel=seconds (mS),
+            ylabel=current (mA),
+            xlabel=time (ms),
             extra x ticks = {1},
-            xtick  = {50000, 100000},
+            xtick  = {50000, 100000, 150000},
             scaled x ticks = false, 
             x tick label style={/pgf/number format/.cd, fixed, fixed zerofill, int detect,1000 sep={\;},precision=3},  % Removing scientific notation
             extra y ticks = {425},
             ytick  = {430, 435, ..., 445},
-            extra y tick style = {grid=none, yticklabel style={xshift=2.6mm, rotate=0, inner sep=.5pt}},
+            extra y tick style = {grid=none, yticklabel style={xshift=2.25mm, rotate=0, inner sep=.5pt}},
             extra y tick labels = {\includegraphics{almost_equals.eps}}]
             legend style={at={(0.1,-0.1)}, anchor=north}
          ]
           \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none, ] {raspberrydata/data\fileno .csv};
 
+\pgfmathparse{\exectime[\n]}
+\let\drawlineend\pgfmathresult
+    \draw (axis cs:5000,0)[line width=0mm, orange, opacity=0.8] -- (axis cs:5000,445);
+    \draw (axis cs:\drawlineend,0)[line width=0mm, orange, opacity=0.8] -- (axis cs:\drawlineend,445);
 
     \end{axis}
 
@@ -114,7 +118,8 @@ Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung 
 \begin{tabular}{lcc}
 Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
 Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
-Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult mS\\
+Variance:& \pgfmathparse{\variance[\n]}\pgfmathresult mA\textsuperscript{2} \\
+Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult ms\\
 Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{tabular}
 
@@ -144,7 +149,7 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \vspace{10pt}
 \textbf{BM} = Benchmark, \textbf{T} = executiontime of an Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
 \par
-* The Energy (mW/) used for the benchmark with $\approx$21,4 billion cycles.
+* The Energy (mW/h) used for the benchmark with $\approx$21,4 billion cycles.
 \end{landscape}
 \restoregeometry
 
@@ -177,7 +182,7 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
 
 \section{Raw results}
 
-\foreach \fileno in {0,...,100}{
+\foreach \fileno in {0,...,0}{
 \IfFileExists{galileodata/data\fileno.csv}{%
 \InputIfFileExists{galileodata/data\fileno .tex}{}{}%
 
@@ -200,15 +205,15 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
             axis x line=middle,
             axis y line=middle,
             enlarge y limits=true,
-            xmin=0, xmax=150000,
+            xmin=0, xmax=230000,
             ymin=415, ymax=440,
             width=5.35cm, height=4cm,     % size of the image
             grid = major,
             grid style={dashed, gray!30},
-            ylabel=ampere (mA),
-            xlabel=seconds (mS),
+            ylabel=current (mA),
+            xlabel=time (ms),
             extra x ticks = {1},
-            xtick  = {50000, 100000},
+            xtick  = {50000, 130000, 210000},
             scaled x ticks = false, 
             x tick label style={/pgf/number format/.cd, fixed, fixed zerofill, int detect,1000 sep={\;},precision=3},  % Removing scientific notation
             extra y ticks = {415},
@@ -219,6 +224,11 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
          ]
           \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none, ] {galileodata/data\fileno .csv};
 
+
+\pgfmathparse{\exectime[\n]}
+\let\drawlineend\pgfmathresult
+    \draw (axis cs:5000,0)[line width=0mm, orange, opacity=0.8] -- (axis cs:5000,445);
+    \draw (axis cs:\drawlineend,0)[line width=0mm, orange, opacity=0.8] -- (axis cs:\drawlineend,445);
 
     \end{axis}
 
@@ -235,7 +245,8 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
 \begin{tabular}{lcc}
 Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
 Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
-Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult mS\\
+Variance:& \pgfmathparse{\variance[\n]}\pgfmathresult mA\textsuperscript{2} \\
+Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult ms\\
 Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{tabular}
 
@@ -268,7 +279,7 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \vspace{10pt}
 \textbf{BM} = Benchmark, \textbf{T} = executiontime of an Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
 \par
-* The Energy (mW/) used for the benchmark with $\approx$6.4 billion cycles.
+* The Energy (mW/h) used for the benchmark with $\approx$6.4 billion cycles.
 \end{landscape}
 \restoregeometry
 
