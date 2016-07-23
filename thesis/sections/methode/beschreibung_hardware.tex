@@ -13,8 +13,8 @@
 Das Galileo Developer Board\cite{intel_datasheet_galileo} der zweiten Generation von
 Intel ist ein SoC und besitzt einen Intel® Quark™ SoC X1000 Prozessor. Die Prozessortaktfrequenz beträgt 400 MHz. Die Architektur des 32bit-Prozessors basiert auf x86\cite{intel_datasheet} und somit ist das Galileo
 Board eines der wenigen, auf denen ein CISC-Prozessor verbaut wurde. Die Hardware
-besitzt keinen Videoausgang. Man kann somit nur über eine RS232-Schnittstelle oder über Ethernet,
-eine Verbindung zum System zu erstellen. Die Ein- und Ausgänge des GPIOs sind über den GPIO selbst mit dem
+besitzt keinen Videoausgang. Man kann somit nur über eine RS232-Schnittstelle oder über Ethernet
+eine Verbindung zum System erstellen. Die Ein- und Ausgänge des GPIOs sind über den GPIO selbst mit dem
 PCI-Bus verbunden. Somit ist es sehr schwer, den GPIO ohne passenden Treiber oder
 Softwareschicht anzusprechen. Im Vergleich dazu sind die GPIO des Raspberry Pi, das als zweites zu verwendendes Board ausgewählt wurde, direkt über eine Speicheradresse ansprechbar.
 \par
@@ -37,7 +37,7 @@ grössere Verbreitung und die damit verbundenen Hilfestellungen im Internet. Das
 
 Als zweites Experimentier-Board wird das Raspberry Pi Model B\cite{raspberry_foundation} verwendet. Das Board wird von der Raspberry Pi Foundation betrieben. Das Modell besitzt einen Broadcom BCM2835\cite{broadcom_datasheet} Chip. Der darin verbaute Prozessor mit 700 MHz wurde von der Firma ARM unter dem Namen ARM1176JZFS\cite{arm_datasheet} (ARM11) spezifiziert. Die Software muss speziell für die Architektur ARMv6 kompiliert werden. Im Gegensatz zum Galileo Board von Intel ist der Prozessor eine RISC-CPU. Beide Boards haben eine 32bit-Adressierung.
 \par
-Eine Remote-Verbindung lässt sich über eine serielle Schnittstelle oder über Ethernet realisieren. Durch das Vorhandensein eines Videoausgangs und eines USB-Anschlusses würde sich das Raspberry Pi auch direkt über Monitor und Tastatur bedienen lassen. Die GPIOs sind direkt über die Speicheradressierung ansprechbar. Somit wäre eine Erweiterung des Benchmarks, der in Assembler geschrieben ist, durchaus denkbar. So könnten auf einfache Weise weitere Messungen über die GPIO erfolgen. Das offizielle Betriebssystem der Foundation ist ein Debian basiertes OS mit dem Name Raspbian. Zusätzlich werden als Drittprodukte weitere Betriebssysteme zur Verfügung gestellt. 
+Eine Remote-Verbindung lässt sich über eine serielle Schnittstelle oder über Ethernet realisieren. Durch das Vorhandensein eines Videoausgangs und eines USB-Anschlusses würde sich das Raspberry Pi auch direkt über Monitor und Tastatur bedienen lassen. Die GPIOs sind direkt über die Speicheradressierung ansprechbar. Somit wäre eine Erweiterung des Benchmarks, der in Assembler geschrieben ist, durchaus denkbar. So könnten auf einfache Weise weitere Messungen über die GPIO erfolgen. Das offizielle Betriebssystem der Foundation ist ein Debian basiertes OS mit dem Namen Raspbian. Zusätzlich werden als Drittprodukte weitere Betriebssysteme zur Verfügung gestellt. 
 
 
 
