@@ -77,7 +77,7 @@ def table(filename, data):
     with open(filename, '+w') as csvfile:
         fieldnames = (('pos',''),('name','BM Name'),('bm1','BM1 (mA)'),('bm2','BM2 (mA)'),
                       ('bm3','BM3 (mA)'),('t1','T1 (ms)'),('t2','T2 (ms)'),('t3','T3 (ms)'),
-                      ('medbm','Med BM (mA)'),('medt','Med T (s)'),('power','Power (mW)'),
+                      ('medbm','Med BM (mA)'),('medt','Med T (ms)'),('power','Power (mW)'),
                       ('energy','Energy* (mW/h)'))
         writer = csv.DictWriter(csvfile, fieldnames=[i[1] for i in fieldnames])
         writer.writeheader()
