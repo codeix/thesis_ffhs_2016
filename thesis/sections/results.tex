@@ -39,7 +39,17 @@ Als erstes wird der Verlauf der Daten für jeden Benchmark einzeln angeschaut. W
 \par
 Das letzte Merkmal kann durch eine einfache Rechnung unter Beweis gestellt werden. Die beiden Benchmarks \texttt{nop} und \texttt{nop\_nop} bestehen aus einer Schleife und einem oder zwei leeren Befehlssätzen. Durch die Subtraktion der Durchlaufszeit des einen Benchmarks von derjenigen des anderen Benchmarks erhalten wir die Durchlaufzeit des leeren Befehlssatzes, also genau einen CPU-Zyklus mal die Anzahl der Schleifendurchläufe. Durch eine Inter- und Extrapolation kann man überprüfen, ob dies mit der Prozessortaktfrequenz des Herstellers übereinstimmt. Die Taktfrequenz des Galileo Boards beträgt 400 MHz. Über die Kommandozeile kann mit dem Befehl \texttt{lscpu} der genaue Wert herausgelesen werden. Dieser liegt zwar mit 399.076MHz ein wenig tiefer liegt, stimmt aber annähernd überein.
 
+\begin{minipage}{\textwidth}
 \[ \left(\frac{t_2-t_1}{n}\right)^{-1} =  \left(\frac{(145'292-129'147)/1'000}{6'442'450'944}\right)^{-1} \approx 399'000'000 \]
+\hspace{1em}
+\begin{itemize}
+\itemsep1pt
+    \item[$n$:] Anzahl Durchläufe der Schleife
+    \item[$t_1$:] Durchlaufszeit Benchmark \texttt{nop}
+    \item[$t_2$:] Durchlaufszeit Benchmark \texttt{nop\_nop}
+\end{itemize}
+\end{minipage}
+
 
 Diese Berechnung kann nicht bei jeder CPU-Architektur angewendet werden. Wird dieselbe Berechnung auf einem ARM Prozessor mit 700MHz eines Raspberry Pi Boards vorgenommen, erhält man eine Zahl, die etwa doppelt so hoch ist im Vergleich zur Taktfrequenz.
 \[ \left(\frac{t_2-t_1}{n}\right)^{-1} =  \left(\frac{(123'559-108'112)/1'000}{21'474'836'480}\right)^{-1} \approx 1'390'000'000 \]
@@ -61,9 +71,28 @@ describe briefly the exact cycle timing of all instructions in all circumstances
 
 Um eine Aussage darüber machen zu können, welcher Benchmark und der damit verbundene Befehlssatz mehr Energie verbraucht, wurden sie sich in einem Balkendiagramm gegenübergestellt. Diese sind für das Galileo Board in der \autoref{fig:benchmarks_galileo} und für das Raspberry Pi in der \autoref{fig:benchmarks_rasp} einsehbar. Aus der Erhebung der Daten, die im \autoref{sec:automatisierung} beschrieben sind, bekommt man die Durchlaufszeit und den Stromverbrauch jedes einzelnen Benchmarks. Beide CPU-Architekturen, auf denen die Benchmarks ausgeführt wurden, weisen für jeweils einen Befehlssatz, der getestet wird, unterschiedliche Durchlaufszeiten auf. Der Energieverbrauch entspricht der Leistung mal der beanspruchten Zeit. Die Darstellung der Balkendiagramme wurde absichtlich so gewählt, dass Leistung und Durchlaufszeit ersichtlich sind. Jeder Benchmark wurde drei Mal ausgeführt. Um die Leistung zu bestimmen, wurde der Median des Stomverbrauchs der drei Ausführungen des Benchmarks berechnet und mit der Spannung des Spannungsregler multipliziert. Um den gewünschten EPI-Verbrauch, also den Energieverbrauch pro Befehlssatz zu berechnen, sind zwei weitere Schritte notwendig. Diese sind aus den Diagrammen nicht mehr ersichtlich. Als erster Schritt muss der Energieverbrauch pro Benchmark berechnet werden. Dazu wird die Leistung mal die Zeit, die ein Benchmark benötigt hat, um durchzulaufen, gerechnet. Der Benchmark besteht aber aus einer Schleife, die einen bestimmten Befehlssatz mehrere Milliarden Male ausführt. Daher muss in einem zweiten Schritt der Gesamtenergieverbrauch des Benchmarks durch die Anzahl Durchläufe der Schleife dividiert werden. Dieser Schritt bestimmt den Energieverbrauch des Benchmarks pro Schleifendurchlauf. Da jedoch die Schleife pro Durchlauf ebenfalls einen bestimmten Grundenergieverbrauch aufweist, muss dieser noch vom Energieverbrauch pro Benchmark abgezogen werden, um den Energieverbrauch pro Befehlssatz zu erhalten. Auf das Problem der Bestimmung der Grundenergie der Schleife wird im \autoref{sec:bestimmung_grundenergie} noch einmal eingegangen. Die folgenden Formeln zeigen die Berechnung des EPI-Verbrauchs, also des Energieverbrauchs pro Befehlssatz.
 
+\begin{comment}
 \[ \textnormal{Leistung} = \textnormal{Median der drei Strommessungen eines Benchmarks} * \textnormal{Spannung} \]
 
 \[\textnormal{EPI-Verbrauch} = \frac{\textnormal{Leistung} * \textnormal{Zeit}}{\textnormal{Anzahl Durchl{\"a}ufe}} - \frac{\textnormal{Grundenergieverbrauch pro Schleifendurchgang}}{\textnormal{Anzahl Durchl{\"a}ufe}}  \]
+\end{comment}
+
+
+\begin{minipage}{\textwidth}
+\[ E = \frac{I_m * U * t}{n} - \frac{P_b}{n}\]
+\hspace{1em}
+\begin{itemize}
+\itemsep1pt
+    \item[$n$:] Anzahl Durchläufe der Schleife
+    \item[$t$:] Durchlaufszeit
+    \item[$U$:] Spannung mit der das Board gespiesen wurde
+    \item[$I_m$:] Median der Strommessung eines Benchmarks
+    \item[$P_b$:] Grundenergieverbrauch pro Schleifendurchgang
+    \item[$E$:] EPI-Verbrauch
+\end{itemize}
+\end{minipage}
+
+
 
 \input{sections/diagrams/galileo_results}
 
