@@ -15,13 +15,11 @@ from tempfile import NamedTemporaryFile
 REGEX_TIME = re.compile(r'\\def\\exectime\{\{"([0-9]*)".*"([0-9]*)".*"([0-9]*)"')
 
 def save_latex(val):
-    return val.replace('_', '\_')
+    return str(val).replace('_', '\_')
 
 def round(val, r=3):
     """ override default round function
     """
-    if (val * 10) % 10 == 0:
-        r = 0
     return ('{:,.%sf}' % r).format(val).replace(',', '`')
 
 
@@ -60,12 +58,12 @@ def calculate(index, title, config, datafolder):
         medbm = statistics.median(sum(re.values(),[]))
         data = dict(pos=str(index + 1),
                     name=title,
-                    bm1=statistics.median(re[0]),
-                    bm2=statistics.median(re[1]),
-                    bm3=statistics.median(re[2]),
-                    t1=exectimes[0],
-                    t2=exectimes[1],
-                    t3=exectimes[2],
+                    bm1=round(statistics.median(re[0]), 1),
+                    bm2=round(statistics.median(re[1]), 1),
+                    bm3=round(statistics.median(re[2]), 1),
+                    t1=round(exectimes[0], 0),
+                    t2=round(exectimes[1], 0),
+                    t3=round(exectimes[2], 0),
                     medbm=medbm,
                     medt=medt,
                     power=None,
@@ -87,7 +85,7 @@ def table(filename, data):
             convrow = dict()
             for k, v in row.items():
                 if isinstance(v, (int, float)):
-                    v = round(v)
+                    v = save_latex(v)
                 convrow[dict(fieldnames)[k]] = save_latex(v)
             writer.writerow(convrow)
 
@@ -112,6 +110,7 @@ def main():
         data = calculate(index, sec, config[sec], datafolder)
         data['power'] = round(data['medbm'] * voltage, 3)
         data['energy'] = round(((data['medbm']/1000*voltage)/1000)/(3600/(data['medt']/1000)/1000000), 3)
+        data['medt'] = round(data['medt'], 0)
         table_data.append(data)
     table(tablefile, table_data)
 

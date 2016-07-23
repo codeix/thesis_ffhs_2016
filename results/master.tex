@@ -13,11 +13,12 @@
 \usepackage{multirow}
 \usepackage{xfrac}
 \usepackage[a4paper]{geometry}
-
+\usepackage{numprint}
 
 \makeatother
 
 \setlength\parindent{0pt}
+\npthousandsep{\ensuremath{`}}
 
 
 
@@ -114,12 +115,13 @@ Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung 
 %\def\names{{"5454.5","Frank","Laura","Joe"}}%
 %\pgfmathparse{\names[0]}\pgfmathresult
 
-
-\begin{tabular}{lcc}
+\pgfmathparse{\exectime[\n]}
+\let\exectimetable\pgfmathresult
+\begin{tabular}{llc}
 Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
 Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
-Variance:& \pgfmathparse{\variance[\n]}\pgfmathresult mA\textsuperscript{2} \\
-Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult ms\\
+Variance:& \pgfmathparse{\variance[\n]}\pgfmathresult mA\textsuperscript{2}\\
+Exec time: & \numprint{\exectimetable} ms\\
 Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{tabular}
 
@@ -241,12 +243,13 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
 %\def\names{{"5454.5","Frank","Laura","Joe"}}%
 %\pgfmathparse{\names[0]}\pgfmathresult
 
-
-\begin{tabular}{lcc}
+\pgfmathparse{\exectime[\n]}
+\let\exectimetable\pgfmathresult
+\begin{tabular}{llc}
 Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
 Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
-Variance:& \pgfmathparse{\variance[\n]}\pgfmathresult mA\textsuperscript{2} \\
-Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult ms\\
+Variance:& \pgfmathparse{\variance[\n]}\pgfmathresult mA\textsuperscript{2}\\
+Exec time: & \numprint{\exectimetable} ms\\
 Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{tabular}
 
