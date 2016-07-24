@@ -76,5 +76,20 @@ In dieser Arbeit ist die Funktionsweise der ALU relevant. Wir wissen, dass die A
 
 \end{comment}
 
+\section{Eingesetzte Programmiersprachen und Kompilation\cite{Bernstein2015}}
+
+Die Benchmarks wurden in den Programmiersprachen C und Assembler geschrieben. C und Assembler sind sehr hardwarenahe Programmiersprachen. Im Vergleich zu heutigen Hochsprachen wie Java oder Python, muss sich der Programmierer mit der Hardware und dessen Funktionsweise auskennen. Eine Programmiersprache kann als Schnittstelle zwischen Mensch und Maschine betrachtet werden. Den der CPU wird diese Sprachen nicht direkt verstehen, weshalb sie zuerst in Maschinencode übersetzt werden müssen. Für ein Mensch ist aber Maschinencode zu interpretieren oder zu schreiben praktisch eine unmögliche Angelegenheit. Deshalb wird ein Programm immer in einer Programmiersprache geschrieben, das man als Sourcecode bezeichnet. Der Compiler übernimmt die Arbeit der Übersetzung und erzeugt aus dem Sourcecode Maschinencode. Dieser Vorgang heisst kompilieren. Der Compiler muss für die Erstellung von Maschinencode die CPU-Architektur auf dem das Programm später ausgeführt wird kennen. Dabei stellt er für diese Architektur spezifischen Maschinencode. Man nennt es cross-kompilieren wenn ein Compiler Maschinencode erstellt für die spätere Ausführung auf eine andere Maschine als die der Compiler ausgeführt wurde.
+\par
+Assembler ist eine Programmiersprache die aus Mnemotechnik (Eselsbrücken) besteht. Jede Operation die die CPU ausgeführt werden muss, werden durch Schlüsselwörter wie MOV, ADD, SUB geschrieben. Zu jedem Schlüsselwort kommen Daten, Adressen oder Registern hinzu die innerhalb dieser Operation zum verarbeiten sind. Der Compiler übersetzt die Anweisungen in Binärencode und erstellt so den gewünschten Maschinencode zusammen. Weil sich der Sourcecode von Assembler nur aus einer Abfolge von Anweisungen besteht, sind einfache Ausdrücke wie $x = 2 + 3 * 4$ bereist mit viel Aufwand verbunden. Der Programmierer muss bei Assembler die CPU-Architektur kennen und schreibt für diese ein spezifisches Assemblerprogramm. Daher sind die Programme die in Assembler geschrieben worden sind, nicht portierbar. Heute wird durch die hohe Komplexität und schlechte Portiebarkeit kaum noch in Assembler programmiert. Assembler wird nur noch dort eingesetzt wo die Kontrolle über den Ablauf des Programm gewährleistet werden muss, weil die spezifizierten Befehlssätze die einzelnen CPU-Architekturen direkt abbilden.
+\par
+Die C Programmiersprache 
+
+
+
+
+
+
+
+
 
 
