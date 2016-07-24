@@ -30,9 +30,9 @@
 
 \dokumentTyp{Anhang der Bachelor-Thesis}
 \studiengang{INF}
-\title{Durch effizentere Software Energie sparen}
-\subtitle{Analyse des Energieverbrauchs pro Befehlssatz} % optional
-\titelbild[height=4.55cm,width=15cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
+\title{Durch effizientere Software Energie sparen}
+\subtitle{Analyse des Energieverbrauchs pro Befehlssatz eines Prozessors} % optional
+\titelbild[height=4.55cm,width=16cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
 \author{Samuel Riolo}
 % \date{}
 \wohnort{Kerzers}
@@ -48,7 +48,7 @@
 
 \startThesis
 \chapter{Benchmark results with Raspberry Pi}
-Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung von \textbf{5.16 V} gespeist. Der zu testende Befehlssatz wurde \textbf{21,4 Milliarden} oder genau 21'474'836'480 mal ausgeführt.
+Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstanten Spannung von \textbf{5.16 V} gespeist. Der zu testende Befehlssatz wurde \textbf{21,4 Milliarden} oder exakt 21'474'836'480 Mal ausgeführt.
 
 \tikzset{every picture/.style=thick}
 \tikzset{font={\fontsize{8pt}{12}\selectfont}}
@@ -143,15 +143,15 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 
 \newgeometry{left=3.5cm,bottom=2cm,right=1cm}
 \begin{landscape}
-\section{Results in tabular form}
+\section{Results from Raspberry Pi in tabular form}
 \centering
 \thispagestyle{empty}
 \csvautotabular{raspberrytable.csv}
 \par
 \vspace{10pt}
-\textbf{BM} = Benchmark, \textbf{T} = executiontime of an Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
+\textbf{BM} = Benchmark, \textbf{T} = execution time of a Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
 \par
-* The Energy (mW/h) used for the benchmark with $\approx$21,4 billion cycles.
+* The Energy (mW/h) which is used for the benchmark with $\approx$21,4 billion cycles.
 \end{landscape}
 \restoregeometry
 
@@ -173,12 +173,12 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 
 
 
-\chapter{Benchmark results with Intel Galileo Gen2}
+\chapter{Benchmark results with Intel Galileo Gen 2}
 
 
 
 
-Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spannung von \textbf{6.36 V} gespeist. Der zu testende Befehlssatz wurde \textbf{6,4 Milliarden} oder genau 6'442'450'944 mal ausgeführt.
+Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstanten Spannung von \textbf{6.36 V} gespeist. Der zu testende Befehlssatz wurde \textbf{6,4 Milliarden} oder exakt 6'442'450'944 Mal ausgeführt.
 
 \tikzset{every picture/.style=thick}
 
@@ -274,15 +274,15 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 
 \newgeometry{left=3.5cm,bottom=2cm,right=1cm}
 \begin{landscape}
-\section{Results in tabular form}
+\section{Results from Galileo Gen 2 in tabular form}
 \centering
 \thispagestyle{empty}
 \csvautotabular{galileotable.csv}
 \par
 \vspace{10pt}
-\textbf{BM} = Benchmark, \textbf{T} = executiontime of an Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
+\textbf{BM} = Benchmark, \textbf{T} = execution time of a Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
 \par
-* The Energy (mW/h) used for the benchmark with $\approx$6.4 billion cycles.
+* The Energy (mW/h) which is used for the benchmark with $\approx$6.4 billion cycles.
 \end{landscape}
 \restoregeometry
 
