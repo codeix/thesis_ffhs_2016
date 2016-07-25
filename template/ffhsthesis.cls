@@ -48,8 +48,8 @@
 
 \newcommand{\@referent}{}
 \newcommand{\@referent@in}{Referent(in)}
-\newcommand{\referent}[1]{\gdef\@referent@in{Referent} \gdef\@referent{#1}}
-\newcommand{\referentin}[1]{\gdef\@referent@in{Referentin} \gdef\@referent{#1}}
+\newcommand{\referent}[1]{\gdef\@referent@in{Co-Referent} \gdef\@referent{#1}}
+\newcommand{\referentin}[1]{\gdef\@referent@in{Co-Referentin} \gdef\@referent{#1}}
 
 \newcommand{\@titelbild}{}
 \newcommand{\titelbild}[2][]{\gdef\@titelbild{\includegraphics[#1]{#2}}}
@@ -115,7 +115,7 @@ von
 \phantom{.}
 \hfill
 \begin{varwidth}[t]{6cm}
-Eingereicht bei:
+Referent:
 
 \vspace{0.5ex}
 \mdseries\normalsize
