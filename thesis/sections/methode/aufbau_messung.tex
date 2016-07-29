@@ -92,7 +92,7 @@ Raspberry Pi & 10 & 2147483648 $=2^{31}$ & $\approx$21.4 Mrd. \\ \hline
 \end{table}
 
 
-
+\begin{figure}[b]
 \begin{minipage}{\linewidth}
 \lstset{language=[x64]Assembler}
 \begin{lstlisting}[label={list:asm_benchmark},caption={Benchmark in Assembler}]
@@ -110,6 +110,7 @@ loop_benchmark_imull_zero:
   bx  lr
 \end{lstlisting}
 \end{minipage}
+\end{figure}
 
 
 In der \autoref{list:asm_benchmark} ist der Assemblercode aufgeführt, der die CPU über einen längeren Zeitraum mit der Rechenoperation $0*0$ stresst. Die \autoref{list:asm_benchmark} dient als Beispiel für die Grundstruktur eines Benchmarks. Auf dieser basieren dann die unterschiedlichen Benchmarks, die je einen Befehlssatz beinhalten, der mit den anderen verglichen werden kann. Der Prozessor startet bei Zeile 1 und im nächsten Schritt werden alle Register \texttt{r1} bis \texttt{r5} im RAM auf einen Stack gelegt. Das Register \texttt{r1} wird mit $2^{31}$ gefüllt. Dieses dient dazu, später eine Schlaufe zu erzeugen. In Zeile 4 und 5 wird der Benchmark auf die Rechenoperation vorbereitet, wobei \texttt{r3} und \texttt{r4} auf null gesetzt werden. Der Prozessor wechselt nun zur wichtigsten Zeile, der Nummer 7. An dieser Stelle befindet sich die Multiplikationsoperation, die eine Veränderung des Energieverbrauchs erzeugt und diesen misst. Nach der Abarbeitung wird der Index im Register \texttt{r1} um eins dekrementiert. Anschliessend wird überprüft, ob der Index bereits null erreicht hat. Falls der Index noch nicht auf null ist, wird ein Programmsprung auf Zeile 7 erzeugt und die Schleife noch einmal wiederholt. Falls der Index null erreicht hat, wird der Programmsprung nicht erzeugt und dies führt zum Austritt aus der Schleife. Die Register \texttt{r1} bis \texttt{r5}, die am Anfang auf den Stack gelegt wurden, werden aus dem RAM geholt und wiederhergestellt. Damit ist das Assemblerprogramm zu Ende.
