@@ -13,11 +13,13 @@
 \usepackage{multirow}
 \usepackage{xfrac}
 \usepackage[a4paper]{geometry}
-
+\usepackage{numprint}
+\usepackage{fullpage}
 
 \makeatother
 
 \setlength\parindent{0pt}
+\npthousandsep{\ensuremath{`}}
 
 
 
@@ -29,17 +31,16 @@
 
 \dokumentTyp{Anhang der Bachelor-Thesis}
 \studiengang{INF}
-\title{Durch bessere Software Energie sparen}
-\subtitle{Analyse des Energieverbrauchs pro Befehlssatz} % optional
-\titelbild[height=4.55cm,width=15cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
+\title{Durch effizientere Software Energie sparen}
+\subtitle{Analyse des Energieverbrauchs pro Befehlssatz eines Prozessors} % optional
+\titelbild[height=4.55cm,width=16cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
 \author{Samuel Riolo}
 % \date{}
 \wohnort{Kerzers}
 %\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
-%\referent{Jürg Hofer}
-\referent{Jürg Hofer\\ Dipl. El. Ing. ETH\\WING}
-%\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
-
+%\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
+\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\\\Dept. Informatik\\Departementsleiter}
+\referent{Dipl. El. Ing. ETHZ/\\MBA ULV California\\Jürg Hofer\\\\Dept. Wirtschaftsingenieure\\Dozent}
 
 \maketitle
 
@@ -47,7 +48,7 @@
 
 \startThesis
 \chapter{Benchmark results with Raspberry Pi}
-Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung von \textbf{5.16 V} gespeist. Der zu testende Befehlssatz wurde \textbf{21,4 Milliarden} oder genau 21'474'836'480 mal ausgeführt.
+Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstanten Spannung von \textbf{5.16 V} gespeist. Der zu testende Befehlssatz wurde \textbf{21,4 Milliarden} oder exakt 21'474'836'480 Mal ausgeführt.
 
 \tikzset{every picture/.style=thick}
 \tikzset{font={\fontsize{8pt}{12}\selectfont}}
@@ -79,25 +80,29 @@ Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung 
             axis x line=middle,
             axis y line=middle,
             enlarge y limits=true,
-            xmin=0, xmax=150000,
+            xmin=0, xmax=160000,
             ymin=425, ymax=445,
             width=5.35cm, height=4cm,     % size of the image
             grid = major,
             grid style={dashed, gray!30},
-            ylabel=ampere (mA),
-            xlabel=seconds (mS),
+            ylabel=current (mA),
+            xlabel=time (ms),
             extra x ticks = {1},
-            xtick  = {50000, 100000},
+            xtick  = {50000, 100000, 150000},
             scaled x ticks = false, 
             x tick label style={/pgf/number format/.cd, fixed, fixed zerofill, int detect,1000 sep={\;},precision=3},  % Removing scientific notation
             extra y ticks = {425},
             ytick  = {430, 435, ..., 445},
-            extra y tick style = {grid=none, yticklabel style={xshift=2.6mm, rotate=0, inner sep=.5pt}},
+            extra y tick style = {grid=none, yticklabel style={xshift=2.25mm, rotate=0, inner sep=.5pt}},
             extra y tick labels = {\includegraphics{almost_equals.eps}}]
             legend style={at={(0.1,-0.1)}, anchor=north}
          ]
           \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none, ] {raspberrydata/data\fileno .csv};
 
+\pgfmathparse{\exectime[\n]}
+\let\drawlineend\pgfmathresult
+    \draw (axis cs:5000,0)[line width=0.2mm, orange, opacity=0.8] -- (axis cs:5000,445);
+    \draw (axis cs:\drawlineend,0)[line width=0.2mm, orange, opacity=0.8] -- (axis cs:\drawlineend,445);
 
     \end{axis}
 
@@ -110,11 +115,13 @@ Das Raspberry Pi wurde in den folgenden Benchmarks mit einer konstante Spannung 
 %\def\names{{"5454.5","Frank","Laura","Joe"}}%
 %\pgfmathparse{\names[0]}\pgfmathresult
 
-
-\begin{tabular}{lcc}
+\pgfmathparse{\exectime[\n]}
+\let\exectimetable\pgfmathresult
+\begin{tabular}{llc}
 Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
 Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
-Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult mS\\
+Variance:& \pgfmathparse{\variance[\n]}\pgfmathresult mA\textsuperscript{2}\\
+Exec time: & \numprint{\exectimetable} ms\\
 Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{tabular}
 
@@ -126,20 +133,25 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{figure}
 
 
+% manuall page break
+\pgfmathparse{mod(\fileno,2))? 1:2}
+\ifnum2=\pgfmathresult\pagebreak\fi%
+
+
 }
 }
 
 \newgeometry{left=3.5cm,bottom=2cm,right=1cm}
 \begin{landscape}
-\section{Results in tabular form}
+\section{Results from Raspberry Pi in tabular form}
 \centering
 \thispagestyle{empty}
 \csvautotabular{raspberrytable.csv}
 \par
 \vspace{10pt}
-\textbf{BM} = Benchmark, \textbf{T} = executiontime of an Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
+\textbf{BM} = Benchmark, \textbf{T} = execution time of a Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
 \par
-* The Energy (mW/) used for the benchmark with $\approx$21,4 billion cycles.
+* The Energy (mW/h) which is used for the benchmark with $\approx$21,4 billion cycles.
 \end{landscape}
 \restoregeometry
 
@@ -161,12 +173,12 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 
 
 
-\chapter{Benchmark results with Intel Galileo Gen2}
+\chapter{Benchmark results with Intel Galileo Gen 2}
 
 
 
 
-Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spannung von \textbf{6.36 V} gespeist. Der zu testende Befehlssatz wurde \textbf{6,4 Milliarden} oder genau 6'442'450'944 mal ausgeführt.
+Das Galileo Gen 2 Board wurde in den folgenden Benchmarks mit einer konstanten Spannung von \textbf{6.36 V} gespeist. Der zu testende Befehlssatz wurde \textbf{6,4 Milliarden} oder exakt 6'442'450'944 Mal ausgeführt.
 
 \tikzset{every picture/.style=thick}
 
@@ -195,15 +207,15 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
             axis x line=middle,
             axis y line=middle,
             enlarge y limits=true,
-            xmin=0, xmax=150000,
+            xmin=0, xmax=230000,
             ymin=415, ymax=440,
             width=5.35cm, height=4cm,     % size of the image
             grid = major,
             grid style={dashed, gray!30},
-            ylabel=ampere (mA),
-            xlabel=seconds (mS),
+            ylabel=current (mA),
+            xlabel=time (ms),
             extra x ticks = {1},
-            xtick  = {50000, 100000},
+            xtick  = {50000, 130000, 210000},
             scaled x ticks = false, 
             x tick label style={/pgf/number format/.cd, fixed, fixed zerofill, int detect,1000 sep={\;},precision=3},  % Removing scientific notation
             extra y ticks = {415},
@@ -214,6 +226,11 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
          ]
           \addplot table [x=time\n, y=amp\n, col sep=comma, mark=none, ] {galileodata/data\fileno .csv};
 
+
+\pgfmathparse{\exectime[\n]}
+\let\drawlineend\pgfmathresult
+    \draw (axis cs:5000,0)[line width=0.2mm, orange, opacity=0.8] -- (axis cs:5000,445);
+    \draw (axis cs:\drawlineend,0)[line width=0.2mm, orange, opacity=0.8] -- (axis cs:\drawlineend,445);
 
     \end{axis}
 
@@ -226,11 +243,13 @@ Das Galileo Gen2 Board wurde in den folgenden Benchmarks mit einer konstante Spa
 %\def\names{{"5454.5","Frank","Laura","Joe"}}%
 %\pgfmathparse{\names[0]}\pgfmathresult
 
-
-\begin{tabular}{lcc}
+\pgfmathparse{\exectime[\n]}
+\let\exectimetable\pgfmathresult
+\begin{tabular}{llc}
 Average:& \pgfmathparse{\average[\n]}\pgfmathresult mA\\
 Median:& \pgfmathparse{\median[\n]}\pgfmathresult mA\\
-Exec time: & \pgfmathparse{\exectime[\n]}\pgfmathresult mS\\
+Variance:& \pgfmathparse{\variance[\n]}\pgfmathresult mA\textsuperscript{2}\\
+Exec time: & \numprint{\exectimetable} ms\\
 Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{tabular}
 
@@ -242,6 +261,10 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 \end{figure}
 
 
+% manuall page break
+\pgfmathparse{mod(\fileno,2))? 1:2}
+\ifnum2=\pgfmathresult\pagebreak\fi%
+
 }
 }
 
@@ -251,15 +274,15 @@ Exec order:& \pgfmathparse{\run[\n]}\pgfmathresult \\
 
 \newgeometry{left=3.5cm,bottom=2cm,right=1cm}
 \begin{landscape}
-\section{Results in tabular form}
+\section{Results from Galileo Gen 2 in tabular form}
 \centering
 \thispagestyle{empty}
 \csvautotabular{galileotable.csv}
 \par
 \vspace{10pt}
-\textbf{BM} = Benchmark, \textbf{T} = executiontime of an Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
+\textbf{BM} = Benchmark, \textbf{T} = execution time of a Bechmark, \textbf{Med} = Median (\sfrac{1}{2}-quantile)
 \par
-* The Energy (mW/) used for the benchmark with $\approx$6.4 billion cycles.
+* The Energy (mW/h) which is used for the benchmark with $\approx$6.4 billion cycles.
 \end{landscape}
 \restoregeometry
 

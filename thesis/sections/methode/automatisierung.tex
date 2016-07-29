@@ -7,7 +7,7 @@ Für die Automatisierung wurde ein Python-Programm geschrieben, das auf einem zu
 
 
 \begin{enumerate}
-\item Anhand derselben Konfigurationsdateien, die beim Generieren des Benchmark-Sourceco\-des verwendet wurden, wird zufällig die Reihenfolge für die Durchführung der Benchmarks bestimmt. Dabei wird jeder Benchmark drei mal in dieser Reihenfolge hinzugefügt.
+\item Anhand derselben Konfigurationsdateien, die beim Generieren des Benchmark-Sourceco\-des verwendet wurden, wird zufällig die Reihenfolge für die Durchführung der Benchmarks bestimmt. Dabei wird jeder Benchmark drei Mal in dieser Reihenfolge hinzugefügt.
 \item Der Reihenfolge nach wird ein Benchmark auf einem ausgewählten Board ausgeführt. Die Durchführung dauert in der Regel 120 Sekunden. Die exakte Durchführungszeit wird aber im Benchmark selber gemessen.
 \item Parallel zur Durchführung des Benchmarks wird ungefähr im Sekundentakt\footnote{Das Messgerät sendet die Daten als RS-232-Protokoll über eine USB-Schnittstelle. Mit dem hier verwendeten Messgerät hat man keinen Einfluss auf die Sendeperiode.} der Strom gemessen. Diese erfolgt über eine USB-Schnittstelle durch den Amperemeter (Multimeter). Die Daten werden zwischengespeichert, bis sie am Schluss in eine CSV-Datei geschrieben werden.
 \item Der Benchmark erhält nach seiner Durchführung die aufgewendete Zeit als Rückgabewert. Dieser Wert entspricht sehr genau der Durchführungszeit. Sie wird ebenfalls zwischengespeichert, damit sie am Ende in einer Datei abgelegt werden kann.

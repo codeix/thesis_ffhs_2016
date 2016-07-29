@@ -24,6 +24,9 @@
 \usepackage{multirow}
 \usepackage{hhline}
 \usepackage{amsmath}
+\usepackage{chngcntr}
+\counterwithout{footnote}{chapter}
+
 
 
 \makeatother
@@ -46,18 +49,19 @@
 \input{lstset}
 \input{../template/custom-colors.tex}
 
+
+
 \dokumentTyp{Bachelor-Thesis}
 \studiengang{INF}
-\title{Durch bessere Software Energie sparen}
-\subtitle{Analyse des Energieverbrauchs pro Befehlssatz} % optional
-\titelbild[height=4.55cm,width=15cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
+\title{Durch effizientere Software Energie sparen}
+\subtitle{Analyse des Energieverbrauchs pro Befehlssatz eines Prozessors} % optional
+\titelbild[height=4.55cm,width=16cm]{images/Italy_Alps_and_Mediterranean.jpg}  % optional
 \author{Samuel Riolo}
 % \date{}
 \wohnort{Kerzers}
 %\referent{Name des Referenten\\ Titel\\Unterrichtetes Fach}
-\referent{Jürg Hofer\\Dipl. El. Ing. ETH\\WING}
-%\referent{Jürg Hofer\\ Titel\\Unterrichtetes Fach}
-%\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\Departement Informatik\\Departementsleiter} 
+\eingereichtBei{Prof.\ Dr.\ Martin Sutter\\\\Dept. Informatik\\Departementsleiter}
+\referent{Dipl. El. Ing. ETHZ/\\MBA ULV California\\Jürg Hofer\\\\Dept. Wirtschaftsingenieure\\Dozent}
 
 
 \maketitle
@@ -112,10 +116,23 @@
 %\begin{thebibliography}{1}
 %\end{thebibliography}
 \input{sections/selbsterklaerung}
+
+\begingroup
+\raggedright
 \bibliography{thesis_bibliography}
 \bibliographystyle{gerplain}
-\listoffigures
+\endgroup
 
+
+\listoffigures
+\begingroup
+\let\clearpage\relax
+\listoftables
+\endgroup
+\begingroup
+\let\clearpage\relax
+\lstlistoflistings
+\endgroup
 
 
 \end{document}
