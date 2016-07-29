@@ -22,7 +22,7 @@ precision of the operands to be calculated.
 Choosing instruction sets that require fewer CPU cycles turned out to be the 
 most energy efficient optimization.
 
-Referneces:
+References:
 -----------
 
 [Sourcecode](src)
